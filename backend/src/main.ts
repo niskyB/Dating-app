@@ -1,9 +1,11 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { router } from './routes';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  router(app);
   const port = process.env.PORT || 3000;
   const logger = new Logger('SERVER');
 
