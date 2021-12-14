@@ -9,4 +9,5 @@ export class UserToken extends PickType(User, [
   'address',
   'avatar',
   'bio',
+  'sex',
 ] as const) {}

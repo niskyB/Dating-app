@@ -7,6 +7,7 @@ export class CreateUserDto extends PickType(User, [
   'name',
   'phone',
   'address',
+  'sex',
 ] as const) {
   confirmPassword: string;
 }

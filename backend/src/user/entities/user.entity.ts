@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Sex } from '../enum/user.sex.enum';
 
 @Entity()
 export class User {
@@ -19,6 +20,9 @@ export class User {
 
   @Column({ nullable: false })
   address: string;
+
+  @Column({ nullable: false })
+  sex: Sex;
 
   @Column({ nullable: true })
   avatar: string;

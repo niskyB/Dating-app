@@ -11,4 +11,5 @@ export const createUserSchema = Joi.object({
     .pattern(/^[0-9]+$/)
     .required(),
   address: Joi.string().max(255).required(),
+  sex: Joi.string().valid('MALE', 'FEMALE').required(),
 });
