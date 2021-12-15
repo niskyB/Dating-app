@@ -1,4 +1,11 @@
-import { Body, Controller, Post, Res, UsePipes } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpStatus,
+  Post,
+  Res,
+  UsePipes,
+} from '@nestjs/common';
 import { JoiValidationPipe } from '../utils/validation/JoiValidationPipe.pipe';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -6,6 +13,7 @@ import { SigninUserDto } from './dto/signin-user.dto';
 import { createUserSchema } from './schema/create-user.schema';
 import { signinUserSchema } from './schema/signin-user.schema';
 import { Response } from 'express';
+import { apiResponse } from '../utils/interface/apiResponse';
 
 @Controller('auth')
 export class AuthController {
@@ -19,7 +27,8 @@ export class AuthController {
   @Post('/signup')
   @UsePipes(new JoiValidationPipe(createUserSchema))
   async create(@Body() createUserDto: CreateUserDto) {
-    return await this.authService.create(createUserDto);
+    await this.authService.create(createUserDto);
+    return apiResponse.send(null, null);
   }
 
   /**
@@ -35,10 +44,12 @@ export class AuthController {
   ) {
     const result = await this.authService.signin(signinUserDto);
     const token = this.authService.creatToken(result);
-    res.cookie('x-auth-token', token, {
-      maxAge: 86400 * 100,
-    });
-    return 'Signin successful';
+    res
+      .cookie('x-auth-token', token, {
+        maxAge: 86400 * 100,
+      })
+      .status(HttpStatus.OK);
+    return apiResponse.send(null, null);
   }
 
   /**
@@ -48,7 +59,7 @@ export class AuthController {
    */
   @Post('/logout')
   async logout(@Res({ passthrough: true }) res: Response) {
-    res.cookie('x-auth-token', '', { maxAge: -999 });
-    return 'Logout successful';
+    res.cookie('x-auth-token', '', { maxAge: -999 }).status(HttpStatus.OK);
+    return apiResponse.send(null, null);
   }
 }

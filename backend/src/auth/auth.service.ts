@@ -7,9 +7,15 @@ import { User } from '../user/entities/user.entity';
 import { UserToken } from './dto/user-token.dto';
 import { plainToClass } from 'class-transformer';
 import { JwtService } from '@nestjs/jwt';
+import { apiResponse } from '../utils/interface/apiResponse';
+import { ResponseMessage } from '../utils/message/responseMessage.enum';
 
 // rounds of hashing
 const SALT = 10;
+
+// expect result
+const expectExist = true;
+const expectNotExist = false;
 
 @Injectable()
 export class AuthService {
@@ -21,50 +27,46 @@ export class AuthService {
   /**
    * @description create a user with valid field and save to database
    * @param createUserDto
-   * @returns
    */
   async create(createUserDto: CreateUserDto) {
-    // check email
-    let user = await this.userService.findOneByField(
+    await this.checkExistedUser(
       'email',
       createUserDto.email,
+      ResponseMessage.EXISTED_EMAIL,
+      expectNotExist,
     );
-    if (user) {
-      throw new BadRequestException({ email: 'Email has already existed' });
-    }
 
-    // check phone
-    user = await this.userService.findOneByField('phone', createUserDto.phone);
-    if (user) {
-      throw new BadRequestException({ phone: 'Phone has already existed' });
-    }
+    await this.checkExistedUser(
+      'phone',
+      createUserDto.phone,
+      ResponseMessage.EXISTED_PHONE,
+      expectNotExist,
+    );
 
-    // hash password
     createUserDto.password = await bcrypt.hash(createUserDto.password, SALT);
 
-    // save to db
     await this.userService.createNewUser(createUserDto);
-    return 'Signup successful';
   }
 
   /**
    * @description validate user signin fields
    * @param signinUserDto
-   * @returns
+   * @returns user instance
    */
   async signin(signinUserDto: SigninUserDto) {
-    // check existed user
-    const user = await this.userService.findOneByField(
+    const user = await this.checkExistedUser(
       'email',
       signinUserDto.email,
+      ResponseMessage.SIGNIN_FAIL,
+      expectExist,
     );
-    if (!user) {
-      throw new BadRequestException('email or password is not correct');
-    }
 
-    // check password
     if (!(await bcrypt.compare(signinUserDto.password, user.password))) {
-      throw new BadRequestException('email or password is not correct');
+      throw new BadRequestException(
+        apiResponse.send(null, {
+          common: ResponseMessage.SIGNIN_FAIL,
+        }),
+      );
     }
 
     return user;
@@ -82,5 +84,40 @@ export class AuthService {
       }),
     };
     return this.jwtService.sign(payload);
+  }
+
+  /**
+   * @description check user and throw error if fail
+   * @param field
+   * @param value
+   * @param message
+   * @param isExisted
+   * @returns user instance
+   */
+  async checkExistedUser(
+    field: keyof User,
+    value: any,
+    message: string,
+    isExisted: boolean,
+  ) {
+    const user = await this.userService.findOneByField(field, value);
+
+    if (user && !isExisted) {
+      throw new BadRequestException(
+        apiResponse.send(null, {
+          [field]: message,
+        }),
+      );
+    }
+
+    if (!user && isExisted) {
+      throw new BadRequestException(
+        apiResponse.send(null, {
+          common: message,
+        }),
+      );
+    }
+
+    return user;
   }
 }
