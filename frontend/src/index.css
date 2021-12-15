@@ -1,13 +1,75 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.fade-in {
+  animation: FadeIn 0.3s;
+}
+@keyframes IntroY {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+
+  80% {
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.intro-y {
+  animation: IntroY 0.5s forwards;
+}
+
+@keyframes IntroX {
+  0% {
+    opacity: 0;
+    transform: translateX(-3rem);
+  }
+
+  80% {
+    transform: translateX(0);
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.intro-x {
+  animation: IntroX 0.5s forwards;
+}
+
+@keyframes IntroZ {
+  0% {
+    opacity: 0;
+    transform: translate(-3rem, 3rem);
+  }
+
+  80% {
+    transform: translate(0);
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.intro-z {
+  animation: IntroZ 0.5s forwards;
+}
+
+.customShadow {
+  background-image: linear-gradient(0deg, black, hsla(0, 0%, 100%, 0));
 }
