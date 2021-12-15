@@ -1,20 +1,20 @@
 import React from "react";
+import TinderCard from "react-tinder-card";
 import EducationIcon from "../../component/icon/education";
 import HeartIcon from "../../component/icon/heart";
 import XIcon from "../../component/icon/x";
-import TinderCard from "react-tinder-card";
-import GoBackIcon from "../../component/icon/goBack";
-interface MatchPageProps {}
-
+interface TestProps {}
 interface matchData {
   avatar: string;
   name: string;
   age: number;
   school: string;
   bio: string;
+  id: string;
 }
 const data: matchData[] = [
   {
+    id: "1",
     avatar:
       "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/267039246_2866623933560160_829497954930763995_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_ohc=KeR6b9tImZIAX9D1nI1&_nc_ht=scontent.fdad1-2.fna&oh=00_AT9ImHALF6bM53XwSCp4Ao9D-pS_j6WD1_CjrN-3d_JEuw&oe=61BDF153",
     name: "Duc Dauuu",
@@ -23,6 +23,7 @@ const data: matchData[] = [
     school: "FPT University",
   },
   {
+    id: "2",
     avatar:
       "https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-9/132442993_2798827007004557_137046347792697494_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=YFghZRynzXcAX-B4gS1&_nc_ht=scontent.fdad1-3.fna&oh=00_AT-a3jChm1QKjSoLGWlWor6Duej5o1aJoeCciPmr4woOSg&oe=61DE9FAA",
     name: "Hoang Loc",
@@ -31,18 +32,16 @@ const data: matchData[] = [
     school: "FBT",
   },
   {
+    id: "3",
     avatar:
-      "https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-9/132442993_2798827007004557_137046347792697494_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=YFghZRynzXcAX-B4gS1&_nc_ht=scontent.fdad1-3.fna&oh=00_AT-a3jChm1QKjSoLGWlWor6Duej5o1aJoeCciPmr4woOSg&oe=61DE9FAA",
-    name: "Hoang Loc",
+      "https://scontent.fdad1-2.fna.fbcdn.net/v/t1.6435-9/134730612_2150353421765290_5839745717352446089_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=mdX1H50ZLtAAX_mDFRN&tn=DcZMTwYmrWFGBHGB&_nc_ht=scontent.fdad1-2.fna&oh=00_AT-Xt2lre7IjGSHielWHGzlypdG8qlZYx81qb551tvnIAA&oe=61E13235",
+    name: "Chi Khang",
     age: 20,
     bio: "test test test test test test test test test test test test test test test ",
-    school: "FBT",
+    school: "FBTT",
   },
 ];
-
-const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
-  const onDislike = () => {};
-  const onLike = () => {};
+const Test: React.FunctionComponent<TestProps> = () => {
   const [currentIndex, setCurrentIndex] = React.useState(data.length - 1);
   const [lastDirection, setLastDirection] = React.useState();
   // used for outOfFrame closure
@@ -93,19 +92,28 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     updateCurrentIndex(newIndex);
     await childRefs[newIndex].current.restoreCard();
   };
+
   return (
-    <div className="w-full h-screen flex justify-center  items-center text-center relative ">
-      <div className="w-96 h-168 relative bg-black">
+    <div>
+      <link
+        href="https://fonts.googleapis.com/css?family=Damion&display=swap"
+        rel="stylesheet"
+      />
+      <link
+        href="https://fonts.googleapis.com/css?family=Alatsi&display=swap"
+        rel="stylesheet"
+      />
+      <h1>React Tinder Card</h1>
+      <div className="cardContainer">
         {data.map((data, index) => (
           <TinderCard
             ref={childRefs[index]}
-            className="swipe absolute inset-0"
+            className="swipe"
             key={data.name}
             onSwipe={(dir) => swiped(dir, data.name, index)}
             onCardLeftScreen={() => outOfFrame(data.name, index)}
-            preventSwipe={["top", "bottom"]}
           >
-            <div className="w-full h-full flex flex-col shadow-lg bg-black">
+            <div className="w-full h-full flex flex-col shadow-lg bg-gray-800">
               <div
                 className="w-96 h-140  flex flex-col justify-end"
                 style={{
@@ -130,33 +138,26 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex bg-black flex-row justify-evenly items-center flex-1 "></div>
+              <div className="flex bg-black flex-row justify-evenly items-center flex-1">
+                <div
+                  className="text-radical-red-500 flex justify-center items-center w-20 h-20 border-radical-red-500 solid border-1 rounded-full"
+                  onClick={() => swipe("left")}
+                >
+                  <XIcon />
+                </div>
+                <div
+                  className="text-mountain-meadow-500 flex justify-center items-center w-20 h-20 border-mountain-meadow-500 solid border-1 rounded-full"
+                  onClick={() => swipe("right")}
+                >
+                  <HeartIcon />
+                </div>
+              </div>
             </div>
           </TinderCard>
         ))}
-        <div className="flex bg-black flex-row justify-evenly items-center flex-1 absolute bottom-0 left-0 right-0 pb-4">
-          <div
-            className="text-sun-500 flex justify-center items-center w-20 h-20 border-sun-500 solid border-1 rounded-full"
-            onClick={() => goBack()}
-          >
-            <GoBackIcon />
-          </div>
-          <div
-            className="text-radical-red-500 flex justify-center items-center w-20 h-20 border-radical-red-500 solid border-1 rounded-full"
-            onClick={() => swipe("left")}
-          >
-            <XIcon />
-          </div>
-          <div
-            className="text-mountain-meadow-500 flex justify-center items-center w-20 h-20 border-mountain-meadow-500 solid border-1 rounded-full"
-            onClick={() => swipe("right")}
-          >
-            <HeartIcon />
-          </div>
-        </div>
       </div>
     </div>
   );
 };
 
-export default MatchPage;
+export default Test;
