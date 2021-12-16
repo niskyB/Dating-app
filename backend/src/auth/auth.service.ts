@@ -120,4 +120,17 @@ export class AuthService {
 
     return user;
   }
+
+  /**
+   * @description get UserToken from token
+   * @param authToken
+   * @returns UserToken instance
+   */
+  getUserByToken(authToken: string): UserToken {
+    try {
+      return this.jwtService.verify<any>(authToken) as UserToken;
+    } catch (err) {
+      return null;
+    }
+  }
 }
