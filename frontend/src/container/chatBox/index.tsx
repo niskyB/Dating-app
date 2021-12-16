@@ -20,6 +20,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
       <div className="px-4 flex justify-between items-center bg-white py-2 h-16 sm:px-6">
         <div className="flex flex-row items-center">
           <AvatarCircle
+            to="/"
             alt="avatar"
             url="https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-9/132442993_2798827007004557_137046347792697494_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=YFghZRynzXcAX-B4gS1&_nc_ht=scontent.fdad1-3.fna&oh=00_AT-a3jChm1QKjSoLGWlWor6Duej5o1aJoeCciPmr4woOSg&oe=61DE9FAA"
           />
@@ -34,13 +35,13 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
           {chatData.map((chat, index) => {
             if (chat.isYourSelf) {
               return (
-                <div className="mt-5 text-xl font-normal self-end bg-blue-500 rounded-xl px-5 py-3 mr-3 text-white">
+                <div className="mt-5 text-xl font-normal self-end bg-blue-500 rounded-full px-5 py-3 mr-3 text-white">
                   {chat.message}
                 </div>
               );
             } else {
               return (
-                <div className="mt-5 text-xl font-normal self-start bg-gray-300 rounded-xl px-5 py-3 ml-3 text-black">
+                <div className="mt-5 text-xl font-normal self-start bg-gray-300 rounded-full px-5 py-3 ml-3 text-black">
                   {chat.message}
                 </div>
               );

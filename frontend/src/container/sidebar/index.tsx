@@ -4,9 +4,8 @@ import NotLoginMessage from "../../component/notLogin";
 import TopSideBar from "../../component/topSideBar";
 import { UserState } from "../../common/interface/redux/user";
 import { RootState } from "../../store";
-import MatchList from "../matchList";
-import MessageSection from "../messageSection";
 import SideBarNav from "../sideBarNav";
+import { sideBarRoute } from "../../constants/route";
 
 interface SideBarProps {}
 
@@ -26,8 +25,16 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
               <SideBarNav />
             </div>
             <Routes>
-              <Route path="/match" element={<MatchList />} />
-              <Route path="/messages/*" element={<MessageSection />} />
+              {sideBarRoute.map((route) => {
+                const { component: MyComponent } = route;
+                return (
+                  <Route
+                    key={route.link}
+                    path={route.link}
+                    element={<MyComponent />}
+                  />
+                );
+              })}
             </Routes>
           </>
         ) : (
