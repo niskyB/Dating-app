@@ -48,10 +48,10 @@ export class UserController {
   }
 
   /**
-   * @description
+   * @description PUT method for user to change name
    * @param changeUserNameDto
    * @param req
-   * @returns
+   * @returns response form with no data and error
    */
   @Put('/name')
   @UsePipes(new JoiValidationPipe(changeUserNameSchema))

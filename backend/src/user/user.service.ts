@@ -63,16 +63,17 @@ export class UserService {
   }
 
   /**
-   * @description
+   * @description check and update name of user
    * @param changeUserNameDto
    * @param id
    * @param name
+   * @returns Promise<User>
    */
   async changeName(
     changeUserNameDto: ChangeUserNameDto,
     id: string,
     name: string,
-  ) {
+  ): Promise<User> {
     if (changeUserNameDto.name === name) {
       throw new BadRequestException(
         apiResponse.send(null, {
