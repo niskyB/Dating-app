@@ -1,7 +1,8 @@
 import { Suspense } from "react";
 import { Route, Routes } from "react-router";
+import ProtectRouteWrapper from "../../common/HOC/protectRouteWrapper";
 import LoadingAnimation from "../../component/loading";
-import { routes } from "../../constants/route";
+import { contentRoutes } from "../../constants/route";
 import SideBar from "../sidebar";
 
 function App() {
@@ -11,14 +12,17 @@ function App() {
       <div className="justify-center flex-1 w-full h-screen bg-gray-50 align-center">
         <Suspense fallback={<LoadingAnimation />}>
           <Routes>
-            {routes.map((route) => {
-              const { component: MyComponent } = route;
+            {contentRoutes.map((route) => {
+              const { component: MyComponent, isLoginRequire } = route;
               return (
                 <Route
                   key={route.link}
-                  path={route.link}
-                  element={<MyComponent />}
-                />
+                  element={
+                    <ProtectRouteWrapper isLoginRequire={isLoginRequire} />
+                  }
+                >
+                  <Route path={route.link} element={<MyComponent />} />
+                </Route>
               );
             })}
           </Routes>

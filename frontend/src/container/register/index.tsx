@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import LogoIcon from "../../component/icon/logo";
 import InputField from "../../component/inputField";
-import { RegisterUserDTO } from "../../interface/dto/user";
+import { RegisterUserDTO } from "../../common/interface/dto/user";
 
 interface RegisterPageProps {}
 

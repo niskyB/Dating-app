@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import LogoIcon from "../../component/icon/logo";
 import InputField from "../../component/inputField";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { LoginUserDTO } from "../../interface/dto/user";
+import { LoginUserDTO } from "../../common/interface/dto/user";
 interface LoginPageProps {}
 
 const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
