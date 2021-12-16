@@ -5,4 +5,7 @@ export enum ResponseMessage {
   INVALID_COFIRMPASSWORD = 'The password confirmation does not match',
   INVALID_PHONE = 'Invalid phone number',
   INVALID_SEX = 'Sex should be male or female',
+  INVALID_PASSWORD = 'Password is not correct',
+  UNAUTHORIZED = 'Not signin yet',
+  FORBIDDEN = "You don't have permission to access / on this page",
 }

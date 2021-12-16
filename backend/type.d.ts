@@ -1,4 +1,4 @@
-import { UserToken } from 'src/auth/entities/user.token';
+import { UserToken } from './src/auth/dto/user-token.dto';
 
 declare global {
   namespace Express {
