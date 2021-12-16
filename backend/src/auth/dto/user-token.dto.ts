@@ -1,13 +1,31 @@
-import { PickType } from '@nestjs/mapped-types';
-import { User } from '../../user/entities/user.entity';
+import { Expose } from 'class-transformer';
+import { Sex } from '../../user/enum/user.sex.enum';
 
-export class UserToken extends PickType(User, [
-  'id',
-  'email',
-  'name',
-  'phone',
-  'address',
-  'avatar',
-  'bio',
-  'sex',
-] as const) {}
+export class UserToken {
+  @Expose()
+  id: string;
+
+  @Expose()
+  email: string;
+
+  @Expose()
+  name: string;
+
+  @Expose()
+  phone: string;
+
+  @Expose()
+  address: string;
+
+  @Expose()
+  sex: Sex;
+
+  @Expose()
+  avatar: string;
+
+  @Expose()
+  bio: string;
+
+  @Expose()
+  createDate: Date;
+}
