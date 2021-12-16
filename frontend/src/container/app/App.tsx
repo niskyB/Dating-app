@@ -5,21 +5,23 @@ import { routes } from "../../constants/route";
 import SideBar from "../sidebar";
 
 function App() {
-  const renderContent = () => {
-    return routes.map((route) => {
-      const { component: MyComponent } = route;
-      return (
-        <Route key={route.link} path={route.link} element={<MyComponent />} />
-      );
-    });
-  };
-
   return (
-    <div className="text-4xl flex ">
+    <div className="flex text-4xl ">
       <SideBar />
-      <div className="bg-gray-50 flex-1 w-full h-screen align-center justify-center">
+      <div className="justify-center flex-1 w-full h-screen bg-gray-50 align-center">
         <Suspense fallback={<LoadingAnimation />}>
-          <Routes>{renderContent()}</Routes>
+          <Routes>
+            {routes.map((route) => {
+              const { component: MyComponent } = route;
+              return (
+                <Route
+                  key={route.link}
+                  path={route.link}
+                  element={<MyComponent />}
+                />
+              );
+            })}
+          </Routes>
         </Suspense>
       </div>
     </div>

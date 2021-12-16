@@ -1,4 +1,5 @@
 import * as React from "react";
+import ChatBox from "../container/chatBox";
 
 const LoginPage = React.lazy(() => import("../container/login"));
 const RegisterPage = React.lazy(() => import("../container/register"));
@@ -20,7 +21,11 @@ export const routes: route[] = [
     component: RegisterPage,
   },
   {
-    link: "/",
+    link: "/messages/:id",
+    component: ChatBox,
+  },
+  {
+    link: "/*",
     component: MatchPage,
   },
 ];
