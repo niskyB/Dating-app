@@ -32,19 +32,56 @@ const data: matchData[] = [
   },
   {
     avatar:
-      "https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-9/132442993_2798827007004557_137046347792697494_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=YFghZRynzXcAX-B4gS1&_nc_ht=scontent.fdad1-3.fna&oh=00_AT-a3jChm1QKjSoLGWlWor6Duej5o1aJoeCciPmr4woOSg&oe=61DE9FAA",
-    name: "Hoang Loc",
-    age: 20,
+      "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.18169-9/18519894_10155384569051108_8863789770266210474_n.jpg?_nc_cat=100&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=qXI24DOvj7kAX-vmscU&_nc_ht=scontent.fdad1-1.fna&oh=00_AT-KBtbgQ0tV26mzzowzZsmRSddBxuEvQZIA6WWlGKzyfw&oe=61E11908",
+    name: "Hoang The Nguyen",
+    age: 35,
     bio: "test test test test test test test test test test test test test test test ",
     school: "FBT",
+  },
+  {
+    avatar:
+      "https://scontent.fdad1-2.fna.fbcdn.net/v/t1.6435-9/89509099_2392946930945950_5348971859784237056_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=G2k9CRljZhEAX-vWx-r&_nc_ht=scontent.fdad1-2.fna&oh=00_AT-G2gI0ZNTNJjnI_-ZD1sjcnF3Ar36omjl1Tv68DdlbVQ&oe=61E0391D",
+    name: "Quynh Nhuw",
+    age: 40,
+    bio: "test test test test test test test test test test test test test test test ",
+    school: "NTT",
+  },
+  {
+    avatar:
+      "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/263488927_4023040267796341_1123261746121990824_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=1JrkpO5HNHsAX-GbPwH&_nc_ht=scontent.fdad1-2.fna&oh=00_AT8sWZGIyOp5tdTtDOyeLC3PwDiass9IagSJ8dx3x8Y73g&oe=61BFA74E",
+    name: "Tuan Nguyen",
+    age: 40,
+    bio: "test test test test test test test test test test test test test test test ",
+    school: "NTT",
+  },
+  {
+    avatar:
+      "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.6435-1/p320x320/134116226_1528278150701049_7055072940211633866_n.jpg?_nc_cat=100&ccb=1-5&_nc_sid=7206a8&_nc_ohc=ibzwgKNMBusAX_Rv3rm&_nc_oc=AQkBoTDjsC6PM6PxryXWQijPzjgmbTCuRiE21ZWybISKEcTv2dsvXDxx-K-2YsiQfeW9xhZwbkDoSE_Sp6wekw8g&_nc_ht=scontent.fdad1-1.fna&oh=00_AT_cyMkEdl12L6FAapjYCBn4G1dolKgQZ_haFCI_SaWwOQ&oe=61DF049E",
+    name: "Phuoc Thanh",
+    age: 40,
+    bio: "test test test test test test test test test test test test test test test ",
+    school: "NTT",
+  },
+  {
+    avatar:
+      "https://scontent.fdad1-2.fna.fbcdn.net/v/t1.6435-9/134730612_2150353421765290_5839745717352446089_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=mdX1H50ZLtAAX95vrSH&tn=DcZMTwYmrWFGBHGB&_nc_ht=scontent.fdad1-2.fna&oh=00_AT_z6c9al1hVJ7a68KkQWp2NTVMqrfQjOvUVWKObqPkOBQ&oe=61E13235",
+    name: "Thach Chi Khang",
+    age: 40,
+    bio: "test test test test test test test test test test test test test test test ",
+    school: "NTT",
+  },
+  {
+    avatar:
+      "https://scontent.fdad1-2.fna.fbcdn.net/v/t1.6435-9/49864710_2220390381561723_7665445716214415360_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=XgSFRM89LswAX_sseS4&_nc_ht=scontent.fdad1-2.fna&oh=00_AT9GrHxP-ylLKQeRIbUvW3JujJXPNtgwZCI5QyLJhgFYmA&oe=61E1A6BD",
+    name: "Pham Vinh Nhan",
+    age: 32,
+    bio: "test test test test test test test test test test test test test test test ",
+    school: "NTT",
   },
 ];
 
 const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
-  const onDislike = () => {};
-  const onLike = () => {};
   const [currentIndex, setCurrentIndex] = React.useState(data.length - 1);
-  const [lastDirection, setLastDirection] = React.useState();
   // used for outOfFrame closure
   const currentIndexRef = React.useRef(currentIndex);
 
@@ -67,17 +104,12 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
 
   // set last direction and decrease current index
   const swiped = (direction: any, nameToDelete: any, index: any) => {
-    setLastDirection(direction);
     updateCurrentIndex(index - 1);
   };
 
   const outOfFrame = (name: any, idx: any) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
-    // handle the case in which go back is pressed before card goes outOfFrame
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
-    // TODO: when quickly swipe and restore multiple times the same card,
-    // it happens multiple outOfFrame events are queued and the card disappear
-    // during latest swipes. Only the last outOfFrame event should be considered valid
   };
 
   const swipe = async (dir: any) => {
@@ -94,61 +126,61 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     await childRefs[newIndex].current.restoreCard();
   };
   return (
-    <div className="w-full h-screen flex justify-center  items-center text-center relative ">
-      <div className="w-96 h-168 relative bg-black">
+    <div className="relative flex items-center justify-center w-full h-screen text-center ">
+      <div className="relative bg-black w-96 h-168">
         {data.map((data, index) => (
           <TinderCard
             ref={childRefs[index]}
-            className="swipe absolute inset-0"
+            className="absolute inset-0 swipe"
             key={data.name}
             onSwipe={(dir) => swiped(dir, data.name, index)}
             onCardLeftScreen={() => outOfFrame(data.name, index)}
             preventSwipe={["top", "bottom"]}
           >
-            <div className="w-full h-full flex flex-col shadow-lg bg-black">
+            <div className="flex flex-col w-full h-full bg-black shadow-lg">
               <div
-                className="w-96 h-140  flex flex-col justify-end"
+                className="flex flex-col justify-end w-96 h-140"
                 style={{
                   backgroundImage: `url("${data.avatar}") `,
-                  backgroundSize: "120.755%",
+                  backgroundSize: "cover",
                   backgroundPosition: "50% 50%",
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                <div className="customShadow flex flex-col justify-end items-start px-5 py-5 w-full h-1/4">
-                  <div className="text-white text-4xl font-medium">
+                <div className="flex flex-col items-start justify-end w-full px-5 py-5 customShadow h-1/4">
+                  <div className="text-3xl font-medium text-white">
                     {data.name} {data.age}
                   </div>
-                  <div className="text-gray-200 items-center flex justify-start my-2 text-base font-medium">
+                  <div className="flex items-center justify-start my-2 text-base font-medium text-gray-200">
                     <div className="text-white">
                       <EducationIcon />
                     </div>
                     <span className="ml-3">{data.school}</span>
                   </div>
-                  <div className="text-gray-200 text-left text-base font-medium">
+                  <div className="text-base font-medium text-left text-gray-200">
                     {data.bio}
                   </div>
                 </div>
               </div>
-              <div className="flex bg-black flex-row justify-evenly items-center flex-1 "></div>
+              <div className="flex flex-row items-center flex-1 bg-black justify-evenly "></div>
             </div>
           </TinderCard>
         ))}
-        <div className="flex bg-black flex-row justify-evenly items-center flex-1 absolute bottom-0 left-0 right-0 pb-4">
+        <div className="absolute bottom-0 left-0 right-0 flex flex-row items-center flex-1 pb-4 bg-black justify-evenly">
           <div
-            className="text-sun-500 flex justify-center items-center w-20 h-20 border-sun-500 solid border-1 rounded-full"
+            className="flex items-center justify-center w-20 h-20 rounded-full text-sun-500 border-sun-500 solid border-1"
             onClick={() => goBack()}
           >
             <GoBackIcon />
           </div>
           <div
-            className="text-radical-red-500 flex justify-center items-center w-20 h-20 border-radical-red-500 solid border-1 rounded-full"
+            className="flex items-center justify-center w-20 h-20 rounded-full text-radical-red-500 border-radical-red-500 solid border-1"
             onClick={() => swipe("left")}
           >
             <XIcon />
           </div>
           <div
-            className="text-mountain-meadow-500 flex justify-center items-center w-20 h-20 border-mountain-meadow-500 solid border-1 rounded-full"
+            className="flex items-center justify-center w-20 h-20 rounded-full text-mountain-meadow-500 border-mountain-meadow-500 solid border-1"
             onClick={() => swipe("right")}
           >
             <HeartIcon />
