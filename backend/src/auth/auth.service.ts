@@ -9,9 +9,7 @@ import { plainToClass } from 'class-transformer';
 import { JwtService } from '@nestjs/jwt';
 import { apiResponse } from '../utils/interface/apiResponse';
 import { ResponseMessage } from '../utils/message/responseMessage.enum';
-
-// rounds of hashing
-const SALT = 10;
+import { SALT } from '../utils/common';
 
 // expect result
 const expectExist = true;

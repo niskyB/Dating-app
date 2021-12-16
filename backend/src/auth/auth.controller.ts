@@ -14,6 +14,7 @@ import { createUserSchema } from './schema/create-user.schema';
 import { signinUserSchema } from './schema/signin-user.schema';
 import { Response } from 'express';
 import { apiResponse } from '../utils/interface/apiResponse';
+import { TOKEN } from '../utils/common';
 
 @Controller('auth')
 export class AuthController {
@@ -22,7 +23,7 @@ export class AuthController {
   /**
    * @description POST method for user to signup
    * @param createUserDto
-   * @returns
+   * @returns response form with no data and error
    */
   @Post('/signup')
   @UsePipes(new JoiValidationPipe(createUserSchema))
@@ -34,7 +35,7 @@ export class AuthController {
   /**
    * @description POST method for user to signin
    * @param signinUserDto
-   * @returns
+   * @returns response form with no data and error
    */
   @Post('/signin')
   @UsePipes(new JoiValidationPipe(signinUserSchema))
@@ -45,7 +46,7 @@ export class AuthController {
     const result = await this.authService.signin(signinUserDto);
     const token = this.authService.creatToken(result);
     res
-      .cookie('x-auth-token', token, {
+      .cookie(TOKEN, token, {
         maxAge: 86400 * 100,
       })
       .status(HttpStatus.OK);
@@ -55,11 +56,11 @@ export class AuthController {
   /**
    * @description POST method to delete token in cookie
    * @param res Request
-   * @returns success message
+   * @returns response form with no data and error
    */
   @Post('/logout')
   async logout(@Res({ passthrough: true }) res: Response) {
-    res.cookie('x-auth-token', '', { maxAge: -999 }).status(HttpStatus.OK);
+    res.cookie(TOKEN, '', { maxAge: -999 }).status(HttpStatus.OK);
     return apiResponse.send(null, null);
   }
 }

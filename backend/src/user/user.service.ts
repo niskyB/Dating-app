@@ -7,9 +7,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import * as bcrypt from 'bcrypt';
 import { apiResponse } from '../utils/interface/apiResponse';
 import { ResponseMessage } from '../utils/message/responseMessage.enum';
-
-// rounds of hashing
-const SALT = 10;
+import { SALT } from '../utils/common';
 
 @Injectable()
 export class UserService {
@@ -36,9 +34,8 @@ export class UserService {
   }
 
   /**
-   * @description
+   * @description validate password and save to database if valid
    * @param changePasswordDto
-   * @returns
    */
   async changePassword(changePasswordDto: ChangePasswordDto, id: string) {
     const user = await this.findOneByField('id', id);

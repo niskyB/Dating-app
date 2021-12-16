@@ -20,9 +20,9 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   /**
-   * @description
+   * @description PUT method for user to change password
    * @param changePasswordDto
-   * @returns
+   * @returns response form with no data and error
    */
   @Put('/password')
   @UsePipes(new JoiValidationPipe(changePasswordSchema))

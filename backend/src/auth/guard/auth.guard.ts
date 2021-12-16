@@ -9,6 +9,7 @@ import { AuthService } from '../auth.service';
 import { Request } from 'express';
 import { apiResponse } from '../../utils/interface/apiResponse';
 import { ResponseMessage } from '../../utils/message/responseMessage.enum';
+import { TOKEN } from '../../utils/common';
 
 @Injectable()
 export class UserGuard implements CanActivate {
@@ -16,7 +17,7 @@ export class UserGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext) {
     const req: Request = context.switchToHttp().getRequest();
-    const authToken = req.cookies['x-auth-token'] || '';
+    const authToken = req.cookies[TOKEN] || '';
 
     if (!authToken) {
       throw new UnauthorizedException(
