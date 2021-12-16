@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
@@ -9,7 +9,8 @@ import { plainToClass } from 'class-transformer';
 import { JwtService } from '@nestjs/jwt';
 import { apiResponse } from '../common/interface/apiResponse';
 import { ResponseMessage } from '../constants/message/responseMessage.enum';
-import { SALT } from '../utils/common';
+import { SALT } from '../constants/bcrypt.constants';
+import { Response } from 'express';
 
 // expect result
 const expectExist = true;
@@ -130,5 +131,27 @@ export class AuthService {
     } catch (err) {
       return null;
     }
+  }
+
+  /**
+   * @description set token to cookie
+   * @param res
+   * @param name
+   * @param value
+   * @param status
+   * @param age
+   */
+  setCookie(
+    res: Response,
+    name: string,
+    value: string,
+    status: HttpStatus,
+    age: number,
+  ) {
+    res
+      .cookie(name, value, {
+        maxAge: age,
+      })
+      .status(status);
   }
 }

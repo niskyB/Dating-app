@@ -7,7 +7,8 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import * as bcrypt from 'bcrypt';
 import { apiResponse } from '../common/interface/apiResponse';
 import { ResponseMessage } from '../constants/message/responseMessage.enum';
-import { SALT } from '../utils/common';
+import { SALT } from '../constants/bcrypt.constants';
+import { ChangeUserNameDto } from './dto/change-profile.dto';
 
 @Injectable()
 export class UserService {
@@ -59,5 +60,30 @@ export class UserService {
     user.password = await bcrypt.hash(changePasswordDto.newPassword, SALT);
 
     await this.userRepository.save(user);
+  }
+
+  /**
+   * @description
+   * @param changeUserNameDto
+   * @param id
+   * @param name
+   */
+  async changeName(
+    changeUserNameDto: ChangeUserNameDto,
+    id: string,
+    name: string,
+  ) {
+    if (changeUserNameDto.name === name) {
+      throw new BadRequestException(
+        apiResponse.send(null, {
+          common: ResponseMessage.DUPLICATED_NAME,
+        }),
+      );
+    }
+
+    const user = await this.findOneByField('id', id);
+    user.name = changeUserNameDto.name;
+
+    return await this.userRepository.save(user);
   }
 }

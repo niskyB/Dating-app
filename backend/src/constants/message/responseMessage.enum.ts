@@ -9,4 +9,5 @@ export enum ResponseMessage {
   UNAUTHORIZED = 'Not signin yet',
   FORBIDDEN = "You don't have permission to access / on this page",
   DUPLICATED_PASSWORD = 'New password is same with your current password',
+  DUPLICATED_NAME = 'New name is same with your current name',
 }

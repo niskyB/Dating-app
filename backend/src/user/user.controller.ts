@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  HttpStatus,
   Put,
   Req,
+  Res,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
@@ -11,13 +13,20 @@ import { JoiValidationPipe } from '../utils/validation/JoiValidationPipe.pipe';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { changePasswordSchema } from './schema/change-password.schema';
 import { UserService } from './user.service';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { apiResponse } from '../common/interface/apiResponse';
+import { ChangeUserNameDto } from './dto/change-profile.dto';
+import { changeUserNameSchema } from './schema/change-profile.schema';
+import { MAX_AGE, TOKEN } from '../constants/cookie.constants';
+import { AuthService } from '../auth/auth.service';
 
 @Controller('users')
 @UseGuards(UserGuard)
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+  ) {}
 
   /**
    * @description PUT method for user to change password
@@ -38,8 +47,29 @@ export class UserController {
     return apiResponse.send(null, null);
   }
 
-  @Put('/profile')
-  async changeProfile() {
-    return '';
+  /**
+   * @description
+   * @param changeUserNameDto
+   * @param req
+   * @returns
+   */
+  @Put('/name')
+  @UsePipes(new JoiValidationPipe(changeUserNameSchema))
+  async changeProfile(
+    @Body() changeUserNameDto: ChangeUserNameDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const result = await this.userService.changeName(
+      changeUserNameDto,
+      req.currentUser.id,
+      req.currentUser.name,
+    );
+
+    const token = this.authService.creatToken(result);
+
+    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
+
+    return apiResponse.send(null, null);
   }
 }

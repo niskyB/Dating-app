@@ -14,7 +14,7 @@ import { createUserSchema } from './schema/create-user.schema';
 import { signinUserSchema } from './schema/signin-user.schema';
 import { Response } from 'express';
 import { apiResponse } from '../common/interface/apiResponse';
-import { TOKEN } from '../utils/common';
+import { EXPIRED_AGE, MAX_AGE, TOKEN } from '../constants/cookie.constants';
 
 @Controller('auth')
 export class AuthController {
@@ -45,11 +45,7 @@ export class AuthController {
   ) {
     const result = await this.authService.signin(signinUserDto);
     const token = this.authService.creatToken(result);
-    res
-      .cookie(TOKEN, token, {
-        maxAge: 86400 * 100,
-      })
-      .status(HttpStatus.OK);
+    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
     return apiResponse.send(null, null);
   }
 
@@ -60,7 +56,7 @@ export class AuthController {
    */
   @Post('/logout')
   async logout(@Res({ passthrough: true }) res: Response) {
-    res.cookie(TOKEN, '', { maxAge: -999 }).status(HttpStatus.OK);
+    res.cookie(TOKEN, '', { maxAge: EXPIRED_AGE }).status(HttpStatus.OK);
     return apiResponse.send(null, null);
   }
 }
