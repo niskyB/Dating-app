@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
 import { JoiMessage } from 'joi-message';
-import { ResponseMessage } from '../../utils/message/responseMessage.enum';
+import { ResponseMessage } from '../../constants/message/responseMessage.enum';
 
 export const changePasswordSchema = Joi.object({
   password: Joi.string()

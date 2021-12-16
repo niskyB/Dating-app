@@ -7,8 +7,8 @@ import { User } from '../user/entities/user.entity';
 import { UserToken } from './dto/user-token.dto';
 import { plainToClass } from 'class-transformer';
 import { JwtService } from '@nestjs/jwt';
-import { apiResponse } from '../utils/interface/apiResponse';
-import { ResponseMessage } from '../utils/message/responseMessage.enum';
+import { apiResponse } from '../common/interface/apiResponse';
+import { ResponseMessage } from '../constants/message/responseMessage.enum';
 import { SALT } from '../utils/common';
 
 // expect result

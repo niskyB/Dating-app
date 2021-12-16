@@ -13,7 +13,7 @@ import { SigninUserDto } from './dto/signin-user.dto';
 import { createUserSchema } from './schema/create-user.schema';
 import { signinUserSchema } from './schema/signin-user.schema';
 import { Response } from 'express';
-import { apiResponse } from '../utils/interface/apiResponse';
+import { apiResponse } from '../common/interface/apiResponse';
 import { TOKEN } from '../utils/common';
 
 @Controller('auth')

@@ -12,7 +12,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { changePasswordSchema } from './schema/change-password.schema';
 import { UserService } from './user.service';
 import { Request } from 'express';
-import { apiResponse } from '../utils/interface/apiResponse';
+import { apiResponse } from '../common/interface/apiResponse';
 
 @Controller('users')
 @UseGuards(UserGuard)
@@ -36,5 +36,10 @@ export class UserController {
     );
 
     return apiResponse.send(null, null);
+  }
+
+  @Put('/profile')
+  async changeProfile() {
+    return '';
   }
 }

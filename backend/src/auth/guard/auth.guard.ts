@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '../auth.service';
 import { Request } from 'express';
-import { apiResponse } from '../../utils/interface/apiResponse';
-import { ResponseMessage } from '../../utils/message/responseMessage.enum';
+import { apiResponse } from '../../common/interface/apiResponse';
+import { ResponseMessage } from '../../constants/message/responseMessage.enum';
 import { TOKEN } from '../../utils/common';
 
 @Injectable()

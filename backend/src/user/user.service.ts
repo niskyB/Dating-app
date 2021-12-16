@@ -5,8 +5,8 @@ import { plainToClass } from 'class-transformer';
 import { UserRepository } from './entities/user.repository';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import * as bcrypt from 'bcrypt';
-import { apiResponse } from '../utils/interface/apiResponse';
-import { ResponseMessage } from '../utils/message/responseMessage.enum';
+import { apiResponse } from '../common/interface/apiResponse';
+import { ResponseMessage } from '../constants/message/responseMessage.enum';
 import { SALT } from '../utils/common';
 
 @Injectable()
