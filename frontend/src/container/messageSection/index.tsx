@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 interface MessageSectionProps {}
 interface matched {
   id: string;
@@ -40,9 +42,14 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = () => {
     <div className="flex flex-col flex-1 ">
       {matchList.map((match) => {
         return (
-          <div
+          <NavLink
+            to={`/messages/${match.id}`}
             key={match.id}
-            className="flex px-5 py-4 cursor-pointer hover:bg-gray-200 intro-y"
+            className={({ isActive }) =>
+              isActive
+                ? "flex px-5 py-4 cursor-pointer bg-gray-200 intro-y"
+                : "flex px-5 py-4 cursor-pointer hover:bg-gray-200 intro-y"
+            }
           >
             <img
               src={match.avatar}
@@ -55,7 +62,7 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = () => {
               </div>
               <div className="text-base text-gray-500">{match.lastMessage}</div>
             </div>
-          </div>
+          </NavLink>
         );
       })}
     </div>

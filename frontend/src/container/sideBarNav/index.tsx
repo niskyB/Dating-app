@@ -9,7 +9,7 @@ const SideBarNav: React.FunctionComponent<SideBarNavProps> = () => {
         className={({ isActive }) =>
           isActive ? "relative font-semibold line" : "relative font-semibold"
         }
-        to="/match"
+        to="/"
       >
         Matched
       </NavLink>
