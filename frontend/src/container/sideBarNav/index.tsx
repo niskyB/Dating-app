@@ -1,29 +1,34 @@
-import { NavLink } from "react-router-dom";
+import { store } from "../../store";
+import { UIAction } from "../../store/UI";
 
-interface SideBarNavProps {}
+interface SideBarNavProps {
+  isMatchOpen: boolean;
+  isMessagesOpen: boolean;
+}
 
-const SideBarNav: React.FunctionComponent<SideBarNavProps> = () => {
+const SideBarNav: React.FunctionComponent<SideBarNavProps> = ({
+  isMatchOpen,
+  isMessagesOpen,
+}) => {
   return (
     <>
-      <NavLink
-        className={({ isActive }) =>
-          isActive ? "relative font-semibold line" : "relative font-semibold"
-        }
-        to="/"
+      <div
+        className={`relative cursor-pointer font-semibold ${
+          isMatchOpen && "line"
+        }`}
+        onClick={() => store.dispatch(UIAction.openMatchUI())}
       >
         Matched
-      </NavLink>
+      </div>
 
-      <NavLink
-        className={({ isActive }) =>
-          isActive
-            ? "ml-4 font-semibold relative line"
-            : "ml-4 font-semibold relative"
-        }
-        to="/messages"
+      <div
+        className={`ml-4 font-semibold relative cursor-pointer ${
+          isMessagesOpen && "line"
+        }`}
+        onClick={() => store.dispatch(UIAction.openMessagesUI())}
       >
         Messages
-      </NavLink>
+      </div>
     </>
   );
 };
