@@ -136,12 +136,12 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
             key={data.name}
             onSwipe={(dir) => swiped(dir, data.name, index)}
             onCardLeftScreen={() => outOfFrame(data.name, index)}
-            preventSwipe={["top", "bottom"]}
+            preventSwipe={["up", "down"]}
           >
             <Card data={data} />
           </TinderCard>
         ))}
-        <div className="absolute bottom-0 left-0 right-0 flex flex-row items-center flex-1 pb-4 bg-black justify-evenly">
+        <div className="absolute bottom-0 left-0 right-0 flex flex-row items-center flex-1 pb-4  justify-evenly">
           <div
             className="flex items-center justify-center w-20 h-20 rounded-full text-sun-500 border-sun-500 solid border-1"
             onClick={() => goBack()}
