@@ -11,7 +11,7 @@ interface route {
   exact?: boolean;
   isLoginRequire?: boolean;
 }
-export const routes: route[] = [
+export const contentRoutes: route[] = [
   {
     link: "/login",
     component: LoginPage,
@@ -23,6 +23,7 @@ export const routes: route[] = [
   {
     link: "/messages/:id",
     component: ChatBox,
+    isLoginRequire: true,
   },
   {
     link: "/*",

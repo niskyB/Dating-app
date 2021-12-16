@@ -37,12 +37,12 @@ const matchList: matched[] = [
 ];
 const MessageSection: React.FunctionComponent<MessageSectionProps> = () => {
   return (
-    <div className="flex-col flex-1 w-full intro-y">
+    <div className="flex flex-col flex-1 ">
       {matchList.map((match) => {
         return (
           <div
             key={match.id}
-            className="flex px-5 py-4 cursor-pointer hover:bg-gray-200"
+            className="flex px-5 py-4 cursor-pointer hover:bg-gray-200 intro-y"
           >
             <img
               src={match.avatar}

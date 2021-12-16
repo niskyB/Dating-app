@@ -1,9 +1,8 @@
 import { useSelector } from "react-redux";
-import { Link, Route, Routes } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import NotLoginMessage from "../../component/notLogin";
 import TopSideBar from "../../component/topSideBar";
-import { UserState } from "../../interface/redux/user";
+import { UserState } from "../../common/interface/redux/user";
 import { RootState } from "../../store";
 import MatchList from "../matchList";
 import MessageSection from "../messageSection";
@@ -15,7 +14,7 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
   const userState = useSelector<RootState, UserState>((state) => state.user);
   return (
     <div className="flex flex-col w-full h-screen max-w-xs bg-white ">
-      <TopSideBar />
+      <TopSideBar isLogin={userState.isLogin} />
       <div
         className={`flex flex-col ${
           userState.isLogin ? "justify-start" : "justify-center"

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UserState } from "../../interface/redux/user";
+import { UserState } from "../../common/interface/redux/user";
 import { userDataDefault } from "../defaultData/user";
 const initialState: UserState = {
   isLogin: true,
