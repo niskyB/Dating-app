@@ -7,6 +7,7 @@ import { UserState } from "../interface/redux/user";
 
 interface ProtectRouteWrapperProps {
   isLoginRequire?: boolean;
+  showNotFoundPage?: boolean;
 }
 function getCookie(cname: string) {
   let name = cname + "=";
@@ -24,7 +25,7 @@ function getCookie(cname: string) {
   return "";
 }
 const ProtectRouteWrapper: React.FunctionComponent<ProtectRouteWrapperProps> =
-  ({ isLoginRequire = false }) => {
+  ({ isLoginRequire = false, showNotFoundPage = true }) => {
     const userState = useSelector<RootState, UserState>((state) => state.user);
     const [isAccess, setIsAccess] = useState(true);
     useEffect(() => {
@@ -34,7 +35,7 @@ const ProtectRouteWrapper: React.FunctionComponent<ProtectRouteWrapperProps> =
       }
       setIsAccess(true);
     }, [userState.isLogin, isLoginRequire]);
-    return <>{isAccess ? <Outlet /> : <NotFoundPage />}</>;
+    return <>{isAccess ? <Outlet /> : showNotFoundPage && <NotFoundPage />}</>;
   };
 
 export default ProtectRouteWrapper;

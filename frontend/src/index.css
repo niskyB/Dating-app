@@ -70,6 +70,45 @@
   animation: IntroZ 0.5s forwards;
 }
 
+@keyframes MoveInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+.moveInFromLeft {
+  animation: MoveInFromLeft 0.5s forwards;
+}
+@keyframes MoveInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+.moveInFromRight {
+  animation: MoveInFromRight 0.5s forwards;
+}
+@keyframes MoveOutFromLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+.moveOutFromLeft {
+  animation: MoveOutFromLeft 0.5s forwards;
+}
 .customShadow {
   background-image: linear-gradient(0deg, black, hsla(0, 0%, 100%, 0));
 }
@@ -93,4 +132,8 @@
     #ec6ead,
     #3494e6
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.card *::selection {
+  background-color: transparent;
 }

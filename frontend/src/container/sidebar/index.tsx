@@ -7,6 +7,9 @@ import SideBarNav from "../sideBarNav";
 import MatchList from "../matchList";
 import MessageSection from "../messageSection";
 import { UIState } from "../../common/interface/redux/ui";
+import { Routes } from "react-router-dom";
+import { renderHelper } from "../../utils/renderHelper";
+import { sideBarRoute } from "../../constants/route";
 
 interface SideBarProps {}
 
@@ -14,10 +17,10 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
   const userState = useSelector<RootState, UserState>((state) => state.user);
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
   return (
-    <div className="flex flex-col w-full h-screen max-w-xs bg-white ">
+    <div className="flex flex-col w-full h-screen max-w-xs bg-white overflow-hidden">
       <TopSideBar isLogin={userState.isLogin} />
       <div
-        className={`flex flex-col ${
+        className={`flex flex-col relative ${
           userState.isLogin ? "justify-start" : "justify-center"
         } flex-auto  py-3 text-center`}
       >
@@ -35,6 +38,7 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
         ) : (
           <NotLoginMessage />
         )}
+        <Routes>{renderHelper(sideBarRoute, false)}</Routes>
       </div>
     </div>
   );

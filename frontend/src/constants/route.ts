@@ -1,13 +1,13 @@
 import * as React from "react";
 import ChatBox from "../container/chatBox";
-import MatchList from "../container/matchList";
-import MessageSection from "../container/messageSection";
+import MyProfile from "../container/myProfile";
+import Setting from "../container/setting";
 
 const LoginPage = React.lazy(() => import("../container/login"));
 const RegisterPage = React.lazy(() => import("../container/register"));
 const MatchPage = React.lazy(() => import("../container/match"));
 
-interface route {
+export interface route {
   link: string;
   component: any;
   exact?: boolean;
@@ -35,13 +35,13 @@ export const contentRoutes: route[] = [
 
 export const sideBarRoute: route[] = [
   {
-    link: "/",
-    component: MatchList,
-    isLoginRequire: true,
+    link: "/me",
+    component: MyProfile,
+    isLoginRequire: false,
   },
   {
-    link: "/messages/*",
-    component: MessageSection,
-    isLoginRequire: true,
+    link: "/setting",
+    component: Setting,
+    isLoginRequire: false,
   },
 ];

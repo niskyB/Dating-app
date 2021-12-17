@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserState } from "../../common/interface/redux/user";
-import { userDataDefault } from "../defaultData/user";
+import { findingConfigDefault, userDataDefault } from "../defaultData/user";
 const initialState: UserState = {
   isLogin: true,
   data: userDataDefault,
+  findingConfig: findingConfigDefault,
 };
 
 export const user = createSlice({

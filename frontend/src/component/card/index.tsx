@@ -7,7 +7,7 @@ interface CardProps {
 
 const Card: React.FunctionComponent<CardProps> = ({ data }) => {
   return (
-    <div className="flex flex-col w-full h-full bg-black shadow-lg">
+    <div className="flex flex-col w-full h-full bg-black shadow-lg card">
       <div
         className="flex flex-col justify-end w-96 h-140"
         style={{

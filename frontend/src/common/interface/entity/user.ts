@@ -10,4 +10,5 @@ export interface User {
   hobbies: string[];
   matchList: User[];
   highlightImage: string;
+  birthday: string;
 }

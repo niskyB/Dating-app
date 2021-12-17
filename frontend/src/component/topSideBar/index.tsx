@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import AvatarCircle from "../avatarCircle";
 import SettingIcon from "../icon/setting";
 
@@ -12,7 +13,7 @@ const TopSideBar: React.FunctionComponent<TopSideBarProps> = ({ isLogin }) => {
         <>
           <div className="flex items-center">
             <AvatarCircle
-              to={"/setting"}
+              to={"/me"}
               alt="avatar"
               url="https://scontent.fdad2-1.fna.fbcdn.net/v/t1.6435-9/205956104_2751433955079159_2840020984542922686_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=8K0GTpEtUJ8AX9w6MTt&_nc_ht=scontent.fdad2-1.fna&oh=00_AT-OsvKv-F-Et6wNSJ-xx8ezVfmQHmapFEHRJDc_XpgMUA&oe=61DD0D68"
             />
@@ -20,9 +21,9 @@ const TopSideBar: React.FunctionComponent<TopSideBarProps> = ({ isLogin }) => {
               Duc Dauu
             </div>
           </div>
-          <div className="text-white">
+          <Link to={"/setting"} className="text-white">
             <SettingIcon />
-          </div>
+          </Link>
         </>
       )}
     </div>
