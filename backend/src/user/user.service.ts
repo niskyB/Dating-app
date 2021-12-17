@@ -179,4 +179,11 @@ export class UserService {
 
     return await this.userRepository.save(user);
   }
+
+  async changeAvatar(file: Express.Multer.File, id: string): Promise<User> {
+    const user = await this.findOneByField('id', id);
+    user.avatar = file.filename;
+
+    return await this.userRepository.save(user);
+  }
 }

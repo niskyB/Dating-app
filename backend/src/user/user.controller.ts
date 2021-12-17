@@ -1,11 +1,14 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   HttpStatus,
   Put,
   Req,
   Res,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { UserGuard } from '../auth/guard/auth.guard';
@@ -31,6 +34,9 @@ import {
 } from './schema/change-profile.schema';
 import { MAX_AGE, TOKEN } from '../constants/cookie.constants';
 import { AuthService } from '../auth/auth.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { multerOptions } from '../utils/multer/multerOptions';
+import { ResponseMessage } from '../constants/message/responseMessage.enum';
 
 @Controller('users')
 @UseGuards(UserGuard)
@@ -180,6 +186,40 @@ export class UserController {
   ) {
     const result = await this.userService.changeSex(
       changeUserSexDto,
+      req.currentUser.id,
+    );
+
+    const token = this.authService.creatToken(result);
+
+    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
+
+    return apiResponse.send(null, null);
+  }
+
+  /**
+   * @description PUT method for user to change avatar
+   * @param file
+   * @param req
+   * @param res
+   * @returns response form with no data and error
+   */
+  @Put('/avatar')
+  @UseInterceptors(FileInterceptor('avatar', multerOptions))
+  async changeAvatar(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    if (!file) {
+      throw new BadRequestException(
+        apiResponse.send(null, {
+          image: ResponseMessage.IMG_ERROR,
+        }),
+      );
+    }
+
+    const result = await this.userService.changeAvatar(
+      file,
       req.currentUser.id,
     );
 
