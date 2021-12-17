@@ -8,7 +8,11 @@ import * as bcrypt from 'bcrypt';
 import { apiResponse } from '../common/interface/apiResponse';
 import { ResponseMessage } from '../constants/message/responseMessage.enum';
 import { SALT } from '../constants/bcrypt.constants';
-import { ChangeUserBioDto, ChangeUserNameDto } from './dto/change-profile.dto';
+import {
+  ChangeUserBioDto,
+  ChangeUserNameDto,
+  ChangeUserPhoneDto,
+} from './dto/change-profile.dto';
 
 @Injectable()
 export class UserService {
@@ -100,6 +104,44 @@ export class UserService {
   ): Promise<User> {
     const user = await this.findOneByField('id', id);
     user.bio = changeUserBioDto.bio;
+
+    return await this.userRepository.save(user);
+  }
+
+  /**
+   * @description check and update phone number
+   * @param changeUserPhoneDto
+   * @param id
+   * @param phone
+   * @returns Promise<User>
+   */
+  async changePhone(
+    changeUserPhoneDto: ChangeUserPhoneDto,
+    id: string,
+    phone: string,
+  ): Promise<User> {
+    if (changeUserPhoneDto.phone === phone) {
+      throw new BadRequestException(
+        apiResponse.send(null, {
+          common: ResponseMessage.DUPLICATED_PHONE,
+        }),
+      );
+    }
+
+    const existedUser = await this.findOneByField(
+      'phone',
+      changeUserPhoneDto.phone,
+    );
+    if (existedUser) {
+      throw new BadRequestException(
+        apiResponse.send(null, {
+          common: ResponseMessage.EXISTED_PHONE,
+        }),
+      );
+    }
+
+    const user = await this.findOneByField('id', id);
+    user.phone = changeUserPhoneDto.phone;
 
     return await this.userRepository.save(user);
   }

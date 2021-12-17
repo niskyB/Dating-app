@@ -15,10 +15,15 @@ import { changePasswordSchema } from './schema/change-password.schema';
 import { UserService } from './user.service';
 import { Request, Response } from 'express';
 import { apiResponse } from '../common/interface/apiResponse';
-import { ChangeUserBioDto, ChangeUserNameDto } from './dto/change-profile.dto';
+import {
+  ChangeUserBioDto,
+  ChangeUserNameDto,
+  ChangeUserPhoneDto,
+} from './dto/change-profile.dto';
 import {
   changeUserBioSchema,
   changeUserNameSchema,
+  changeUserPhoneSchema,
 } from './schema/change-profile.schema';
 import { MAX_AGE, TOKEN } from '../constants/cookie.constants';
 import { AuthService } from '../auth/auth.service';
@@ -93,6 +98,33 @@ export class UserController {
     const result = await this.userService.changeBio(
       changeUserBioDto,
       req.currentUser.id,
+    );
+
+    const token = this.authService.creatToken(result);
+
+    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
+
+    return apiResponse.send(null, null);
+  }
+
+  /**
+   * @description PUT method for user to change phone number
+   * @param changeUserPhoneDto
+   * @param req
+   * @param res
+   * @returns response form with no data and error
+   */
+  @Put('/phone-number')
+  @UsePipes(new JoiValidationPipe(changeUserPhoneSchema))
+  async changePhone(
+    @Body() changeUserPhoneDto: ChangeUserPhoneDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const result = await this.userService.changePhone(
+      changeUserPhoneDto,
+      req.currentUser.id,
+      req.currentUser.phone,
     );
 
     const token = this.authService.creatToken(result);
