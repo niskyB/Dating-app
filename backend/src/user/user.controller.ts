@@ -16,11 +16,13 @@ import { UserService } from './user.service';
 import { Request, Response } from 'express';
 import { apiResponse } from '../common/interface/apiResponse';
 import {
+  ChangeUserAddressDto,
   ChangeUserBioDto,
   ChangeUserNameDto,
   ChangeUserPhoneDto,
 } from './dto/change-profile.dto';
 import {
+  changeUserAddressSchema,
   changeUserBioSchema,
   changeUserNameSchema,
   changeUserPhoneSchema,
@@ -125,6 +127,32 @@ export class UserController {
       changeUserPhoneDto,
       req.currentUser.id,
       req.currentUser.phone,
+    );
+
+    const token = this.authService.creatToken(result);
+
+    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
+
+    return apiResponse.send(null, null);
+  }
+
+  /**
+   * @description PUT method for user to change address
+   * @param changeUserAddressDto
+   * @param req
+   * @param res
+   * @returns response form with no data and error
+   */
+  @Put('/address')
+  @UsePipes(new JoiValidationPipe(changeUserAddressSchema))
+  async changeAddress(
+    @Body() changeUserAddressDto: ChangeUserAddressDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const result = await this.userService.changeAddress(
+      changeUserAddressDto,
+      req.currentUser.id,
     );
 
     const token = this.authService.creatToken(result);

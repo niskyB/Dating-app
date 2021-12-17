@@ -8,7 +8,7 @@ export const changeUserNameSchema = Joi.object({
     .max(50)
     .required()
     .messages(
-      JoiMessage.createArrayMessages({ field: 'Name', min: 2, max: 50 }),
+      JoiMessage.createStringMessages({ field: 'Name', min: 2, max: 50 }),
     ),
 });
 
@@ -17,7 +17,7 @@ export const changeUserBioSchema = Joi.object({
     .max(255)
     .allow('')
     .required()
-    .messages(JoiMessage.createArrayMessages({ field: 'Bio', max: 255 })),
+    .messages(JoiMessage.createStringMessages({ field: 'Bio', max: 255 })),
 });
 
 export const changeUserPhoneSchema = Joi.object({
@@ -34,4 +34,11 @@ export const changeUserPhoneSchema = Joi.object({
       }),
       'string.pattern.base': ResponseMessage.INVALID_PHONE,
     }),
+});
+
+export const changeUserAddressSchema = Joi.object({
+  address: Joi.string()
+    .max(255)
+    .required()
+    .messages(JoiMessage.createStringMessages({ field: 'Address', max: 255 })),
 });

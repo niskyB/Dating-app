@@ -9,6 +9,7 @@ import { apiResponse } from '../common/interface/apiResponse';
 import { ResponseMessage } from '../constants/message/responseMessage.enum';
 import { SALT } from '../constants/bcrypt.constants';
 import {
+  ChangeUserAddressDto,
   ChangeUserBioDto,
   ChangeUserNameDto,
   ChangeUserPhoneDto,
@@ -142,6 +143,16 @@ export class UserService {
 
     const user = await this.findOneByField('id', id);
     user.phone = changeUserPhoneDto.phone;
+
+    return await this.userRepository.save(user);
+  }
+
+  async changeAddress(
+    changeUserAddressDto: ChangeUserAddressDto,
+    id: string,
+  ): Promise<User> {
+    const user = await this.findOneByField('id', id);
+    user.address = changeUserAddressDto.address;
 
     return await this.userRepository.save(user);
   }
