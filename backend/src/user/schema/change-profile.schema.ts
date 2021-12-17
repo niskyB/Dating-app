@@ -10,3 +10,11 @@ export const changeUserNameSchema = Joi.object({
       JoiMessage.createArrayMessages({ field: 'Name', min: 2, max: 50 }),
     ),
 });
+
+export const changeUserBioSchema = Joi.object({
+  bio: Joi.string()
+    .max(255)
+    .allow('')
+    .required()
+    .messages(JoiMessage.createArrayMessages({ field: 'Bio', max: 255 })),
+});

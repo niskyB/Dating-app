@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { apiResponse } from '../common/interface/apiResponse';
 import { ResponseMessage } from '../constants/message/responseMessage.enum';
 import { SALT } from '../constants/bcrypt.constants';
-import { ChangeUserNameDto } from './dto/change-profile.dto';
+import { ChangeUserBioDto, ChangeUserNameDto } from './dto/change-profile.dto';
 
 @Injectable()
 export class UserService {
@@ -84,6 +84,22 @@ export class UserService {
 
     const user = await this.findOneByField('id', id);
     user.name = changeUserNameDto.name;
+
+    return await this.userRepository.save(user);
+  }
+
+  /**
+   * @description update bio of user to database
+   * @param changeUserBioDto
+   * @param id
+   * @returns Promise<User>
+   */
+  async changeBio(
+    changeUserBioDto: ChangeUserBioDto,
+    id: string,
+  ): Promise<User> {
+    const user = await this.findOneByField('id', id);
+    user.bio = changeUserBioDto.bio;
 
     return await this.userRepository.save(user);
   }

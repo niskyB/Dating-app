@@ -15,8 +15,11 @@ import { changePasswordSchema } from './schema/change-password.schema';
 import { UserService } from './user.service';
 import { Request, Response } from 'express';
 import { apiResponse } from '../common/interface/apiResponse';
-import { ChangeUserNameDto } from './dto/change-profile.dto';
-import { changeUserNameSchema } from './schema/change-profile.schema';
+import { ChangeUserBioDto, ChangeUserNameDto } from './dto/change-profile.dto';
+import {
+  changeUserBioSchema,
+  changeUserNameSchema,
+} from './schema/change-profile.schema';
 import { MAX_AGE, TOKEN } from '../constants/cookie.constants';
 import { AuthService } from '../auth/auth.service';
 
@@ -55,7 +58,7 @@ export class UserController {
    */
   @Put('/name')
   @UsePipes(new JoiValidationPipe(changeUserNameSchema))
-  async changeProfile(
+  async changeName(
     @Body() changeUserNameDto: ChangeUserNameDto,
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
@@ -64,6 +67,32 @@ export class UserController {
       changeUserNameDto,
       req.currentUser.id,
       req.currentUser.name,
+    );
+
+    const token = this.authService.creatToken(result);
+
+    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
+
+    return apiResponse.send(null, null);
+  }
+
+  /**
+   * @description PUT method for user to update bio
+   * @param changeUserBioDto
+   * @param req
+   * @param res
+   * @returns response form with no data and error
+   */
+  @Put('/bio')
+  @UsePipes(new JoiValidationPipe(changeUserBioSchema))
+  async changeBio(
+    @Body() changeUserBioDto: ChangeUserBioDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const result = await this.userService.changeBio(
+      changeUserBioDto,
+      req.currentUser.id,
     );
 
     const token = this.authService.creatToken(result);
