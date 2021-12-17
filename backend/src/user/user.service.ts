@@ -8,7 +8,13 @@ import * as bcrypt from 'bcrypt';
 import { apiResponse } from '../common/interface/apiResponse';
 import { ResponseMessage } from '../constants/message/responseMessage.enum';
 import { SALT } from '../constants/bcrypt.constants';
-import { ChangeUserNameDto } from './dto/change-profile.dto';
+import {
+  ChangeUserAddressDto,
+  ChangeUserBioDto,
+  ChangeUserNameDto,
+  ChangeUserPhoneDto,
+  ChangeUserSexDto,
+} from './dto/change-profile.dto';
 
 @Injectable()
 export class UserService {
@@ -84,6 +90,99 @@ export class UserService {
 
     const user = await this.findOneByField('id', id);
     user.name = changeUserNameDto.name;
+
+    return await this.userRepository.save(user);
+  }
+
+  /**
+   * @description update bio of user to database
+   * @param changeUserBioDto
+   * @param id
+   * @returns Promise<User>
+   */
+  async changeBio(
+    changeUserBioDto: ChangeUserBioDto,
+    id: string,
+  ): Promise<User> {
+    const user = await this.findOneByField('id', id);
+    user.bio = changeUserBioDto.bio;
+
+    return await this.userRepository.save(user);
+  }
+
+  /**
+   * @description check and update phone number
+   * @param changeUserPhoneDto
+   * @param id
+   * @param phone
+   * @returns Promise<User>
+   */
+  async changePhone(
+    changeUserPhoneDto: ChangeUserPhoneDto,
+    id: string,
+    phone: string,
+  ): Promise<User> {
+    if (changeUserPhoneDto.phone === phone) {
+      throw new BadRequestException(
+        apiResponse.send(null, {
+          common: ResponseMessage.DUPLICATED_PHONE,
+        }),
+      );
+    }
+
+    const existedUser = await this.findOneByField(
+      'phone',
+      changeUserPhoneDto.phone,
+    );
+    if (existedUser) {
+      throw new BadRequestException(
+        apiResponse.send(null, {
+          common: ResponseMessage.EXISTED_PHONE,
+        }),
+      );
+    }
+
+    const user = await this.findOneByField('id', id);
+    user.phone = changeUserPhoneDto.phone;
+
+    return await this.userRepository.save(user);
+  }
+
+  /**
+   * @description update user address to database
+   * @param changeUserAddressDto
+   * @param id
+   * @returns Promise<User>
+   */
+  async changeAddress(
+    changeUserAddressDto: ChangeUserAddressDto,
+    id: string,
+  ): Promise<User> {
+    const user = await this.findOneByField('id', id);
+    user.address = changeUserAddressDto.address;
+
+    return await this.userRepository.save(user);
+  }
+
+  /**
+   * @description update user sex to database
+   * @param changeUserSexDto
+   * @param id
+   * @returns Promise<User>
+   */
+  async changeSex(
+    changeUserSexDto: ChangeUserSexDto,
+    id: string,
+  ): Promise<User> {
+    const user = await this.findOneByField('id', id);
+    user.sex = changeUserSexDto.sex;
+
+    return await this.userRepository.save(user);
+  }
+
+  async changeAvatar(file: Express.Multer.File, id: string): Promise<User> {
+    const user = await this.findOneByField('id', id);
+    user.avatar = file.filename;
 
     return await this.userRepository.save(user);
   }
