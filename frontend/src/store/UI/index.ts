@@ -1,8 +1,10 @@
+import { updateInfoPopupDefault } from "./../defaultData/UI";
 import { UIState } from "../../common/interface/redux/ui";
 import { createSlice } from "@reduxjs/toolkit";
 const initialState: UIState = {
   isMatchOpen: true,
   isMessagesOpen: false,
+  updatePopup: updateInfoPopupDefault,
 };
 
 export const UI = createSlice({
