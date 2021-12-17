@@ -20,12 +20,14 @@ import {
   ChangeUserBioDto,
   ChangeUserNameDto,
   ChangeUserPhoneDto,
+  ChangeUserSexDto,
 } from './dto/change-profile.dto';
 import {
   changeUserAddressSchema,
   changeUserBioSchema,
   changeUserNameSchema,
   changeUserPhoneSchema,
+  changeUserSexSchema,
 } from './schema/change-profile.schema';
 import { MAX_AGE, TOKEN } from '../constants/cookie.constants';
 import { AuthService } from '../auth/auth.service';
@@ -152,6 +154,32 @@ export class UserController {
   ) {
     const result = await this.userService.changeAddress(
       changeUserAddressDto,
+      req.currentUser.id,
+    );
+
+    const token = this.authService.creatToken(result);
+
+    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
+
+    return apiResponse.send(null, null);
+  }
+
+  /**
+   * @description PUT method for user to update sex
+   * @param changeUserSexDto
+   * @param req
+   * @param res
+   * @returns response form with no data and error
+   */
+  @Put('/sex')
+  @UsePipes(new JoiValidationPipe(changeUserSexSchema))
+  async changeSex(
+    @Body() changeUserSexDto: ChangeUserSexDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const result = await this.userService.changeSex(
+      changeUserSexDto,
       req.currentUser.id,
     );
 

@@ -50,7 +50,7 @@ export const createUserSchema = Joi.object({
     .valid(Sex.MALE, Sex.FEMALE)
     .required()
     .messages({
-      ...JoiMessage.createStringMessages({ field: 'Confirm password' }),
+      ...JoiMessage.createStringMessages({ field: 'Sex' }),
       'any.only': ResponseMessage.INVALID_SEX,
     }),
 });

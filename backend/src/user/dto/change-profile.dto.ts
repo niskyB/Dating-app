@@ -10,3 +10,5 @@ export class ChangeUserPhoneDto extends PickType(User, ['phone'] as const) {}
 export class ChangeUserAddressDto extends PickType(User, [
   'address',
 ] as const) {}
+
+export class ChangeUserSexDto extends PickType(User, ['sex'] as const) {}

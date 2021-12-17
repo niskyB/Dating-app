@@ -13,6 +13,7 @@ import {
   ChangeUserBioDto,
   ChangeUserNameDto,
   ChangeUserPhoneDto,
+  ChangeUserSexDto,
 } from './dto/change-profile.dto';
 
 @Injectable()
@@ -147,12 +148,34 @@ export class UserService {
     return await this.userRepository.save(user);
   }
 
+  /**
+   * @description update user address to database
+   * @param changeUserAddressDto
+   * @param id
+   * @returns Promise<User>
+   */
   async changeAddress(
     changeUserAddressDto: ChangeUserAddressDto,
     id: string,
   ): Promise<User> {
     const user = await this.findOneByField('id', id);
     user.address = changeUserAddressDto.address;
+
+    return await this.userRepository.save(user);
+  }
+
+  /**
+   * @description update user sex to database
+   * @param changeUserSexDto
+   * @param id
+   * @returns Promise<User>
+   */
+  async changeSex(
+    changeUserSexDto: ChangeUserSexDto,
+    id: string,
+  ): Promise<User> {
+    const user = await this.findOneByField('id', id);
+    user.sex = changeUserSexDto.sex;
 
     return await this.userRepository.save(user);
   }

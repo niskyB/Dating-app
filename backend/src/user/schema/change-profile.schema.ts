@@ -1,6 +1,7 @@
 import * as Joi from 'joi';
 import { JoiMessage } from 'joi-message';
 import { ResponseMessage } from '../../constants/message/responseMessage.enum';
+import { Sex } from '../enum/user.sex.enum';
 
 export const changeUserNameSchema = Joi.object({
   name: Joi.string()
@@ -41,4 +42,14 @@ export const changeUserAddressSchema = Joi.object({
     .max(255)
     .required()
     .messages(JoiMessage.createStringMessages({ field: 'Address', max: 255 })),
+});
+
+export const changeUserSexSchema = Joi.object({
+  sex: Joi.string()
+    .valid(Sex.MALE, Sex.FEMALE)
+    .required()
+    .messages({
+      ...JoiMessage.createStringMessages({ field: 'Sex' }),
+      'any.only': ResponseMessage.INVALID_SEX,
+    }),
 });
