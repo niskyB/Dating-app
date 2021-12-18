@@ -5,7 +5,7 @@ export const userDataDefault: UserDataDTO = {
   id: "",
   address: "197 Hoang Huu Nam, Quan 9, TP.HCM",
   avatar:
-    "https://scontent.fdad2-1.fna.fbcdn.net/v/t1.6435-1/p240x240/205956104_2751433955079159_2840020984542922686_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=7206a8&_nc_ohc=NyHJxUybJBgAX8zpUUb&_nc_ht=scontent.fdad2-1.fna&oh=00_AT88K8Y0bmIFTbXkvht0trDlGFM4nGJEY5Z11ur_OwjMdg&oe=61E09EE4",
+    "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/267039246_2866623933560160_829497954930763995_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_ohc=KeR6b9tImZIAX9D1nI1&_nc_ht=scontent.fdad1-2.fna&oh=00_AT9ImHALF6bM53XwSCp4Ao9D-pS_j6WD1_CjrN-3d_JEuw&oe=61BDF153",
   bio: "Full stack web developer",
   email: "dauleduc2@gmail.com",
   highlightImage: "",
@@ -14,6 +14,7 @@ export const userDataDefault: UserDataDTO = {
   phoneNumber: "0869025867",
   username: "duc dauuu",
   birthday: "2001-10-19",
+  studyAt: "FPT University HCM",
 };
 
 export const findingConfigDefault: FindingConfig = {

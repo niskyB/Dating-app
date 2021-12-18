@@ -1,4 +1,5 @@
 import * as React from "react";
+import PreviewProfile from "../container/previewProfile";
 import ChatBox from "../container/chatBox";
 import MyProfile from "../container/myProfile";
 import Setting from "../container/setting";
@@ -27,6 +28,7 @@ export const contentRoutes: route[] = [
     component: ChatBox,
     isLoginRequire: false,
   },
+  { link: "/me", component: PreviewProfile, isLoginRequire: false },
   {
     link: "/*",
     component: MatchPage,

@@ -11,4 +11,5 @@ export interface User {
   matchList: User[];
   highlightImage: string;
   birthday: string;
+  studyAt: string;
 }

@@ -43,7 +43,7 @@ const MatchList: React.FunctionComponent<MatchListProps> = ({ isOpenning }) => {
             <Link
               to="#"
               key={match.id}
-              className="w-5/12 h-32 duration-200 border-2 rounded-lg shadow-lg cursor-pointer hover:scale-110"
+              className="w-5/12 h-40 duration-200 border-2 rounded-lg shadow-lg cursor-pointer hover:scale-110"
               style={{
                 backgroundImage: `url("${match.avatar}") `,
                 backgroundSize: "cover",
