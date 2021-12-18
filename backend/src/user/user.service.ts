@@ -16,10 +16,20 @@ import {
   ChangeUserPhoneDto,
   ChangeUserSexDto,
 } from './dto/change-profile.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserHighLightImg } from './entities/userHighlightImg.entity';
+import { Repository } from 'typeorm';
+import { UserShowOption } from './entities/userShowOption.entity';
+import { UserFindOption } from './entities/userFindOption.entity';
+import { Sex } from './enum/user.sex.enum';
 
 @Injectable()
 export class UserService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    private userRepository: UserRepository,
+    @InjectRepository(UserHighLightImg)
+    private userHighlightImgRepository: Repository<UserHighLightImg>,
+  ) {}
 
   /**
    * @description find user by field
@@ -32,12 +42,29 @@ export class UserService {
   }
 
   /**
+   * @description find full infomation of user
+   * @param field
+   * @param value
+   * @returns Promise<User>
+   */
+  async findCurrentUserByField(field: keyof User, value: any): Promise<User> {
+    return await this.userRepository.findUserWithImgsByField(field, value);
+  }
+
+  /**
    * @description save user to database
    * @param createUserDto
    * @returns Promise<User>
    */
   async createNewUser(createUserDto: CreateUserDto): Promise<User> {
     const user = plainToClass(User, createUserDto);
+    user.showOptions = new UserShowOption();
+    user.findOptions = new UserFindOption();
+    if (user.sex == Sex.MALE) {
+      user.findOptions.sexOption = Sex.FEMALE;
+    } else {
+      user.findOptions.sexOption = Sex.MALE;
+    }
     return await this.userRepository.manager.save(user);
   }
 
@@ -79,9 +106,10 @@ export class UserService {
   async changeName(
     changeUserNameDto: ChangeUserNameDto,
     id: string,
-    name: string,
   ): Promise<User> {
-    if (changeUserNameDto.name === name) {
+    const user = await this.findOneByField('id', id);
+
+    if (changeUserNameDto.name === user.name) {
       throw new BadRequestException(
         apiResponse.send(null, {
           common: ResponseMessage.DUPLICATED_NAME,
@@ -89,7 +117,6 @@ export class UserService {
       );
     }
 
-    const user = await this.findOneByField('id', id);
     user.name = changeUserNameDto.name;
 
     return await this.userRepository.save(user);
@@ -121,9 +148,10 @@ export class UserService {
   async changePhone(
     changeUserPhoneDto: ChangeUserPhoneDto,
     id: string,
-    phone: string,
   ): Promise<User> {
-    if (changeUserPhoneDto.phone === phone) {
+    const user = await this.findOneByField('id', id);
+
+    if (changeUserPhoneDto.phone === user.phone) {
       throw new BadRequestException(
         apiResponse.send(null, {
           common: ResponseMessage.DUPLICATED_PHONE,
@@ -143,7 +171,6 @@ export class UserService {
       );
     }
 
-    const user = await this.findOneByField('id', id);
     user.phone = changeUserPhoneDto.phone;
 
     return await this.userRepository.save(user);
@@ -207,6 +234,20 @@ export class UserService {
     const user = await this.findOneByField('id', id);
     user.dateOfBirth = changeUserDateOfBirth.dateOfBirth;
 
+    return await this.userRepository.save(user);
+  }
+
+  async changeHighlightImgs(
+    files: Array<Express.Multer.File>,
+    id: string,
+  ): Promise<User> {
+    const user = await this.userRepository.findUserWithImgsByField('id', id);
+    files.forEach(async (file) => {
+      const highlightImg = this.userHighlightImgRepository.create();
+      highlightImg.image = file.filename;
+      highlightImg.user = user;
+      user.highlightImgs.push(highlightImg);
+    });
     return await this.userRepository.save(user);
   }
 }
