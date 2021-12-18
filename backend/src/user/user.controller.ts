@@ -2,11 +2,11 @@ import {
   BadRequestException,
   Body,
   Controller,
-  HttpStatus,
+  Get,
   Put,
   Req,
-  Res,
   UploadedFile,
+  UploadedFiles,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -16,11 +16,12 @@ import { JoiValidationPipe } from '../utils/validation/JoiValidationPipe.pipe';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { changePasswordSchema } from './schema/change-password.schema';
 import { UserService } from './user.service';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { apiResponse } from '../common/interface/apiResponse';
 import {
   ChangeUserAddressDto,
   ChangeUserBioDto,
+  ChangeUserDateOfBirth,
   ChangeUserNameDto,
   ChangeUserPhoneDto,
   ChangeUserSexDto,
@@ -28,23 +29,38 @@ import {
 import {
   changeUserAddressSchema,
   changeUserBioSchema,
+  changeUserDateOfBirthSchema,
   changeUserNameSchema,
   changeUserPhoneSchema,
   changeUserSexSchema,
 } from './schema/change-profile.schema';
-import { MAX_AGE, TOKEN } from '../constants/cookie.constants';
-import { AuthService } from '../auth/auth.service';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from '../utils/multer/multerOptions';
 import { ResponseMessage } from '../constants/message/responseMessage.enum';
+import { MAX_COUNT } from '../constants/multer.constants';
+import { serialize } from '../utils/interceptor/serialize.interceptor';
+import { User } from './entities/user.entity';
 
 @Controller('users')
 @UseGuards(UserGuard)
 export class UserController {
-  constructor(
-    private readonly userService: UserService,
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
+
+  /**
+   * @description GET method to get current user
+   * @param req
+   * @returns response form with user data
+   */
+  @Get()
+  @serialize(User)
+  async getCurrentUser(@Req() req: Request) {
+    const result = await this.userService.findCurrentUserByField(
+      'id',
+      req.currentUser.id,
+    );
+
+    return result;
+  }
 
   /**
    * @description PUT method for user to change password
@@ -76,17 +92,8 @@ export class UserController {
   async changeName(
     @Body() changeUserNameDto: ChangeUserNameDto,
     @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
   ) {
-    const result = await this.userService.changeName(
-      changeUserNameDto,
-      req.currentUser.id,
-      req.currentUser.name,
-    );
-
-    const token = this.authService.creatToken(result);
-
-    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
+    await this.userService.changeName(changeUserNameDto, req.currentUser.id);
 
     return apiResponse.send(null, null);
   }
@@ -95,7 +102,6 @@ export class UserController {
    * @description PUT method for user to update bio
    * @param changeUserBioDto
    * @param req
-   * @param res
    * @returns response form with no data and error
    */
   @Put('/bio')
@@ -103,16 +109,8 @@ export class UserController {
   async changeBio(
     @Body() changeUserBioDto: ChangeUserBioDto,
     @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
   ) {
-    const result = await this.userService.changeBio(
-      changeUserBioDto,
-      req.currentUser.id,
-    );
-
-    const token = this.authService.creatToken(result);
-
-    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
+    await this.userService.changeBio(changeUserBioDto, req.currentUser.id);
 
     return apiResponse.send(null, null);
   }
@@ -121,7 +119,6 @@ export class UserController {
    * @description PUT method for user to change phone number
    * @param changeUserPhoneDto
    * @param req
-   * @param res
    * @returns response form with no data and error
    */
   @Put('/phone-number')
@@ -129,17 +126,8 @@ export class UserController {
   async changePhone(
     @Body() changeUserPhoneDto: ChangeUserPhoneDto,
     @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
   ) {
-    const result = await this.userService.changePhone(
-      changeUserPhoneDto,
-      req.currentUser.id,
-      req.currentUser.phone,
-    );
-
-    const token = this.authService.creatToken(result);
-
-    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
+    await this.userService.changePhone(changeUserPhoneDto, req.currentUser.id);
 
     return apiResponse.send(null, null);
   }
@@ -148,7 +136,6 @@ export class UserController {
    * @description PUT method for user to change address
    * @param changeUserAddressDto
    * @param req
-   * @param res
    * @returns response form with no data and error
    */
   @Put('/address')
@@ -156,16 +143,11 @@ export class UserController {
   async changeAddress(
     @Body() changeUserAddressDto: ChangeUserAddressDto,
     @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
   ) {
-    const result = await this.userService.changeAddress(
+    await this.userService.changeAddress(
       changeUserAddressDto,
       req.currentUser.id,
     );
-
-    const token = this.authService.creatToken(result);
-
-    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
 
     return apiResponse.send(null, null);
   }
@@ -174,7 +156,6 @@ export class UserController {
    * @description PUT method for user to update sex
    * @param changeUserSexDto
    * @param req
-   * @param res
    * @returns response form with no data and error
    */
   @Put('/sex')
@@ -182,16 +163,8 @@ export class UserController {
   async changeSex(
     @Body() changeUserSexDto: ChangeUserSexDto,
     @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
   ) {
-    const result = await this.userService.changeSex(
-      changeUserSexDto,
-      req.currentUser.id,
-    );
-
-    const token = this.authService.creatToken(result);
-
-    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
+    await this.userService.changeSex(changeUserSexDto, req.currentUser.id);
 
     return apiResponse.send(null, null);
   }
@@ -200,7 +173,6 @@ export class UserController {
    * @description PUT method for user to change avatar
    * @param file
    * @param req
-   * @param res
    * @returns response form with no data and error
    */
   @Put('/avatar')
@@ -208,7 +180,6 @@ export class UserController {
   async changeAvatar(
     @UploadedFile() file: Express.Multer.File,
     @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
   ) {
     if (!file) {
       throw new BadRequestException(
@@ -218,14 +189,52 @@ export class UserController {
       );
     }
 
-    const result = await this.userService.changeAvatar(
-      file,
+    await this.userService.changeAvatar(file, req.currentUser.id);
+
+    return apiResponse.send(null, null);
+  }
+
+  /**
+   * @description PUT method for user to change date of birth
+   * @param changeUserDateOfBirth
+   * @param req
+   * @returns response form with no data and error
+   */
+  @Put('/date-of-birth')
+  @UsePipes(new JoiValidationPipe(changeUserDateOfBirthSchema))
+  async changeDateOfBirth(
+    @Body() changeUserDateOfBirth: ChangeUserDateOfBirth,
+    @Req() req: Request,
+  ) {
+    await this.userService.changeDateOfBirth(
+      changeUserDateOfBirth,
       req.currentUser.id,
     );
 
-    const token = this.authService.creatToken(result);
+    return apiResponse.send(null, null);
+  }
 
-    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
+  /**
+   * @description PUT method for user to update highlight images
+   * @param files
+   * @param req
+   * @returns response form with no data and error
+   */
+  @Put('/highlight-imgs')
+  @UseInterceptors(FilesInterceptor('images', MAX_COUNT, multerOptions))
+  async changeUserHighlightImgs(
+    @UploadedFiles() files: Array<Express.Multer.File>,
+    @Req() req: Request,
+  ) {
+    if (!files) {
+      throw new BadRequestException(
+        apiResponse.send(null, {
+          image: ResponseMessage.IMG_ERROR,
+        }),
+      );
+    }
+
+    await this.userService.changeHighlightImgs(files, req.currentUser.id);
 
     return apiResponse.send(null, null);
   }

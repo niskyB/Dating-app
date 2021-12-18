@@ -12,6 +12,10 @@ import { AppService } from './app.service';
 
 // entity
 import { User } from './user/entities/user.entity';
+import { UserHighLightImg } from './user/entities/userHighlightImg.entity';
+import { Hobby } from './user/entities/userHobbies.entity';
+import { UserShowOption } from './user/entities/userShowOption.entity';
+import { UserFindOption } from './user/entities/userFindOption.entity';
 
 const Config = ConfigModule.forRoot({
   isGlobal: true,
@@ -26,7 +30,7 @@ const DBConfig = TypeOrmModule.forRoot({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   synchronize: true,
-  entities: [User],
+  entities: [User, UserHighLightImg, Hobby, UserShowOption, UserFindOption],
 });
 
 @Module({
