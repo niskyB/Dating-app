@@ -1,4 +1,4 @@
-import { updateInfoPopupDefault } from "./../defaultData/UI";
+import { updateInfoPopupDefault } from "../defaultData/UI";
 import { UIState, UpdatePopupData } from "../../common/interface/redux/ui";
 import { createSlice } from "@reduxjs/toolkit";
 import { ReduxAction } from "../../common/interface/common/redux";
