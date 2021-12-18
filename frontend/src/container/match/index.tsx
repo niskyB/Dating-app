@@ -5,6 +5,7 @@ import TinderCard from "react-tinder-card";
 import GoBackIcon from "../../component/icon/goBack";
 import Card from "../../component/card";
 import MatchWrapper from "../../component/matchWrapper";
+import { Hobby } from "../../common/interface/entity/user";
 interface MatchPageProps {}
 
 export interface matchData {
@@ -140,7 +141,7 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
           <Card data={data} />
         </TinderCard>
       ))}
-      <div className="absolute bottom-0 left-0 right-0 flex flex-row items-center flex-1 pb-4  justify-evenly">
+      <div className="absolute bottom-0 left-0 right-0 flex flex-row items-center flex-1 pb-4 justify-evenly">
         <div
           className="flex items-center justify-center w-20 h-20 rounded-full text-sun-500 border-sun-500 solid border-1"
           onClick={() => goBack()}

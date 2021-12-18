@@ -3,18 +3,22 @@ import { Link } from "react-router-dom";
 import LogoIcon from "../../component/icon/logo";
 import InputField from "../../component/inputField";
 import { RegisterUserDTO } from "../../common/interface/dto/user";
+import CheckBox from "../../component/checkbox";
+import { useState } from "react";
 
 interface RegisterPageProps {}
 
 const RegisterPage: React.FunctionComponent<RegisterPageProps> = () => {
   const { register, handleSubmit } = useForm<RegisterUserDTO>();
+  const [maleCheck, setMaleCheck] = useState(false);
+  const [femaleCheck, setFemaleCheck] = useState(false);
   const onSubmit: SubmitHandler<RegisterUserDTO> = (data) => {
     console.log(data);
   };
   return (
-    <div className="flex flex-col justify-center  w-full h-screen sm:px-6 lg:px-8 ">
+    <div className="flex flex-col justify-center w-full h-auto py-10 sm:px-6 lg:px-8 ">
       <div className="sm:mx-auto sm:w-full sm:max-w-md intro-y">
-        <div className="mx-auto text-purple-700 w-20 h-20">
+        <div className="w-20 h-20 mx-auto text-purple-700">
           <LogoIcon />
         </div>
         <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900 uppercase">
@@ -61,6 +65,35 @@ const RegisterPage: React.FunctionComponent<RegisterPageProps> = () => {
               label="Confirm Password"
               name="confirmPassword"
             />
+            <InputField
+              register={register}
+              type="date"
+              label="Birthdate"
+              name="dayOfBirth"
+            />
+            <div className="flex">
+              <CheckBox
+                label="male"
+                checked={maleCheck}
+                onChange={() => {
+                  if (femaleCheck) {
+                    setFemaleCheck(false);
+                  }
+                  setMaleCheck(true);
+                }}
+              />
+              <CheckBox
+                label="female"
+                checked={femaleCheck}
+                onChange={() => {
+                  if (maleCheck) {
+                    setMaleCheck(false);
+                  }
+                  setFemaleCheck(true);
+                }}
+                className="ml-5"
+              />
+            </div>
             <div className="mt-2">
               <button
                 type="submit"
@@ -74,7 +107,7 @@ const RegisterPage: React.FunctionComponent<RegisterPageProps> = () => {
                 Already have an account?
                 <Link
                   to="/login"
-                  className="font-semibold ml-1 text-indigo-600 underline hover:text-indigo-500"
+                  className="ml-1 font-semibold text-indigo-600 underline hover:text-indigo-500"
                 >
                   Login
                 </Link>

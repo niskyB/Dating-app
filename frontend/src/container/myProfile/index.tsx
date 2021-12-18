@@ -8,6 +8,7 @@ import ToggleButton from "../../component/toggleButton";
 import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
 import { userAction } from "../../store/user";
+import HighlightImage from "../highlightImage";
 
 interface MyProfileProps {}
 
@@ -25,14 +26,17 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
     bio,
     hobbies,
     studyAt,
+    highlightImgs,
+    avatar,
   } = userState.data;
-  const onRemoveHobbie = (hobbie: string) => {
-    console.log(`removing ${hobbie}....`);
+  const onRemoveHobby = (hobby: string) => {
+    console.log(`removing ${hobby}....`);
   };
 
   return (
-    <div className="w-full flex-1 bg-white absolute z-10 top-0 bottom-0 flex flex-col moveInFromLeft overflow-y-scroll pb-5">
-      <div className="w-full flex flex-col justify-start ">
+    <div className="absolute top-0 bottom-0 z-10 flex flex-col flex-1 w-full pb-5 overflow-y-scroll bg-white moveInFromLeft">
+      <div className="flex flex-col justify-start w-full ">
+        <HighlightImage highlightImgs={highlightImgs} avatar={avatar} />
         <InputOutline
           label="Name"
           name="name"
@@ -152,26 +156,29 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
           }
         />
         <div className="mt-5">
-          <div className="px-2 flex flex-row justify-between">
+          <div className="flex flex-row justify-between px-2">
             <label
               htmlFor="hobbies"
-              className="block text-base  font-medium text-gray-500"
+              className="block text-base font-medium text-gray-500"
             >
               Hobbies
             </label>
           </div>
-          <div className="flex  mt-3 border-gray-300 focus-within:border-indigo-600">
-            {hobbies.map((hobbie) => {
+          <div className="flex mt-3 border-gray-300 focus-within:border-indigo-600">
+            {hobbies.map((hobby) => {
               return (
-                <Badge value={hobbie} onRemove={() => onRemoveHobbie(hobbie)} />
+                <Badge
+                  value={hobby.name}
+                  onRemove={() => onRemoveHobby(hobby.name)}
+                />
               );
             })}
           </div>
         </div>
       </div>
       <DeviderWithText label="Control you profile" />
-      <div className="w-full flex flex-col justify-start text-base text-left">
-        <div className="px-3 flex justify-between items-center mt-5">
+      <div className="flex flex-col justify-start w-full text-base text-left">
+        <div className="flex items-center justify-between px-3 mt-5">
           <div className="block font-medium text-black">Show age</div>
           <ToggleButton
             enabled={showAge}
@@ -180,7 +187,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
             }}
           />
         </div>
-        <div className="px-3 flex justify-between items-center mt-5">
+        <div className="flex items-center justify-between px-3 mt-5">
           <div className="block font-medium text-black">
             Show where you are studying
           </div>
@@ -191,7 +198,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
             }}
           />
         </div>
-        <div className="px-3 flex justify-between items-center mt-5">
+        <div className="flex items-center justify-between px-3 mt-5">
           <div className="block font-medium text-black">Show your bio</div>
           <ToggleButton
             enabled={showBio}
@@ -200,7 +207,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
             }}
           />
         </div>
-        <div className="px-3 flex justify-between items-center mt-5">
+        <div className="flex items-center justify-between px-3 mt-5">
           <div className="block font-medium text-black">Show your hobbies</div>
           <ToggleButton
             enabled={showHobbies}

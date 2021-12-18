@@ -15,6 +15,11 @@ export interface highlightImg {
   id: string;
   image: string;
 }
+
+export interface Hobby {
+  id: string;
+  name: string;
+}
 export interface User {
   id: string;
   email: string;
@@ -25,9 +30,8 @@ export interface User {
   sex: sexEnumString;
   address: string;
   avatar: string;
-  hobbies: string[];
+  hobbies: Hobby[];
   matchList: User[];
-  highlightImage: string;
   dayOfBirth: string;
   studyAt: string;
   findConfig: findConfig;
