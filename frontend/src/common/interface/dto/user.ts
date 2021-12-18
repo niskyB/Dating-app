@@ -5,5 +5,5 @@ export interface LoginUserDTO extends Pick<User, "email" | "password"> {}
 export interface RegisterUserDTO
   extends Pick<
     User,
-    "email" | "password" | "address" | "username" | "phoneNumber"
+    "email" | "password" | "address" | "name" | "phoneNumber"
   > {}

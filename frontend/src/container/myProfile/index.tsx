@@ -1,36 +1,50 @@
 import { useSelector } from "react-redux";
 import { UserState } from "../../common/interface/redux/user";
 import Badge from "../../component/badge";
+import DeviderWithText from "../../component/deviderWithText";
 import InputOutline from "../../component/inputOutline";
 import TextField from "../../component/textField";
+import ToggleButton from "../../component/toggleButton";
 import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
+import { userAction } from "../../store/user";
 
 interface MyProfileProps {}
 
 const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
   const userState = useSelector<RootState, UserState>((state) => state.user);
-  const { username, address, phoneNumber, email, birthday, bio, hobbies } =
-    userState.data;
+  const { showAge, showBio, showHobbies, showStudyAt } =
+    userState.data.profileConfig;
+
+  const {
+    name,
+    address,
+    phoneNumber,
+    email,
+    dayOfBirth,
+    bio,
+    hobbies,
+    studyAt,
+  } = userState.data;
   const onRemoveHobbie = (hobbie: string) => {
     console.log(`removing ${hobbie}....`);
   };
 
   return (
-    <div className="w-full flex-1 bg-white absolute z-10 top-0 bottom-0 flex flex-col moveInFromLeft">
-      <div className="w-full h-20 flex flex-col justify-start ">
+    <div className="w-full flex-1 bg-white absolute z-10 top-0 bottom-0 flex flex-col moveInFromLeft overflow-y-scroll pb-5">
+      <div className="w-full flex flex-col justify-start ">
         <InputOutline
-          label="Username"
-          name="username"
-          value={username}
+          label="Name"
+          name="name"
+          value={name}
           editable={false}
           onEditClick={() =>
             store.dispatch(
               UIAction.setUpdatePopup({
                 isOpenning: true,
-                name: "username",
-                label: "username",
-                defaultValue: username,
+                name: "name",
+                label: "Name",
+                defaultValue: name,
               })
             )
           }
@@ -47,6 +61,24 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
                 name: "address",
                 label: "address",
                 defaultValue: address,
+              })
+            )
+          }
+        />
+        <InputOutline
+          label="Study at"
+          name="studyAt"
+          value={studyAt}
+          editable={false}
+          onEditClick={() =>
+            store.dispatch(
+              UIAction.setUpdatePopup({
+                isOpenning: true,
+                name: "studyAt",
+                label: "school/university",
+                description:
+                  "Update to let everyone know where you are studying",
+                defaultValue: studyAt,
               })
             )
           }
@@ -87,15 +119,15 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
           label="Birthdate"
           name="birthdate"
           type="date"
-          defaultValue={birthday}
+          defaultValue={dayOfBirth}
           editable={false}
           onEditClick={() =>
             store.dispatch(
               UIAction.setUpdatePopup({
                 isOpenning: true,
-                name: "birthdate",
+                name: "dayOfBirth",
                 label: "birthdate",
-                defaultValue: birthday,
+                defaultValue: dayOfBirth,
                 type: "date",
               })
             )
@@ -128,13 +160,54 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
               Hobbies
             </label>
           </div>
-          <div className="flex  mt-3 border-b border-gray-300 focus-within:border-indigo-600">
+          <div className="flex  mt-3 border-gray-300 focus-within:border-indigo-600">
             {hobbies.map((hobbie) => {
               return (
                 <Badge value={hobbie} onRemove={() => onRemoveHobbie(hobbie)} />
               );
             })}
           </div>
+        </div>
+      </div>
+      <DeviderWithText label="Control you profile" />
+      <div className="w-full flex flex-col justify-start text-base text-left">
+        <div className="px-3 flex justify-between items-center mt-5">
+          <div className="block font-medium text-black">Show age</div>
+          <ToggleButton
+            enabled={showAge}
+            onToggle={() => {
+              store.dispatch(userAction.toggleProfileConfig("showAge"));
+            }}
+          />
+        </div>
+        <div className="px-3 flex justify-between items-center mt-5">
+          <div className="block font-medium text-black">
+            Show where you are studying
+          </div>
+          <ToggleButton
+            enabled={showStudyAt}
+            onToggle={() => {
+              store.dispatch(userAction.toggleProfileConfig("showStudyAt"));
+            }}
+          />
+        </div>
+        <div className="px-3 flex justify-between items-center mt-5">
+          <div className="block font-medium text-black">Show your bio</div>
+          <ToggleButton
+            enabled={showBio}
+            onToggle={() => {
+              store.dispatch(userAction.toggleProfileConfig("showBio"));
+            }}
+          />
+        </div>
+        <div className="px-3 flex justify-between items-center mt-5">
+          <div className="block font-medium text-black">Show your hobbies</div>
+          <ToggleButton
+            enabled={showHobbies}
+            onToggle={() => {
+              store.dispatch(userAction.toggleProfileConfig("showHobbies"));
+            }}
+          />
         </div>
       </div>
     </div>

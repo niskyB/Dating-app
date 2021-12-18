@@ -19,7 +19,7 @@ const Card: React.FunctionComponent<CardProps> = ({ data }) => {
       >
         <div className="flex flex-col items-start justify-end w-full px-5 py-5 customShadow h-1/4">
           <div className="text-3xl font-medium text-white">
-            {data.username} {data.age}
+            {data.name} {data.age}
           </div>
           <div className="flex items-center justify-start my-2 text-base font-medium text-gray-200">
             <div className="text-white">

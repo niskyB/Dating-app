@@ -27,8 +27,8 @@ const RegisterPage: React.FunctionComponent<RegisterPageProps> = () => {
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <InputField
               register={register}
-              label="Username"
-              name="username"
+              label="Name"
+              name="name"
               type="text"
             />
             <InputField

@@ -1,6 +1,17 @@
 import { FindingConfig } from "./../../common/interface/redux/user";
 import { UserDataDTO } from "../../common/interface/dto/user";
-
+import { profileConfig } from "../../common/interface/entity/user";
+export const findingConfigDefault: FindingConfig = {
+  sex: "FEMALE",
+  minAge: 18,
+  maxAge: 20,
+};
+export const profileConfigDefault: profileConfig = {
+  showAge: true,
+  showBio: true,
+  showHobbies: false,
+  showStudyAt: true,
+};
 export const userDataDefault: UserDataDTO = {
   id: "",
   address: "197 Hoang Huu Nam, Quan 9, TP.HCM",
@@ -12,13 +23,12 @@ export const userDataDefault: UserDataDTO = {
   hobbies: ["game", "code", "travel"],
   matchList: [],
   phoneNumber: "0869025867",
-  username: "duc dauuu",
-  birthday: "2001-10-19",
+  name: "duc dauuu",
+  dayOfBirth: "2001-10-19",
   studyAt: "FPT University HCM",
-};
-
-export const findingConfigDefault: FindingConfig = {
-  sex: "FEMALE",
-  minAge: 18,
-  maxAge: 20,
+  findConfig: findingConfigDefault,
+  profileConfig: profileConfigDefault,
+  sex: "MALE",
+  createDate: "",
+  highlightImgs: [],
 };

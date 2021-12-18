@@ -17,12 +17,12 @@ const Setting: React.FunctionComponent<SettingProps> = () => {
       <label className="block text-base px-3 mb-3  text-black font-semibold">
         Finding setting
       </label>
-      <div className="flex-1 w-full  ">
+      <div className="flex-1 flex flex-col w-full  ">
         <div className="flex px-3 py-3 justify-between items-center bg-gray-300  border-y-1">
           <label className="text-base">Sex</label>
           <SelectedField
             data={sexFindingData}
-            current={UserState.findingConfig.sex}
+            current={UserState.data.findConfig.sex}
           />
         </div>
         <div className="flex px-3 py-3 justify-between items-center bg-gray-300  border-y-1">
@@ -31,19 +31,25 @@ const Setting: React.FunctionComponent<SettingProps> = () => {
             <div className="text-base px-2">From</div>
             <InputField
               name="minAge"
-              defaultValue={UserState.findingConfig.minAge}
+              defaultValue={UserState.data.findConfig.minAge}
               showLabel={false}
               register={register}
             />
             <div className="text-base px-2 ">to</div>
             <InputField
-              defaultValue={UserState.findingConfig.maxAge}
+              defaultValue={UserState.data.findConfig.maxAge}
               name="maxAge"
               showLabel={false}
               register={register}
             />
           </div>
         </div>
+        <button
+          type="submit"
+          className="  text-center self-end mr-4 mt-4 px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          Save
+        </button>
       </div>
     </form>
   );
