@@ -21,7 +21,7 @@ export const changePasswordSchema = Joi.object({
     .required()
     .trim()
     .messages(
-      JoiMessage.createArrayMessages({
+      JoiMessage.createStringMessages({
         field: 'New password',
         min: 6,
         max: 50,
