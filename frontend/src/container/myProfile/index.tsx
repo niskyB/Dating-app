@@ -3,12 +3,15 @@ import { UserState } from "../../common/interface/redux/user";
 import Badge from "../../component/badge";
 import InputOutline from "../../component/inputOutline";
 import TextField from "../../component/textField";
-import { RootState } from "../../store";
+import { RootState, store } from "../../store";
+import { UIAction } from "../../store/UI";
 
 interface MyProfileProps {}
 
 const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
   const userState = useSelector<RootState, UserState>((state) => state.user);
+  const { username, address, phoneNumber, email, birthday, bio, hobbies } =
+    userState.data;
   const onRemoveHobbie = (hobbie: string) => {
     console.log(`removing ${hobbie}....`);
   };
@@ -19,39 +22,102 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
         <InputOutline
           label="Username"
           name="username"
-          value={userState.data.username}
+          value={username}
           editable={false}
+          onEditClick={() =>
+            store.dispatch(
+              UIAction.setUpdatePopup({
+                isOpenning: true,
+                name: "username",
+                label: "username",
+                defaultValue: username,
+              })
+            )
+          }
         />
         <InputOutline
           label="Address"
           name="address"
-          value={userState.data.address}
+          value={address}
           editable={false}
+          onEditClick={() =>
+            store.dispatch(
+              UIAction.setUpdatePopup({
+                isOpenning: true,
+                name: "address",
+                label: "address",
+                defaultValue: address,
+              })
+            )
+          }
         />
         <InputOutline
           label="Phone number"
           name="phoneNumber"
-          value={userState.data.phoneNumber}
+          value={phoneNumber}
           editable={false}
+          onEditClick={() =>
+            store.dispatch(
+              UIAction.setUpdatePopup({
+                isOpenning: true,
+                name: "phoneNumber",
+                label: "phone number",
+                defaultValue: phoneNumber,
+              })
+            )
+          }
         />
         <InputOutline
           label="Email"
           name="email"
-          value={userState.data.email}
+          value={email}
           editable={false}
+          onEditClick={() =>
+            store.dispatch(
+              UIAction.setUpdatePopup({
+                isOpenning: true,
+                name: "email",
+                label: "email",
+                defaultValue: email,
+              })
+            )
+          }
         />
         <InputOutline
           label="Birthdate"
           name="birthdate"
           type="date"
-          defaultValue={userState.data.birthday}
+          defaultValue={birthday}
           editable={false}
+          onEditClick={() =>
+            store.dispatch(
+              UIAction.setUpdatePopup({
+                isOpenning: true,
+                name: "birthdate",
+                label: "birthdate",
+                defaultValue: birthday,
+                type: "date",
+              })
+            )
+          }
         />
         <TextField
           editable={false}
           name="bio"
           label="Bio"
-          value={userState.data.bio}
+          value={bio}
+          onEditClick={() =>
+            store.dispatch(
+              UIAction.setUpdatePopup({
+                isOpenning: true,
+                name: "bio",
+                label: "bio",
+                defaultValue: bio,
+                type: "textarea",
+                isTextArea: true,
+              })
+            )
+          }
         />
         <div className="mt-5">
           <div className="px-2 flex flex-row justify-between">
@@ -63,7 +129,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
             </label>
           </div>
           <div className="flex  mt-3 border-b border-gray-300 focus-within:border-indigo-600">
-            {userState.data.hobbies.map((hobbie) => {
+            {hobbies.map((hobbie) => {
               return (
                 <Badge value={hobbie} onRemove={() => onRemoveHobbie(hobbie)} />
               );

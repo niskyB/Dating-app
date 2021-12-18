@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { HomeIcon } from "@heroicons/react/solid";
+import { Link, Route, Routes } from "react-router-dom";
 import AvatarCircle from "../avatarCircle";
 import SettingIcon from "../icon/setting";
 
@@ -21,9 +22,23 @@ const TopSideBar: React.FunctionComponent<TopSideBarProps> = ({ isLogin }) => {
               Duc Dauu
             </div>
           </div>
-          <Link to={"/setting"} className="text-white">
-            <SettingIcon />
-          </Link>
+          <div className="flex">
+            <Routes>
+              {["/me", "setting"].map((link) => (
+                <Route
+                  path={link}
+                  element={
+                    <Link to="/">
+                      <HomeIcon className="w-8 h-8 text-white hover:scale-125 duration-200 cursor-pointer" />
+                    </Link>
+                  }
+                />
+              ))}
+            </Routes>
+            <Link to={"/setting"} className="text-white ml-2">
+              <SettingIcon />
+            </Link>
+          </div>
         </>
       )}
     </div>

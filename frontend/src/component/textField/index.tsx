@@ -3,6 +3,7 @@ interface TextFieldProps {
   label: string;
   editable?: boolean;
   value: string;
+  onEditClick?: () => any;
 }
 
 const TextField: React.FunctionComponent<TextFieldProps> = ({
@@ -10,17 +11,21 @@ const TextField: React.FunctionComponent<TextFieldProps> = ({
   label,
   editable = true,
   value,
+  onEditClick,
 }) => {
   return (
     <div className="mt-5">
       <div className="px-2 flex flex-row justify-between">
         <label
           htmlFor={name}
-          className="block text-base  font-medium text-gray-500"
+          className="block text-base  font-medium text-black"
         >
           {label}
         </label>
-        <div className="text-base text-blue-500 font-semibold cursor-pointer">
+        <div
+          className="text-base text-blue-500 font-semibold cursor-pointer"
+          onClick={onEditClick}
+        >
           Edit
         </div>
       </div>

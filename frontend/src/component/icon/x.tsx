@@ -5,6 +5,7 @@ function XIcon() {
       className="h-12 w-12 hover:scale-125 cursor-pointer transition-all duration-300 "
       fill="none"
       viewBox="0 0 24 24"
+      width="in"
       stroke="currentColor"
     >
       <path

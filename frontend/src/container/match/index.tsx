@@ -1,5 +1,4 @@
 import React from "react";
-import EducationIcon from "../../component/icon/education";
 import HeartIcon from "../../component/icon/heart";
 import XIcon from "../../component/icon/x";
 import TinderCard from "react-tinder-card";

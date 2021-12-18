@@ -5,6 +5,7 @@ interface InputOutlineProps {
   editable?: boolean;
   type?: string;
   defaultValue?: string;
+  onEditClick?: () => any;
 }
 
 const InputOutline: React.FunctionComponent<InputOutlineProps> = ({
@@ -14,17 +15,21 @@ const InputOutline: React.FunctionComponent<InputOutlineProps> = ({
   editable = true,
   type = "text",
   defaultValue,
+  onEditClick,
 }) => {
   return (
     <div className="mt-5">
       <div className="px-2 flex flex-row justify-between">
         <label
           htmlFor={name}
-          className="block text-base  font-medium text-gray-500"
+          className="block text-base  font-medium text-black"
         >
           {label}
         </label>
-        <div className="text-base text-blue-500 font-semibold cursor-pointer">
+        <div
+          className="text-base text-blue-500 font-semibold cursor-pointer"
+          onClick={onEditClick}
+        >
           Edit
         </div>
       </div>
