@@ -53,4 +53,7 @@ export const createUserSchema = Joi.object({
       ...JoiMessage.createStringMessages({ field: 'Sex' }),
       'any.only': ResponseMessage.INVALID_SEX,
     }),
+  dateOfBirth: Joi.date()
+    .required()
+    .messages(JoiMessage.createDateMessages({ field: 'Date of birth' })),
 });

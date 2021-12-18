@@ -21,6 +21,7 @@ import { apiResponse } from '../common/interface/apiResponse';
 import {
   ChangeUserAddressDto,
   ChangeUserBioDto,
+  ChangeUserDateOfBirth,
   ChangeUserNameDto,
   ChangeUserPhoneDto,
   ChangeUserSexDto,
@@ -28,6 +29,7 @@ import {
 import {
   changeUserAddressSchema,
   changeUserBioSchema,
+  changeUserDateOfBirthSchema,
   changeUserNameSchema,
   changeUserPhoneSchema,
   changeUserSexSchema,
@@ -220,6 +222,32 @@ export class UserController {
 
     const result = await this.userService.changeAvatar(
       file,
+      req.currentUser.id,
+    );
+
+    const token = this.authService.creatToken(result);
+
+    this.authService.setCookie(res, TOKEN, token, HttpStatus.OK, MAX_AGE);
+
+    return apiResponse.send(null, null);
+  }
+
+  /**
+   * @description PUT method for user to change date of birth
+   * @param changeUserDateOfBirth
+   * @param req
+   * @param res
+   * @returns response form with no data and error
+   */
+  @Put('/date-of-birth')
+  @UsePipes(new JoiValidationPipe(changeUserDateOfBirthSchema))
+  async changeDateOfBirth(
+    @Body() changeUserDateOfBirth: ChangeUserDateOfBirth,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const result = await this.userService.changeDateOfBirth(
+      changeUserDateOfBirth,
       req.currentUser.id,
     );
 

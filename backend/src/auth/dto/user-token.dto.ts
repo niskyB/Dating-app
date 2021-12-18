@@ -28,4 +28,7 @@ export class UserToken {
 
   @Expose()
   createDate: Date;
+
+  @Expose()
+  dateOfBirth: Date;
 }

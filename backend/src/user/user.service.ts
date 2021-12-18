@@ -11,6 +11,7 @@ import { SALT } from '../constants/bcrypt.constants';
 import {
   ChangeUserAddressDto,
   ChangeUserBioDto,
+  ChangeUserDateOfBirth,
   ChangeUserNameDto,
   ChangeUserPhoneDto,
   ChangeUserSexDto,
@@ -180,9 +181,31 @@ export class UserService {
     return await this.userRepository.save(user);
   }
 
+  /**
+   * @description update user avatar to database
+   * @param file
+   * @param id
+   * @returns Promise<User>
+   */
   async changeAvatar(file: Express.Multer.File, id: string): Promise<User> {
     const user = await this.findOneByField('id', id);
     user.avatar = file.filename;
+
+    return await this.userRepository.save(user);
+  }
+
+  /**
+   * @description update user date of birth to database
+   * @param changeUserDateOfBirth
+   * @param id
+   * @returns Promise<User>
+   */
+  async changeDateOfBirth(
+    changeUserDateOfBirth: ChangeUserDateOfBirth,
+    id: string,
+  ): Promise<User> {
+    const user = await this.findOneByField('id', id);
+    user.dateOfBirth = changeUserDateOfBirth.dateOfBirth;
 
     return await this.userRepository.save(user);
   }

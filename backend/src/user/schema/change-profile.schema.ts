@@ -53,3 +53,9 @@ export const changeUserSexSchema = Joi.object({
       'any.only': ResponseMessage.INVALID_SEX,
     }),
 });
+
+export const changeUserDateOfBirthSchema = Joi.object({
+  dateOfBirth: Joi.date()
+    .required()
+    .messages(JoiMessage.createDateMessages({ field: 'Date of birth' })),
+});
