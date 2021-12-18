@@ -17,7 +17,7 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
   const userState = useSelector<RootState, UserState>((state) => state.user);
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
   return (
-    <div className="flex flex-col w-full h-screen max-w-sm bg-white overflow-hidden">
+    <div className="flex flex-col w-full h-screen max-w-sm overflow-hidden bg-white">
       <TopSideBar isLogin={userState.isLogin} />
       <div
         className={`flex flex-col relative ${

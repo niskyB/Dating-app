@@ -80,6 +80,46 @@ const data: matchData[] = [
     bio: "test test test test test test test test test test test test test test test ",
     studyAt: "NTT",
   },
+  {
+    avatar:
+      "https://scontent.fdad1-2.fna.fbcdn.net/v/t1.6435-9/89509099_2392946930945950_5348971859784237056_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=G2k9CRljZhEAX-vWx-r&_nc_ht=scontent.fdad1-2.fna&oh=00_AT-G2gI0ZNTNJjnI_-ZD1sjcnF3Ar36omjl1Tv68DdlbVQ&oe=61E0391D",
+    name: "Quynh Nhuw",
+    age: 40,
+    bio: "test test test test test test test test test test test test test test test ",
+    studyAt: "NTT",
+  },
+  {
+    avatar:
+      "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/263488927_4023040267796341_1123261746121990824_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=1JrkpO5HNHsAX-GbPwH&_nc_ht=scontent.fdad1-2.fna&oh=00_AT8sWZGIyOp5tdTtDOyeLC3PwDiass9IagSJ8dx3x8Y73g&oe=61BFA74E",
+    name: "Tuan Nguyen",
+    age: 40,
+    bio: "test test test test test test test test test test test test test test test ",
+    studyAt: "NTT",
+  },
+  {
+    avatar:
+      "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.6435-1/p320x320/134116226_1528278150701049_7055072940211633866_n.jpg?_nc_cat=100&ccb=1-5&_nc_sid=7206a8&_nc_ohc=ibzwgKNMBusAX_Rv3rm&_nc_oc=AQkBoTDjsC6PM6PxryXWQijPzjgmbTCuRiE21ZWybISKEcTv2dsvXDxx-K-2YsiQfeW9xhZwbkDoSE_Sp6wekw8g&_nc_ht=scontent.fdad1-1.fna&oh=00_AT_cyMkEdl12L6FAapjYCBn4G1dolKgQZ_haFCI_SaWwOQ&oe=61DF049E",
+    name: "Phuoc Thanh",
+    age: 40,
+    bio: "test test test test test test test test test test test test test test test ",
+    studyAt: "NTT",
+  },
+  {
+    avatar:
+      "https://scontent.fdad1-2.fna.fbcdn.net/v/t1.6435-9/134730612_2150353421765290_5839745717352446089_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=mdX1H50ZLtAAX95vrSH&tn=DcZMTwYmrWFGBHGB&_nc_ht=scontent.fdad1-2.fna&oh=00_AT_z6c9al1hVJ7a68KkQWp2NTVMqrfQjOvUVWKObqPkOBQ&oe=61E13235",
+    name: "Thach Chi Khang",
+    age: 40,
+    bio: "test test test test test test test test test test test test test test test ",
+    studyAt: "NTT",
+  },
+  {
+    avatar:
+      "https://scontent.fdad1-2.fna.fbcdn.net/v/t1.6435-9/49864710_2220390381561723_7665445716214415360_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=XgSFRM89LswAX_sseS4&_nc_ht=scontent.fdad1-2.fna&oh=00_AT9GrHxP-ylLKQeRIbUvW3JujJXPNtgwZCI5QyLJhgFYmA&oe=61E1A6BD",
+    name: "Pham Vinh Nhan",
+    age: 32,
+    bio: "test test test test test test test test test test test test test test test ",
+    studyAt: "NTT",
+  },
 ];
 
 const MatchPage: React.FunctionComponent<MatchPageProps> = () => {

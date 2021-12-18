@@ -29,13 +29,13 @@ const TopSideBar: React.FunctionComponent<TopSideBarProps> = ({ isLogin }) => {
                   path={link}
                   element={
                     <Link to="/">
-                      <HomeIcon className="w-8 h-8 text-white hover:scale-125 duration-200 cursor-pointer" />
+                      <HomeIcon className="w-8 h-8 text-white duration-200 cursor-pointer hover:scale-125" />
                     </Link>
                   }
                 />
               ))}
             </Routes>
-            <Link to={"/setting"} className="text-white ml-2">
+            <Link to={"/setting"} className="ml-2 text-white">
               <SettingIcon />
             </Link>
           </div>
