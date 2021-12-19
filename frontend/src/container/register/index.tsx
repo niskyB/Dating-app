@@ -5,15 +5,25 @@ import InputField from "../../component/inputField";
 import { RegisterUserDTO } from "../../common/interface/dto/user";
 import CheckBox from "../../component/checkbox";
 import { useState } from "react";
+import { userRegister } from "./action";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
+import { FormState } from "../../common/interface/redux/form";
 
 interface RegisterPageProps {}
 
 const RegisterPage: React.FunctionComponent<RegisterPageProps> = () => {
+  const form = useSelector<RootState, FormState>((state) => state.form);
   const { register, handleSubmit } = useForm<RegisterUserDTO>();
   const [maleCheck, setMaleCheck] = useState(false);
   const [femaleCheck, setFemaleCheck] = useState(false);
-  const onSubmit: SubmitHandler<RegisterUserDTO> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<RegisterUserDTO> = async (data) => {
+    if (maleCheck) {
+      data.sex = "MALE";
+    } else if (femaleCheck) {
+      data.sex = "FEMALE";
+    }
+    await userRegister(data);
   };
   return (
     <div className="flex flex-col justify-center w-full h-auto py-10 sm:px-6 lg:px-8 ">
@@ -34,42 +44,49 @@ const RegisterPage: React.FunctionComponent<RegisterPageProps> = () => {
               label="Name"
               name="name"
               type="text"
+              errorMessage={form.errors.name}
             />
             <InputField
               register={register}
               label="Email"
               name="email"
               type="email"
+              errorMessage={form.errors.email}
             />
             <InputField
               register={register}
               label="Phone number"
-              name="phoneNumber"
+              name="phone"
               type="text"
+              errorMessage={form.errors.phone}
             />
             <InputField
               register={register}
               label="Address"
               name="address"
               type="text"
+              errorMessage={form.errors.address}
             />
             <InputField
               register={register}
               type="password"
               label="Password"
               name="password"
+              errorMessage={form.errors.password}
             />
             <InputField
               register={register}
               type="password"
               label="Confirm Password"
               name="confirmPassword"
+              errorMessage={form.errors.confirmPassword}
             />
             <InputField
               register={register}
               type="date"
               label="Birthdate"
-              name="dayOfBirth"
+              name="dateOfBirth"
+              errorMessage={form.errors.dateOfBirth}
             />
             <div className="flex">
               <CheckBox
@@ -94,6 +111,9 @@ const RegisterPage: React.FunctionComponent<RegisterPageProps> = () => {
                 className="ml-5"
               />
             </div>
+            {form.errors.sex && (
+              <p className="text-sm text-red-600 mt-1">{form.errors.sex}</p>
+            )}
             <div className="mt-2">
               <button
                 type="submit"

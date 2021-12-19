@@ -3,7 +3,7 @@ import { ReduxAction } from "../../common/interface/common/redux";
 import { UserState } from "../../common/interface/redux/user";
 import { userDataDefault } from "../defaultData/user";
 const initialState: UserState = {
-  isLogin: true,
+  isLogin: false,
   data: userDataDefault,
 };
 
@@ -17,10 +17,6 @@ export const user = createSlice({
         payload,
       }: ReduxAction<"showAge" | "showBio" | "showHobbies" | "showStudyAt">
     ) => {
-      // const decoyState = { ...state };
-      // decoyState.data.profileConfig[payload] =
-      //   !state.data.profileConfig[payload];
-
       return {
         ...state,
         data: {
@@ -30,6 +26,12 @@ export const user = createSlice({
             [payload]: !state.data.profileConfig[payload],
           },
         },
+      };
+    },
+    setIsLogin: (state: UserState, { payload }: ReduxAction<boolean>) => {
+      return {
+        ...state,
+        isLogin: payload,
       };
     },
   },

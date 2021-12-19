@@ -26,13 +26,13 @@ export interface User {
   password: string;
   bio: string;
   name: string;
-  phoneNumber: string;
+  phone: string;
   sex: sexEnumString;
   address: string;
   avatar: string;
   hobbies: Hobby[];
   matchList: User[];
-  dayOfBirth: string;
+  dateOfBirth: string;
   studyAt: string;
   findConfig: findConfig;
   profileConfig: profileConfig;

@@ -1,4 +1,3 @@
-import { highlightImg } from "./../../common/interface/entity/user";
 import { FindingConfig } from "./../../common/interface/redux/user";
 import { UserDataDTO } from "../../common/interface/dto/user";
 import { profileConfig } from "../../common/interface/entity/user";
@@ -33,9 +32,9 @@ export const userDataDefault: UserDataDTO = {
     { id: "3", name: "sleep" },
   ],
   matchList: [],
-  phoneNumber: "0869025867",
+  phone: "0869025867",
   name: "duc dauuu",
-  dayOfBirth: "2001-10-19",
+  dateOfBirth: "2001-10-19",
   studyAt: "FPT University HCM",
   findConfig: findingConfigDefault,
   profileConfig: profileConfigDefault,

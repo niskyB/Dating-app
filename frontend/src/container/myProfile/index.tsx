@@ -20,9 +20,9 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
   const {
     name,
     address,
-    phoneNumber,
+    phone,
     email,
-    dayOfBirth,
+    dateOfBirth,
     bio,
     hobbies,
     studyAt,
@@ -89,16 +89,16 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
         />
         <InputOutline
           label="Phone number"
-          name="phoneNumber"
-          value={phoneNumber}
+          name="phone"
+          value={phone}
           editable={false}
           onEditClick={() =>
             store.dispatch(
               UIAction.setUpdatePopup({
                 isOpenning: true,
-                name: "phoneNumber",
+                name: "phone",
                 label: "phone number",
-                defaultValue: phoneNumber,
+                defaultValue: phone,
               })
             )
           }
@@ -123,15 +123,15 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
           label="Birthdate"
           name="birthdate"
           type="date"
-          defaultValue={dayOfBirth}
+          defaultValue={dateOfBirth}
           editable={false}
           onEditClick={() =>
             store.dispatch(
               UIAction.setUpdatePopup({
                 isOpenning: true,
-                name: "dayOfBirth",
+                name: "dateOfBirth",
                 label: "birthdate",
-                defaultValue: dayOfBirth,
+                defaultValue: dateOfBirth,
                 type: "date",
               })
             )

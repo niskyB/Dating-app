@@ -2,18 +2,27 @@ import { Link } from "react-router-dom";
 import LogoIcon from "../../component/icon/logo";
 import InputField from "../../component/inputField";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { LoginUserDTO } from "../../common/interface/dto/user";
+import { LoginUserDTO } from "./interface";
+import { useSelector } from "react-redux";
+import { RootState, store } from "../../store";
+import { FormState } from "../../common/interface/redux/form";
+import { login } from "./action";
+import { userAction } from "../../store/user";
 interface LoginPageProps {}
 
 const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
   const { register, handleSubmit } = useForm<LoginUserDTO>();
-  const onSubmit: SubmitHandler<LoginUserDTO> = (data) => {
-    console.log(data);
+  const form = useSelector<RootState, FormState>((state) => state.form);
+  const onSubmit: SubmitHandler<LoginUserDTO> = async (data) => {
+    const response = await login(data);
+    if (response.status === 200) {
+      store.dispatch(userAction.setIsLogin(true));
+    }
   };
   return (
-    <div className="flex flex-col justify-center w-full h-screen  sm:px-6 lg:px-8 ">
+    <div className="flex flex-col justify-center w-full h-screen sm:px-6 lg:px-8 ">
       <div className="sm:mx-auto sm:w-full sm:max-w-md intro-y">
-        <div className="mx-auto text-purple-700 w-20 h-20">
+        <div className="w-20 h-20 mx-auto text-purple-700">
           <LogoIcon />
         </div>
         <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900 uppercase">
@@ -26,15 +35,17 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <InputField
               register={register}
-              label="Username"
-              name="username"
+              label="Email"
+              name="email"
               type="text"
+              errorMessage={form.errors.email}
             />
             <InputField
               register={register}
               type="password"
               label="Password"
               name="password"
+              errorMessage={form.errors.password}
             />
             <div className="mt-2">
               <button
@@ -49,7 +60,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
                 Don't have account yet?
                 <Link
                   to="/register"
-                  className="font-semibold ml-1 text-indigo-600 underline hover:text-indigo-500"
+                  className="ml-1 font-semibold text-indigo-600 underline hover:text-indigo-500"
                 >
                   Register
                 </Link>
