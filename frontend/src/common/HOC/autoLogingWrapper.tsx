@@ -11,8 +11,7 @@ const AutoLogingWrapper: React.FunctionComponent<AutoLogingWrapperProps> = ({
 }) => {
   const user = useSelector<RootState, UserState>((state) => state.user);
   useEffect(() => {
-    if (user.isLogin) store.dispatch(userThunk.getCurrentUser());
-    return () => {};
+    store.dispatch(userThunk.getCurrentUser());
   }, [user.isLogin]);
   return <>{children}</>;
 };

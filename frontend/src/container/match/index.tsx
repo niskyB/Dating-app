@@ -5,7 +5,6 @@ import TinderCard from "react-tinder-card";
 import GoBackIcon from "../../component/icon/goBack";
 import Card from "../../component/card";
 import MatchWrapper from "../../component/matchWrapper";
-import { Hobby } from "../../common/interface/entity/user";
 interface MatchPageProps {}
 
 export interface matchData {

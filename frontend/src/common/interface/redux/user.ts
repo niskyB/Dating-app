@@ -9,8 +9,8 @@ export enum sexEnum {
 }
 
 export type sexEnumString = keyof typeof sexEnum;
-export interface FindingConfig {
-  sex: sexEnumString;
+export interface FindingOptions {
+  sexOption: sexEnumString;
   minAge: number;
   maxAge: number;
 }

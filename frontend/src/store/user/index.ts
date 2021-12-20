@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ReduxAction } from "../../common/interface/common/redux";
 import { UserState } from "../../common/interface/redux/user";
 import { userDataDefault } from "../defaultData/user";
+import { userThunk } from "./thunk";
 const initialState: UserState = {
   isLogin: false,
   data: userDataDefault,
@@ -11,7 +12,7 @@ export const user = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
-    toggleProfileConfig: (
+    toggleShowOptions: (
       state: UserState,
       {
         payload,
@@ -21,9 +22,9 @@ export const user = createSlice({
         ...state,
         data: {
           ...state.data,
-          profileConfig: {
-            ...state.data.profileConfig,
-            [payload]: !state.data.profileConfig[payload],
+          showOptions: {
+            ...state.data.showOptions,
+            [payload]: !state.data.showOptions[payload],
           },
         },
       };
@@ -35,7 +36,18 @@ export const user = createSlice({
       };
     },
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder.addCase(
+      userThunk.getCurrentUser.fulfilled,
+      (state, { payload }) => {
+        return {
+          ...state,
+          isLogin: true,
+          data: { ...payload },
+        };
+      }
+    );
+  },
 });
 
 export const userAction = { ...user.actions };

@@ -1,11 +1,11 @@
 import { sexEnumString } from "./../redux/user";
-export interface findConfig {
+export interface findOption {
   minAge: number;
   maxAge: number;
-  sex: sexEnumString;
+  sexOption: sexEnumString;
 }
 
-export interface profileConfig {
+export interface showOptions {
   showAge: boolean;
   showStudyAt: boolean;
   showBio: boolean;
@@ -34,8 +34,8 @@ export interface User {
   matchList: User[];
   dateOfBirth: string;
   studyAt: string;
-  findConfig: findConfig;
-  profileConfig: profileConfig;
+  findOptions: findOption;
+  showOptions: showOptions;
   createDate: string;
   highlightImgs: highlightImg[];
 }

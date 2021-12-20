@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosClient from "../../axios/config";
+import { UserDataDTO } from "../../common/interface/dto/user";
 
 export const userThunk = {
-  getCurrentUser: createAsyncThunk("getCurrentUser", async () => {
+  getCurrentUser: createAsyncThunk<UserDataDTO>("getCurrentUser", async () => {
     const url = "/api/users";
-    const res = axiosClient.get(url);
-    console.log(res);
+    return (await axiosClient.get(url)).data.data;
   }),
 };

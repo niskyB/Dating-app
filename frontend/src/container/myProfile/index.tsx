@@ -15,7 +15,7 @@ interface MyProfileProps {}
 const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
   const userState = useSelector<RootState, UserState>((state) => state.user);
   const { showAge, showBio, showHobbies, showStudyAt } =
-    userState.data.profileConfig;
+    userState.data.showOptions;
 
   const {
     name,
@@ -183,7 +183,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
           <ToggleButton
             enabled={showAge}
             onToggle={() => {
-              store.dispatch(userAction.toggleProfileConfig("showAge"));
+              store.dispatch(userAction.toggleShowOptions("showAge"));
             }}
           />
         </div>
@@ -194,7 +194,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
           <ToggleButton
             enabled={showStudyAt}
             onToggle={() => {
-              store.dispatch(userAction.toggleProfileConfig("showStudyAt"));
+              store.dispatch(userAction.toggleShowOptions("showStudyAt"));
             }}
           />
         </div>
@@ -203,7 +203,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
           <ToggleButton
             enabled={showBio}
             onToggle={() => {
-              store.dispatch(userAction.toggleProfileConfig("showBio"));
+              store.dispatch(userAction.toggleShowOptions("showBio"));
             }}
           />
         </div>
@@ -212,7 +212,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
           <ToggleButton
             enabled={showHobbies}
             onToggle={() => {
-              store.dispatch(userAction.toggleProfileConfig("showHobbies"));
+              store.dispatch(userAction.toggleShowOptions("showHobbies"));
             }}
           />
         </div>

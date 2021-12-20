@@ -10,7 +10,7 @@ const PreviewProfile: React.FunctionComponent<PreviewProfileProps> = () => {
   const userState = useSelector<RootState, UserState>((state) => state.user);
   const { avatar, bio, name, dateOfBirth, studyAt } = userState.data;
   const { showAge, showBio, showHobbies, showStudyAt } =
-    userState.data.profileConfig;
+    userState.data.showOptions;
   const dateOfBirthYear = new Date(dateOfBirth).getFullYear();
   const currentYear = new Date().getFullYear();
   return (
