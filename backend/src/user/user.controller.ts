@@ -121,7 +121,7 @@ export class UserController {
    * @param req
    * @returns response form with no data and error
    */
-  @Put('/phone-number')
+  @Put('/phone')
   @UsePipes(new JoiValidationPipe(changeUserPhoneSchema))
   async changePhone(
     @Body() changeUserPhoneDto: ChangeUserPhoneDto,
@@ -200,7 +200,7 @@ export class UserController {
    * @param req
    * @returns response form with no data and error
    */
-  @Put('/date-of-birth')
+  @Put('/dateOfBirth')
   @UsePipes(new JoiValidationPipe(changeUserDateOfBirthSchema))
   async changeDateOfBirth(
     @Body() changeUserDateOfBirth: ChangeUserDateOfBirth,
@@ -220,7 +220,7 @@ export class UserController {
    * @param req
    * @returns response form with no data and error
    */
-  @Put('/highlight-imgs')
+  @Put('/highlightImgs')
   @UseInterceptors(FilesInterceptor('images', MAX_COUNT, multerOptions))
   async changeUserHighlightImgs(
     @UploadedFiles() files: Array<Express.Multer.File>,
