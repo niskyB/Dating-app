@@ -2,16 +2,18 @@ interface TextFieldProps {
   name: string;
   label: string;
   editable?: boolean;
-  value: string;
+  defaultValue?: string;
   onEditClick?: () => any;
+  value?: string;
 }
 
 const TextField: React.FunctionComponent<TextFieldProps> = ({
   name,
   label,
   editable = true,
-  value,
   onEditClick,
+  defaultValue,
+  value,
 }) => {
   return (
     <div className="mt-5">
@@ -36,7 +38,8 @@ const TextField: React.FunctionComponent<TextFieldProps> = ({
           name="comment"
           id="comment"
           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm bg-gray-300 border-gray-300 "
-          defaultValue={value}
+          defaultValue={defaultValue}
+          value={value}
         />
       </div>
     </div>

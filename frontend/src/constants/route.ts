@@ -26,12 +26,13 @@ export const contentRoutes: route[] = [
   {
     link: "/messages/:id",
     component: ChatBox,
-    isLoginRequire: false,
+    isLoginRequire: true,
   },
-  { link: "/me", component: PreviewProfile, isLoginRequire: false },
+  { link: "/me", component: PreviewProfile, isLoginRequire: true },
   {
     link: "/*",
     component: MatchPage,
+    isLoginRequire: true,
   },
 ];
 
@@ -39,11 +40,11 @@ export const sideBarRoute: route[] = [
   {
     link: "/me",
     component: MyProfile,
-    isLoginRequire: false,
+    isLoginRequire: true,
   },
   {
     link: "/setting",
     component: Setting,
-    isLoginRequire: false,
+    isLoginRequire: true,
   },
 ];

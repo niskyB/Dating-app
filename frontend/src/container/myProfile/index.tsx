@@ -8,7 +8,9 @@ import ToggleButton from "../../component/toggleButton";
 import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
 import { userAction } from "../../store/user";
+import { parseDate } from "../../utils/dataHelper";
 import HighlightImage from "../highlightImage";
+import LogoutSection from "../logout";
 
 interface MyProfileProps {}
 
@@ -29,6 +31,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
     highlightImgs,
     avatar,
   } = userState.data;
+  const dateOfBirthString = parseDate(dateOfBirth);
   const onRemoveHobby = (hobby: string) => {
     console.log(`removing ${hobby}....`);
   };
@@ -105,6 +108,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
         />
         <InputOutline
           label="Email"
+          updatable={false}
           name="email"
           value={email}
           editable={false}
@@ -123,7 +127,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
           label="Birthdate"
           name="birthdate"
           type="date"
-          defaultValue={dateOfBirth}
+          value={parseDate(dateOfBirthString)}
           editable={false}
           onEditClick={() =>
             store.dispatch(
@@ -131,7 +135,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
                 isOpenning: true,
                 name: "dateOfBirth",
                 label: "birthdate",
-                defaultValue: dateOfBirth,
+                defaultValue: dateOfBirthString,
                 type: "date",
               })
             )
@@ -141,6 +145,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
           editable={false}
           name="bio"
           label="Bio"
+          defaultValue={bio}
           value={bio}
           onEditClick={() =>
             store.dispatch(
@@ -216,6 +221,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
             }}
           />
         </div>
+        <LogoutSection />
       </div>
     </div>
   );

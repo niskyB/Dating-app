@@ -47,6 +47,15 @@ export const user = createSlice({
         };
       }
     );
+    // builder.addCase(userThunk.updateUserInfo.fulfilled, (state, action) => {
+    //   return {
+    //     ...state,
+    //     data: {
+    //       ...state.data,
+    //       [action.meta.arg.name]: action.meta.arg.newValue,
+    //     },
+    //   };
+    // });
   },
 });
 

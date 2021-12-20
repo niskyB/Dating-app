@@ -3,7 +3,10 @@ import { useSelector } from "react-redux";
 import { UIState } from "../../common/interface/redux/ui";
 import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
-
+import { useForm, SubmitHandler } from "react-hook-form";
+import { userThunk } from "../../store/user/thunk";
+import { openSuccessNotification } from "../../utils/notificationHelper";
+import { updateUserInfo } from "./action";
 const UpdateInfoPopup: React.FunctionComponent = () => {
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
   const {
@@ -16,18 +19,33 @@ const UpdateInfoPopup: React.FunctionComponent = () => {
     isOpenning,
     isTextArea = false,
   } = UIState.updatePopup;
+  const { register, handleSubmit } = useForm<any>({
+    defaultValues: { [name]: defaultValue },
+  });
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    const res = await updateUserInfo(name, data[name]);
+    if (res.status === 200) {
+      store.dispatch(userThunk.getCurrentUser());
+      store.dispatch(UIAction.closeUpdatePopup());
+      openSuccessNotification(`Update your ${name} success!`);
+    }
+  };
+
   if (isOpenning)
     return (
       <>
-        <div className="bg-white shadow sm:rounded-lg fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 ">
+        <div className="fixed z-40 -translate-x-1/2 -translate-y-1/2 bg-white shadow sm:rounded-lg top-1/2 left-1/2 ">
           <div className="px-4 py-5 sm:p-6 ">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">
+            <h3 className="text-lg font-medium leading-6 text-gray-900">
               Update your {label}
             </h3>
-            <div className="mt-2 max-w-xl text-sm text-gray-500">
+            <div className="max-w-xl mt-2 text-sm text-gray-500">
               <p>{description}</p>
             </div>
-            <form className="mt-5 sm:flex sm:items-center">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="mt-5 sm:flex sm:items-center"
+            >
               <div className="w-full sm:max-w-xs">
                 <label htmlFor={name} className="sr-only">
                   {label}
@@ -35,20 +53,19 @@ const UpdateInfoPopup: React.FunctionComponent = () => {
                 {isTextArea ? (
                   <>
                     <textarea
+                      {...register(name)}
                       rows={4}
-                      name="comment"
-                      id="comment"
-                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm bg-gray-300 border-gray-300 "
                       defaultValue={defaultValue}
+                      className="block w-full bg-gray-300 border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm "
                     />
                   </>
                 ) : (
                   <input
+                    {...register(name)}
                     value={value}
                     defaultValue={defaultValue}
                     type={type}
-                    name={name}
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 )}
               </div>
@@ -63,13 +80,13 @@ const UpdateInfoPopup: React.FunctionComponent = () => {
             </form>
           </div>
           <div
-            className="text-gray-500 w-8 h-8 absolute right-5 top-5"
+            className="absolute w-8 h-8 text-gray-500 right-5 top-5"
             onClick={() => store.dispatch(UIAction.closeUpdatePopup())}
           >
             <XIcon className="w-8 h-8 text-gray-500 cursor-pointer " />
           </div>
         </div>
-        <div className="bg-gray-300 w-screen h-screen opacity-80 fixed inset-0 z-30"></div>
+        <div className="fixed inset-0 z-30 w-screen h-screen bg-gray-300 opacity-80"></div>
       </>
     );
   return <></>;
