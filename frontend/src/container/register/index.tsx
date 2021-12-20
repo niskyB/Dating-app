@@ -1,18 +1,20 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoIcon from "../../component/icon/logo";
 import InputField from "../../component/inputField";
-import { RegisterUserDTO } from "../../common/interface/dto/user";
 import CheckBox from "../../component/checkbox";
 import { useState } from "react";
 import { userRegister } from "./action";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import { FormState } from "../../common/interface/redux/form";
+import { RegisterUserDTO } from "./interface.dto";
+import { openSuccessNotification } from "../../utils/notificationHelper";
 
 interface RegisterPageProps {}
 
 const RegisterPage: React.FunctionComponent<RegisterPageProps> = () => {
+  const navigate = useNavigate();
   const form = useSelector<RootState, FormState>((state) => state.form);
   const { register, handleSubmit } = useForm<RegisterUserDTO>();
   const [maleCheck, setMaleCheck] = useState(false);
@@ -23,7 +25,11 @@ const RegisterPage: React.FunctionComponent<RegisterPageProps> = () => {
     } else if (femaleCheck) {
       data.sex = "FEMALE";
     }
-    await userRegister(data);
+    const response = await userRegister(data);
+    if (response.status === 201) {
+      openSuccessNotification("register success!");
+      navigate("/login");
+    }
   };
   return (
     <div className="flex flex-col justify-center w-full h-auto py-10 sm:px-6 lg:px-8 ">
@@ -112,7 +118,7 @@ const RegisterPage: React.FunctionComponent<RegisterPageProps> = () => {
               />
             </div>
             {form.errors.sex && (
-              <p className="text-sm text-red-600 mt-1">{form.errors.sex}</p>
+              <p className="mt-1 text-sm text-red-600">{form.errors.sex}</p>
             )}
             <div className="mt-2">
               <button

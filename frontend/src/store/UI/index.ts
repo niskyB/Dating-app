@@ -1,11 +1,19 @@
 import { updateInfoPopupDefault } from "../defaultData/UI";
-import { UIState, UpdatePopupData } from "../../common/interface/redux/ui";
+import {
+  NotificationData,
+  SuccessModelData,
+  UIState,
+  UpdatePopupData,
+} from "../../common/interface/redux/ui";
 import { createSlice } from "@reduxjs/toolkit";
 import { ReduxAction } from "../../common/interface/common/redux";
+import { notificationDefault, successModelDefault } from "../defaultData/user";
 const initialState: UIState = {
   isMatchOpen: true,
   isMessagesOpen: false,
   updatePopup: updateInfoPopupDefault,
+  successModel: successModelDefault,
+  notification: notificationDefault,
 };
 
 export const UI = createSlice({
@@ -42,6 +50,36 @@ export const UI = createSlice({
       return {
         ...state,
         updatePopup: { ...payload },
+      };
+    },
+    onCloseSuccessModel: (state: UIState) => {
+      return {
+        ...state,
+        successModel: successModelDefault,
+      };
+    },
+    setSuccessModel: (
+      state: UIState,
+      { payload }: ReduxAction<SuccessModelData>
+    ) => {
+      return {
+        ...state,
+        successModel: { ...payload },
+      };
+    },
+    setNotification: (
+      state: UIState,
+      { payload }: ReduxAction<NotificationData>
+    ) => {
+      return {
+        ...state,
+        notification: { ...payload },
+      };
+    },
+    onCloseNotification: (state: UIState) => {
+      return {
+        ...state,
+        notification: notificationDefault,
       };
     },
   },

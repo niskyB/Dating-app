@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoIcon from "../../component/icon/logo";
 import InputField from "../../component/inputField";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -8,15 +8,19 @@ import { RootState, store } from "../../store";
 import { FormState } from "../../common/interface/redux/form";
 import { login } from "./action";
 import { userAction } from "../../store/user";
+import { openSuccessNotification } from "../../utils/notificationHelper";
 interface LoginPageProps {}
 
 const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
   const { register, handleSubmit } = useForm<LoginUserDTO>();
   const form = useSelector<RootState, FormState>((state) => state.form);
+  const navigate = useNavigate();
   const onSubmit: SubmitHandler<LoginUserDTO> = async (data) => {
     const response = await login(data);
     if (response.status === 200) {
       store.dispatch(userAction.setIsLogin(true));
+      openSuccessNotification("Login success!");
+      navigate("/");
     }
   };
   return (

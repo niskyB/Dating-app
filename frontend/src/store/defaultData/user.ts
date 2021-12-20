@@ -1,6 +1,10 @@
 import { FindingConfig } from "./../../common/interface/redux/user";
 import { UserDataDTO } from "../../common/interface/dto/user";
 import { profileConfig } from "../../common/interface/entity/user";
+import {
+  NotificationData,
+  SuccessModel,
+} from "../../common/interface/redux/ui";
 export const findingConfigDefault: FindingConfig = {
   sex: "FEMALE",
   minAge: 18,
@@ -40,4 +44,17 @@ export const userDataDefault: UserDataDTO = {
   profileConfig: profileConfigDefault,
   sex: "MALE",
   createDate: "",
+};
+
+export const successModelDefault: SuccessModel = {
+  isOpenning: false,
+  message: "",
+  title: "",
+};
+
+export const notificationDefault: NotificationData = {
+  status: "SUCCESS",
+  title: "",
+  message: "",
+  isOpenning: false,
 };
