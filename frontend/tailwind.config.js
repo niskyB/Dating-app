@@ -9,6 +9,7 @@ module.exports = {
       spacing: {
         140: "35rem",
         168: "42rem",
+        "less1/3": "31%",
       },
       colors: {
         "radical-red": {
