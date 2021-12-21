@@ -11,6 +11,7 @@ export class UserHighLightImg {
 
   @ManyToOne(() => User, (user) => user.highlightImgs, {
     nullable: false,
+    cascade: true,
   })
   user: User;
 }

@@ -63,9 +63,7 @@ export class User {
   @Expose()
   hobbies: Hobby[];
 
-  @OneToMany(() => UserHighLightImg, (image) => image.user, {
-    cascade: true,
-  })
+  @OneToMany(() => UserHighLightImg, (image) => image.user)
   @Expose()
   highlightImgs: UserHighLightImg[];
 

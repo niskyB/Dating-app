@@ -2,7 +2,9 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Put,
   Req,
   UploadedFile,
@@ -236,6 +238,18 @@ export class UserController {
 
     await this.userService.changeHighlightImgs(files, req.currentUser.id);
 
+    return apiResponse.send(null, null);
+  }
+
+  /**
+   * @description DELETE method for user to remove highlight image
+   * @param id
+   * @param req
+   * @returns response form with no data and error
+   */
+  @Delete('/highlightImgs/:id')
+  async removeUserHighlightImg(@Param('id') id: string, @Req() req: Request) {
+    await this.userService.removeUserHighlightImg(req.currentUser.id, id);
     return apiResponse.send(null, null);
   }
 }

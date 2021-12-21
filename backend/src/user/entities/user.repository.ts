@@ -4,7 +4,7 @@ import { User } from './user.entity';
 
 @EntityRepository(User)
 export class UserRepository extends RepositoryService<User> {
-  public async findUserWithImgsByField(
+  public async findUserWithFullInfoByField(
     field: keyof User,
     value: any,
   ): Promise<User> {

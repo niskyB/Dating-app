@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { plainToClass } from 'class-transformer';
@@ -48,7 +52,7 @@ export class UserService {
    * @returns Promise<User>
    */
   async findCurrentUserByField(field: keyof User, value: any): Promise<User> {
-    return await this.userRepository.findUserWithImgsByField(field, value);
+    return await this.userRepository.findUserWithFullInfoByField(field, value);
   }
 
   /**
@@ -237,17 +241,53 @@ export class UserService {
     return await this.userRepository.save(user);
   }
 
+  /**
+   * @description change highlight imgs then save to database
+   * @param files
+   * @param id
+   * @returns Promise<User>
+   */
   async changeHighlightImgs(
     files: Array<Express.Multer.File>,
     id: string,
   ): Promise<User> {
-    const user = await this.userRepository.findUserWithImgsByField('id', id);
+    const user = await this.userRepository.findUserWithFullInfoByField(
+      'id',
+      id,
+    );
     files.forEach(async (file) => {
       const highlightImg = this.userHighlightImgRepository.create();
       highlightImg.image = file.filename;
       highlightImg.user = user;
-      user.highlightImgs.push(highlightImg);
+      await this.userHighlightImgRepository.manager.save(highlightImg);
     });
-    return await this.userRepository.save(user);
+    return user;
+  }
+
+  /**
+   * @description delete highlight img with given id in database
+   * @param userId
+   * @param imgId
+   */
+  async removeUserHighlightImg(userId: string, imgId: string) {
+    const user = await this.userRepository.findUserWithFullInfoByField(
+      'id',
+      userId,
+    );
+
+    let isBelongTo = false;
+    for (let i = 0; i < user.highlightImgs.length; i++) {
+      if (user.highlightImgs[i].id === imgId) isBelongTo = true;
+    }
+
+    if (!isBelongTo) {
+      throw new ForbiddenException(
+        apiResponse.send(null, {
+          common: ResponseMessage.FORBIDDEN,
+        }),
+      );
+    }
+
+    await this.userHighlightImgRepository.delete({ id: imgId });
   }
 }
