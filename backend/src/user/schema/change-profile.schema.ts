@@ -67,3 +67,10 @@ export const changeStudyAtSchema = Joi.object({
     .allow('')
     .messages(JoiMessage.createStringMessages({ field: 'Study at' })),
 });
+
+export const changeHobbySchema = Joi.object({
+  name: Joi.string()
+    .required()
+    .max(255)
+    .messages(JoiMessage.createStringMessages({ field: 'Hobby' })),
+});

@@ -8,6 +8,7 @@ export enum ResponseMessage {
   INVALID_PASSWORD = 'Password is not correct',
   UNAUTHORIZED = 'Not signin yet',
   FORBIDDEN = "You don't have permission to access / on this page",
+  NOTFOUND = 'Sorry, the page not found',
   DUPLICATED_PASSWORD = 'New password is same with your current password',
   DUPLICATED_NAME = 'New name is same with your current name',
   DUPLICATED_PHONE = 'New phone number is same with your current phone number',

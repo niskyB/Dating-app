@@ -31,6 +31,7 @@ import {
   ChangeUserSexDto,
 } from './dto/change-profile.dto';
 import {
+  changeHobbySchema,
   changeStudyAtSchema,
   changeUserAddressSchema,
   changeUserBioSchema,
@@ -267,11 +268,18 @@ export class UserController {
    * @returns response form with no data and error
    */
   @Put('/hobbies')
-  async changeHobbies(
+  @UsePipes(new JoiValidationPipe(changeHobbySchema))
+  async changeHobby(
     @Body() changeHobbiesDto: ChangeHobbiesDto,
     @Req() req: Request,
   ) {
     await this.userService.changeHobby(changeHobbiesDto, req.currentUser.id);
+    return apiResponse.send(null, null);
+  }
+
+  @Delete('/hobbies/:id')
+  async removeHobby(@Param('id') id: string, @Req() req: Request) {
+    await this.userService.removeHobby(req.currentUser.id, id);
     return apiResponse.send(null, null);
   }
 

@@ -1,7 +1,7 @@
 import {
   BadRequestException,
-  ForbiddenException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { User } from './entities/user.entity';
@@ -81,7 +81,10 @@ export class UserService {
    * @description validate password and save to database if valid
    * @param changePasswordDto
    */
-  async changePassword(changePasswordDto: ChangePasswordDto, id: string) {
+  async changePassword(
+    changePasswordDto: ChangePasswordDto,
+    id: string,
+  ): Promise<User> {
     const user = await this.findOneByField('id', id);
 
     if (!(await bcrypt.compare(changePasswordDto.password, user.password))) {
@@ -102,7 +105,7 @@ export class UserService {
 
     user.password = await bcrypt.hash(changePasswordDto.newPassword, SALT);
 
-    await this.userRepository.save(user);
+    return await this.userRepository.save(user);
   }
 
   /**
@@ -301,6 +304,28 @@ export class UserService {
     return await this.hobbyRepository.manager.save(hobby);
   }
 
+  async removeHobby(userId: string, hobbyId: string) {
+    const user = await this.userRepository.findUserWithFullInfoByField(
+      'id',
+      userId,
+    );
+
+    let isBelongTo = false;
+    for (let i = 0; i < user.hobbies.length; i++) {
+      if (user.hobbies[i].id === hobbyId) isBelongTo = true;
+    }
+
+    if (!isBelongTo) {
+      throw new NotFoundException(
+        apiResponse.send(null, {
+          common: ResponseMessage.NOTFOUND,
+        }),
+      );
+    }
+
+    await this.hobbyRepository.delete({ id: hobbyId });
+  }
+
   /**
    * @description delete highlight img with given id in database
    * @param userId
@@ -318,9 +343,9 @@ export class UserService {
     }
 
     if (!isBelongTo) {
-      throw new ForbiddenException(
+      throw new NotFoundException(
         apiResponse.send(null, {
-          common: ResponseMessage.FORBIDDEN,
+          common: ResponseMessage.NOTFOUND,
         }),
       );
     }
