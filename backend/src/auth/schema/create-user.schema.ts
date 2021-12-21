@@ -18,6 +18,7 @@ export const createUserSchema = Joi.object({
     ),
   confirmPassword: Joi.string()
     .valid(Joi.ref('password'))
+    .required()
     .messages({
       ...JoiMessage.createStringMessages({ field: 'Confirm password' }),
       'any.only': ResponseMessage.INVALID_COFIRMPASSWORD,

@@ -5,9 +5,7 @@ import { router } from './routes';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  //set up cors
-  app.enableCors({ origin: process.env.CLIENT_URL, credentials: true });
-  app.setGlobalPrefix('/api');
+
   router(app);
   const port = process.env.PORT || 3000;
   const logger = new Logger('SERVER');
