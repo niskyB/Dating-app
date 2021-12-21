@@ -53,6 +53,10 @@ export class User {
   @Expose()
   bio: string;
 
+  @Column({ nullable: false })
+  @Expose()
+  studyAt: string;
+
   @Column({ default: new Date().toISOString().slice(0, 19).replace('T', ' ') })
   @Expose()
   createDate: Date;

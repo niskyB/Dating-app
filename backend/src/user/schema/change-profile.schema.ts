@@ -59,3 +59,11 @@ export const changeUserDateOfBirthSchema = Joi.object({
     .required()
     .messages(JoiMessage.createDateMessages({ field: 'Date of birth' })),
 });
+
+export const changeStudyAtSchema = Joi.object({
+  studyAt: Joi.string()
+    .required()
+    .max(255)
+    .allow('')
+    .messages(JoiMessage.createStringMessages({ field: 'Study at' })),
+});

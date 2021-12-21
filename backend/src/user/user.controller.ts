@@ -21,14 +21,16 @@ import { UserService } from './user.service';
 import { Request } from 'express';
 import { apiResponse } from '../common/interface/apiResponse';
 import {
+  ChangeStudyAtDto,
   ChangeUserAddressDto,
   ChangeUserBioDto,
-  ChangeUserDateOfBirth,
+  ChangeUserDateOfBirthDto,
   ChangeUserNameDto,
   ChangeUserPhoneDto,
   ChangeUserSexDto,
 } from './dto/change-profile.dto';
 import {
+  changeStudyAtSchema,
   changeUserAddressSchema,
   changeUserBioSchema,
   changeUserDateOfBirthSchema,
@@ -205,11 +207,11 @@ export class UserController {
   @Put('/dateOfBirth')
   @UsePipes(new JoiValidationPipe(changeUserDateOfBirthSchema))
   async changeDateOfBirth(
-    @Body() changeUserDateOfBirth: ChangeUserDateOfBirth,
+    @Body() changeUserDateOfBirthDto: ChangeUserDateOfBirthDto,
     @Req() req: Request,
   ) {
     await this.userService.changeDateOfBirth(
-      changeUserDateOfBirth,
+      changeUserDateOfBirthDto,
       req.currentUser.id,
     );
 
@@ -238,6 +240,22 @@ export class UserController {
 
     await this.userService.changeHighlightImgs(files, req.currentUser.id);
 
+    return apiResponse.send(null, null);
+  }
+
+  /**
+   * @description PUT method for user to change study at
+   * @param changeStudyAtDto
+   * @param req
+   * @returns response form with no data and error
+   */
+  @Put('/studyAt')
+  @UsePipes(new JoiValidationPipe(changeStudyAtSchema))
+  async changeStudyAt(
+    @Body() changeStudyAtDto: ChangeStudyAtDto,
+    @Req() req: Request,
+  ) {
+    await this.userService.changeStudyAt(changeStudyAtDto, req.currentUser.id);
     return apiResponse.send(null, null);
   }
 

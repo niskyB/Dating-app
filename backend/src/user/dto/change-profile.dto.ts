@@ -13,6 +13,8 @@ export class ChangeUserAddressDto extends PickType(User, [
 
 export class ChangeUserSexDto extends PickType(User, ['sex'] as const) {}
 
-export class ChangeUserDateOfBirth extends PickType(User, [
+export class ChangeUserDateOfBirthDto extends PickType(User, [
   'dateOfBirth',
 ] as const) {}
+
+export class ChangeStudyAtDto extends PickType(User, ['studyAt'] as const) {}

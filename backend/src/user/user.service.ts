@@ -13,9 +13,10 @@ import { apiResponse } from '../common/interface/apiResponse';
 import { ResponseMessage } from '../constants/message/responseMessage.enum';
 import { SALT } from '../constants/bcrypt.constants';
 import {
+  ChangeStudyAtDto,
   ChangeUserAddressDto,
   ChangeUserBioDto,
-  ChangeUserDateOfBirth,
+  ChangeUserDateOfBirthDto,
   ChangeUserNameDto,
   ChangeUserPhoneDto,
   ChangeUserSexDto,
@@ -232,7 +233,7 @@ export class UserService {
    * @returns Promise<User>
    */
   async changeDateOfBirth(
-    changeUserDateOfBirth: ChangeUserDateOfBirth,
+    changeUserDateOfBirth: ChangeUserDateOfBirthDto,
     id: string,
   ): Promise<User> {
     const user = await this.findOneByField('id', id);
@@ -262,6 +263,21 @@ export class UserService {
       await this.userHighlightImgRepository.manager.save(highlightImg);
     });
     return user;
+  }
+
+  /**
+   * @description change study at of user and save to database
+   * @param changeStudyAtDto
+   * @param id
+   * @returns Promise<User>
+   */
+  async changeStudyAt(
+    changeStudyAtDto: ChangeStudyAtDto,
+    id: string,
+  ): Promise<User> {
+    const user = await this.userRepository.findOneByField('id', id);
+    user.studyAt = changeStudyAtDto.studyAt;
+    return await this.userRepository.save(user);
   }
 
   /**
