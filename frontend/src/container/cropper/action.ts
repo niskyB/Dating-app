@@ -1,14 +1,14 @@
 import axiosClient from "../../axios/config";
 
-export const updateHighlightImg = (file: File) => {
+export const updateHighlightImg = async (file: File) => {
   const url = "/api/users/highlightImgs";
   let form = new FormData();
   form.append("images", file);
-  axiosClient.put(url, form);
+  return await axiosClient.put(url, form);
 };
-export const updateAvatar = (file: File) => {
+export const updateAvatar = async (file: File) => {
   const url = "/api/users/avatar";
   let form = new FormData();
   form.append("avatar", file);
-  axiosClient.put(url, form);
+  return await axiosClient.put(url, form);
 };

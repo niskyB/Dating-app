@@ -6,6 +6,7 @@ import { UIState } from "../../common/interface/redux/ui";
 import { UserState } from "../../common/interface/redux/user";
 import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
+import { userThunk } from "../../store/user/thunk";
 import { updateAvatar, updateHighlightImg } from "./action";
 import getCroppedImg from "./cropImage";
 interface CropperProps {}
@@ -32,15 +33,19 @@ const CropperBox: React.FunctionComponent<CropperProps> = () => {
         .then(
           (blobFile) => new File([blobFile], "image", { type: "image/png" })
         );
+      let res;
       if (!userState.data.avatar) {
-        updateAvatar(file);
+        res = await updateAvatar(file);
       } else {
-        updateHighlightImg(file);
+        res = await updateHighlightImg(file);
       }
-      store.dispatch(UIAction.setCropImage(""));
-      //remove previous blob image url
-      URL.revokeObjectURL(UIState.cropper.imageUrl);
-      store.dispatch(UIAction.setCroppedImage(croppedImage));
+      if (res.status === 200) {
+        store.dispatch(userThunk.getCurrentUser());
+        store.dispatch(UIAction.setCropImage(""));
+        //remove previous blob image url
+        URL.revokeObjectURL(UIState.cropper.imageUrl);
+        store.dispatch(UIAction.setCroppedImage(croppedImage));
+      }
     } catch (e) {
       console.error(e);
     }
