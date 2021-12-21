@@ -28,19 +28,26 @@ export class AuthService {
    * @param createUserDto
    */
   async create(createUserDto: CreateUserDto) {
-    await this.checkExistedUser(
+    let errors = {};
+    errors = await this.checkExistedUser(
       'email',
       createUserDto.email,
       ResponseMessage.EXISTED_EMAIL,
       expectNotExist,
+      errors,
     );
 
-    await this.checkExistedUser(
+    errors = await this.checkExistedUser(
       'phone',
       createUserDto.phone,
       ResponseMessage.EXISTED_PHONE,
       expectNotExist,
+      errors,
     );
+
+    if (errors) {
+      throw new BadRequestException(apiResponse.send(null, errors));
+    }
 
     createUserDto.password = await bcrypt.hash(createUserDto.password, SALT);
 
@@ -98,15 +105,16 @@ export class AuthService {
     value: any,
     message: string,
     isExisted: boolean,
+    errors?: any,
   ) {
     const user = await this.userService.findOneByField(field, value);
 
     if (user && !isExisted) {
-      throw new BadRequestException(
-        apiResponse.send(null, {
-          [field]: message,
-        }),
-      );
+      errors = {
+        ...errors,
+        [field]: message,
+      };
+      return errors;
     }
 
     if (!user && isExisted) {
