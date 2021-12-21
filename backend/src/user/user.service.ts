@@ -13,6 +13,7 @@ import { apiResponse } from '../common/interface/apiResponse';
 import { ResponseMessage } from '../constants/message/responseMessage.enum';
 import { SALT } from '../constants/bcrypt.constants';
 import {
+  ChangeHobbiesDto,
   ChangeStudyAtDto,
   ChangeUserAddressDto,
   ChangeUserBioDto,
@@ -27,6 +28,7 @@ import { Repository } from 'typeorm';
 import { UserShowOption } from './entities/userShowOption.entity';
 import { UserFindOption } from './entities/userFindOption.entity';
 import { Sex } from './enum/user.sex.enum';
+import { Hobby } from './entities/userHobbies.entity';
 
 @Injectable()
 export class UserService {
@@ -34,6 +36,8 @@ export class UserService {
     private userRepository: UserRepository,
     @InjectRepository(UserHighLightImg)
     private userHighlightImgRepository: Repository<UserHighLightImg>,
+    @InjectRepository(Hobby)
+    private hobbyRepository: Repository<Hobby>,
   ) {}
 
   /**
@@ -278,6 +282,23 @@ export class UserService {
     const user = await this.userRepository.findOneByField('id', id);
     user.studyAt = changeStudyAtDto.studyAt;
     return await this.userRepository.save(user);
+  }
+
+  /**
+   * @description change hobby of user
+   * @param changeHobbiesDto
+   * @param id
+   * @returns Promise<Hobby>
+   */
+  async changeHobby(
+    changeHobbiesDto: ChangeHobbiesDto,
+    id: string,
+  ): Promise<Hobby> {
+    const user = await this.userRepository.findOneByField('id', id);
+    const hobby = this.hobbyRepository.create();
+    hobby.name = changeHobbiesDto.name;
+    hobby.user = user;
+    return await this.hobbyRepository.manager.save(hobby);
   }
 
   /**

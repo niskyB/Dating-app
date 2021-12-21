@@ -1,5 +1,6 @@
 import { PickType } from '@nestjs/mapped-types';
 import { User } from '../entities/user.entity';
+import { Hobby } from '../entities/userHobbies.entity';
 
 export class ChangeUserNameDto extends PickType(User, ['name'] as const) {}
 
@@ -18,3 +19,5 @@ export class ChangeUserDateOfBirthDto extends PickType(User, [
 ] as const) {}
 
 export class ChangeStudyAtDto extends PickType(User, ['studyAt'] as const) {}
+
+export class ChangeHobbiesDto extends PickType(Hobby, ['name'] as const) {}

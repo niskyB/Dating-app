@@ -61,9 +61,7 @@ export class User {
   @Expose()
   createDate: Date;
 
-  @OneToMany(() => Hobby, (hobby) => hobby.user, {
-    cascade: true,
-  })
+  @OneToMany(() => Hobby, (hobby) => hobby.user)
   @Expose()
   hobbies: Hobby[];
 

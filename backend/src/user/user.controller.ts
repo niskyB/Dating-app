@@ -21,6 +21,7 @@ import { UserService } from './user.service';
 import { Request } from 'express';
 import { apiResponse } from '../common/interface/apiResponse';
 import {
+  ChangeHobbiesDto,
   ChangeStudyAtDto,
   ChangeUserAddressDto,
   ChangeUserBioDto,
@@ -256,6 +257,21 @@ export class UserController {
     @Req() req: Request,
   ) {
     await this.userService.changeStudyAt(changeStudyAtDto, req.currentUser.id);
+    return apiResponse.send(null, null);
+  }
+
+  /**
+   * @description PUT method for user to change hobbies
+   * @param changeHobbiesDto
+   * @param req
+   * @returns response form with no data and error
+   */
+  @Put('/hobbies')
+  async changeHobbies(
+    @Body() changeHobbiesDto: ChangeHobbiesDto,
+    @Req() req: Request,
+  ) {
+    await this.userService.changeHobby(changeHobbiesDto, req.currentUser.id);
     return apiResponse.send(null, null);
   }
 
