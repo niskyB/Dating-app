@@ -14,12 +14,17 @@ export interface SuccessModel {
   message: string;
   title: string;
 }
+export interface CropperData {
+  imageUrl: string;
+  croppedImage: string;
+}
 export interface UIState {
   isMatchOpen: boolean;
   isMessagesOpen: boolean;
   updatePopup: UpdatePopupData;
   successModel: SuccessModel;
   notification: NotificationData;
+  cropper: CropperData;
 }
 export enum NotificationStatus {
   SUCCESS = "SUCCESS",

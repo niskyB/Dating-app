@@ -7,13 +7,19 @@ import {
 } from "../../common/interface/redux/ui";
 import { createSlice } from "@reduxjs/toolkit";
 import { ReduxAction } from "../../common/interface/common/redux";
-import { notificationDefault, successModelDefault } from "../defaultData/user";
+import {
+  cropperDefault,
+  notificationDefault,
+  successModelDefault,
+} from "../defaultData/user";
+import { stat } from "fs";
 const initialState: UIState = {
   isMatchOpen: true,
   isMessagesOpen: false,
   updatePopup: updateInfoPopupDefault,
   successModel: successModelDefault,
   notification: notificationDefault,
+  cropper: cropperDefault,
 };
 
 export const UI = createSlice({
@@ -80,6 +86,25 @@ export const UI = createSlice({
       return {
         ...state,
         notification: notificationDefault,
+      };
+    },
+    setCropImage: (state: UIState, { payload }: ReduxAction<string>) => {
+      console.log(payload);
+      return {
+        ...state,
+        cropper: {
+          ...state.cropper,
+          imageUrl: payload,
+        },
+      };
+    },
+    setCroppedImage: (state: UIState, { payload }: ReduxAction<string>) => {
+      return {
+        ...state,
+        cropper: {
+          ...state.cropper,
+          croppedImage: payload,
+        },
       };
     },
   },

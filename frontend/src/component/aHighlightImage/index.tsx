@@ -1,3 +1,5 @@
+import { store } from "../../store";
+import { UIAction } from "../../store/UI";
 import PlusCircleIcon from "../icon/plusCircle";
 
 interface AHightLightImageProps {
@@ -7,6 +9,13 @@ interface AHightLightImageProps {
 const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
   imgUrl,
 }) => {
+  const onCropImage = (e: any) => {
+    if (e.currentTarget.files) {
+      store.dispatch(
+        UIAction.setCropImage(URL.createObjectURL(e.currentTarget.files[0]))
+      );
+    }
+  };
   return (
     <>
       <div
@@ -19,9 +28,20 @@ const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
         }}
       >
         {imgUrl || (
-          <div className="absolute w-8 h-8 text-red-500 bg-white cursor-pointer -right-3 -bottom-3">
-            <PlusCircleIcon />
-          </div>
+          <>
+            <label
+              htmlFor="file-upload"
+              className="absolute w-8 h-8 text-red-500 bg-white cursor-pointer -right-3 -bottom-3"
+            >
+              <PlusCircleIcon />
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              className="sr-only"
+              onChange={onCropImage}
+            />
+          </>
         )}
       </div>
     </>
