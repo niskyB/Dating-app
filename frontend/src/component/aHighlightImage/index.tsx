@@ -27,7 +27,9 @@ const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
           backgroundRepeat: "no-repeat",
         }}
       >
-        {imgUrl || (
+        {imgUrl ? (
+          ""
+        ) : (
           <>
             <label
               htmlFor="file-upload"
