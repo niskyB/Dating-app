@@ -1,8 +1,8 @@
-import { highlightImg } from "../../common/interface/entity/user";
+import { HighlightImg } from "../../common/interface/entity/highlightImg";
 import AHightLightImage from "../../component/aHighlightImage";
 
 interface HighlightImageProps {
-  highlightImgs: highlightImg[];
+  highlightImgs: HighlightImg[];
   avatar: string;
 }
 
@@ -21,6 +21,7 @@ const HighlightImage: React.FunctionComponent<HighlightImageProps> = ({
           <AHightLightImage
             key={img.id}
             imgUrl={`${process.env.REACT_APP_SERVER_URL}/${img.image}`}
+            id={img.id}
           />
         );
       })}

@@ -1,10 +1,10 @@
-import { showOptions } from "../../common/interface/entity/user";
+import { ShowOptions } from "../../common/interface/entity/showOptions";
 import { matchData } from "../../container/match";
 import EducationIcon from "../icon/education";
 
 interface CardProps {
   data: matchData;
-  options: showOptions;
+  options: ShowOptions;
 }
 
 const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
