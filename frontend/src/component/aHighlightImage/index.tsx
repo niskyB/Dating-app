@@ -1,16 +1,30 @@
-import PlusCircleIcon from "../icon/plusCircle";
+import { PlusIcon } from "@heroicons/react/solid";
+import { store } from "../../store";
+import { UIAction } from "../../store/UI";
+import XIcon from "../icon/x";
 
 interface AHightLightImageProps {
   imgUrl?: string;
+  id?: string;
 }
 
 const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
   imgUrl,
 }) => {
+  const onCropImage = (e: any) => {
+    if (e.currentTarget.files) {
+      store.dispatch(
+        UIAction.setCropImage(URL.createObjectURL(e.currentTarget.files[0]))
+      );
+    }
+  };
+  const onRemoveIcon = (e: any) => {};
   return (
     <>
       <div
-        className="relative h-40 border-2 border-red-400 border-dashed w-less1/3"
+        className={`relative h-40   ${
+          imgUrl ? "" : "border-dashed border-red-400 border-2"
+        } w-[29%]`}
         style={{
           backgroundImage: `url("${imgUrl}") `,
           backgroundSize: "cover",
@@ -18,10 +32,28 @@ const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
           backgroundRepeat: "no-repeat",
         }}
       >
-        {imgUrl || (
-          <div className="absolute w-8 h-8 text-red-500 bg-white cursor-pointer -right-3 -bottom-3">
-            <PlusCircleIcon />
+        {imgUrl ? (
+          <div
+            className="absolute w-7 h-7 p-1 text-red-500 bg-white shadow-lg  rounded-full cursor-pointer -right-3 -bottom-3"
+            onClick={onRemoveIcon}
+          >
+            <XIcon />
           </div>
+        ) : (
+          <>
+            <label
+              htmlFor="file-upload"
+              className="absolute w-7 h-7 p-1 text-white bg-red-500 rounded-full cursor-pointer -right-3 -bottom-3"
+            >
+              <PlusIcon />
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              className="sr-only"
+              onChange={onCropImage}
+            />
+          </>
         )}
       </div>
     </>

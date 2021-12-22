@@ -1,5 +1,5 @@
-import { ReduxAction } from "./../../common/interface/common/redux";
-import { FormState, JoiError } from "./../../common/interface/redux/form";
+import { JoiError, ReduxAction } from "./../../common/interface/common/redux";
+import { FormState } from "./../../common/interface/redux/form";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: FormState = {

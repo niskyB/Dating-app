@@ -1,4 +1,4 @@
-interface InputOutlineProps {
+export interface InputOutlineProps {
   label: string;
   name: string;
   value?: string;

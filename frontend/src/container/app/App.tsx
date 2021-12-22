@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Routes } from "react-router";
 import { UIState } from "../../common/interface/redux/ui";
 import { UserState } from "../../common/interface/redux/user";
+import CropperBox from "../cropper";
 import LoadingAnimation from "../../component/loading";
 import Notification from "../../component/notification";
 import SuccessModel from "../../component/successModel";
@@ -15,12 +16,14 @@ import SideBar from "../sidebar";
 function App() {
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
   const userState = useSelector<RootState, UserState>((state) => state.user);
+
   const onCloseSuccessModel = () => {
     store.dispatch(UIAction.onCloseSuccessModel());
   };
   const onCloseNotification = () => {
     store.dispatch(UIAction.onCloseNotification());
   };
+
   return (
     <>
       <div className="flex text-4xl ">
@@ -44,6 +47,7 @@ function App() {
         title={UIState.successModel.title}
         onCloseSuccessModel={onCloseSuccessModel}
       />
+      <CropperBox />
     </>
   );
 }

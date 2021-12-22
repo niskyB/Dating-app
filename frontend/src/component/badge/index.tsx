@@ -1,6 +1,6 @@
 interface BadgeProps {
   value: string;
-  onRemove: () => void;
+  onRemove: () => any;
 }
 
 const Badge: React.FunctionComponent<BadgeProps> = ({ value, onRemove }) => {

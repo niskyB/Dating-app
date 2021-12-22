@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { findOptionDTO } from "../../common/interface/dto/findOption";
 import { sexEnumString, UserState } from "../../common/interface/redux/user";
 import InputField from "../../component/inputField";
 import SelectedField from "../../component/selectedField";
 import { RootState } from "../../store";
+import { findOptionDTO } from "./interface.dto";
 
 interface SettingProps {}
 

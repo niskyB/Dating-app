@@ -1,16 +1,17 @@
 import { FindingOptions } from "./../../common/interface/redux/user";
 import { UserDataDTO } from "../../common/interface/dto/user";
-import { showOptions } from "../../common/interface/entity/user";
 import {
+  CropperData,
   NotificationData,
   SuccessModel,
 } from "../../common/interface/redux/ui";
+import { ShowOptions } from "../../common/interface/entity/showOptions";
 export const findingOptionsDefault: FindingOptions = {
   sexOption: "FEMALE",
   minAge: 18,
   maxAge: 20,
 };
-export const showOptionsDefault: showOptions = {
+export const showOptionsDefault: ShowOptions = {
   showAge: true,
   showBio: true,
   showHobbies: false,
@@ -50,4 +51,9 @@ export const notificationDefault: NotificationData = {
   title: "",
   message: "",
   isOpenning: false,
+};
+
+export const cropperDefault: CropperData = {
+  imageUrl: "",
+  croppedImage: "",
 };
