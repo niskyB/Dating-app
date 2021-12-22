@@ -18,7 +18,9 @@ const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
           backgroundRepeat: "no-repeat",
         }}
       >
-        {imgUrl || (
+        {imgUrl ? (
+          ""
+        ) : (
           <div className="absolute w-8 h-8 text-red-500 bg-white cursor-pointer -right-3 -bottom-3">
             <PlusCircleIcon />
           </div>
