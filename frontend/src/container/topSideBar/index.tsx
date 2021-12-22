@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { Link, Route, Routes } from "react-router-dom";
 import { UserState } from "../../common/interface/redux/user";
 import { RootState } from "../../store";
-import AvatarCircle from "../avatarCircle";
-import SettingIcon from "../icon/setting";
+import AvatarCircle from "../../component/avatarCircle";
+import SettingIcon from "../../component/icon/setting";
 
 interface TopSideBarProps {
   isLogin: boolean;
