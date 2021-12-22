@@ -30,3 +30,7 @@ export class ChangeShowAgeOptionDto extends PickType(UserShowOption, [
 export class ChangeShowStudyOptionDto extends PickType(UserShowOption, [
   'showStudy',
 ] as const) {}
+
+export class ChangeShowBioOptionDto extends PickType(UserShowOption, [
+  'showBio',
+] as const) {}

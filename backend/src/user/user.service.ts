@@ -15,6 +15,7 @@ import { SALT } from '../constants/bcrypt.constants';
 import {
   ChangeHobbiesDto,
   ChangeShowAgeOptionDto,
+  ChangeShowBioOptionDto,
   ChangeShowStudyOptionDto,
   ChangeStudyAtDto,
   ChangeUserAddressDto,
@@ -337,6 +338,23 @@ export class UserService {
       id,
     );
     user.showOptions.showStudy = changeShowStudyOptionDto.showStudy;
+    await this.userRepository.save(user);
+  }
+
+  /**
+   * @description change show bio option of user
+   * @param changeShowBioOptionDto
+   * @param id
+   */
+  async changeShowBio(
+    changeShowBioOptionDto: ChangeShowBioOptionDto,
+    id: string,
+  ) {
+    const user = await this.userRepository.findUserWithFullInfoByField(
+      'id',
+      id,
+    );
+    user.showOptions.showBio = changeShowBioOptionDto.showBio;
     await this.userRepository.save(user);
   }
 

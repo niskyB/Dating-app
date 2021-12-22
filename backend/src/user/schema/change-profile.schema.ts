@@ -86,3 +86,9 @@ export const changeShowStudyOptionSchema = Joi.object({
     .required()
     .messages(JoiMessage.createBooleanMessages({ field: 'Show study' })),
 });
+
+export const changeShowBioOptionSchema = Joi.object({
+  showBio: Joi.boolean()
+    .required()
+    .messages(JoiMessage.createBooleanMessages({ field: 'Show bio' })),
+});
