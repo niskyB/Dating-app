@@ -23,33 +23,38 @@ const CropperBox: React.FunctionComponent<CropperProps> = () => {
   }, []);
   const showCroppedImage = React.useCallback(async () => {
     try {
-      const croppedImage = (await getCroppedImg(
+      const croppedImageUrl = (await getCroppedImg(
         UIState.cropper.imageUrl,
         croppedAreaPixels,
         rotateImage
       )) as any;
-      let file = await fetch(croppedImage)
+      let file = await fetch(croppedImageUrl)
         .then((r) => r.blob())
         .then(
           (blobFile) => new File([blobFile], "image", { type: "image/png" })
         );
       let res;
-      if (!userState.data.avatar) {
+      if (UIState.cropper.isAvatar) {
         res = await updateAvatar(file);
       } else {
         res = await updateHighlightImg(file);
       }
       if (res.status === 200) {
         store.dispatch(userThunk.getCurrentUser());
-        store.dispatch(UIAction.setCropImage(""));
+        store.dispatch(UIAction.setCropImage({ imageUrl: "", isAvatar: null }));
         //remove previous blob image url
         URL.revokeObjectURL(UIState.cropper.imageUrl);
-        store.dispatch(UIAction.setCroppedImage(croppedImage));
+        store.dispatch(UIAction.setCroppedImage(croppedImageUrl));
       }
     } catch (e) {
       console.error(e);
     }
-  }, [croppedAreaPixels, rotateImage, UIState.cropper.imageUrl]);
+  }, [
+    croppedAreaPixels,
+    rotateImage,
+    UIState.cropper.imageUrl,
+    userState.data.avatar,
+  ]);
 
   const onRotateChange = (e: any) => {
     setRotateImage(e.target.valueAsNumber);

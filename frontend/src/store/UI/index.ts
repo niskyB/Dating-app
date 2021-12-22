@@ -1,6 +1,7 @@
 import { updateInfoPopupDefault } from "../defaultData/UI";
 import {
   NotificationData,
+  SetCropData,
   SuccessModelData,
   UIState,
   UpdatePopupData,
@@ -12,7 +13,6 @@ import {
   notificationDefault,
   successModelDefault,
 } from "../defaultData/user";
-import { stat } from "fs";
 const initialState: UIState = {
   isMatchOpen: true,
   isMessagesOpen: false,
@@ -88,13 +88,13 @@ export const UI = createSlice({
         notification: notificationDefault,
       };
     },
-    setCropImage: (state: UIState, { payload }: ReduxAction<string>) => {
-      console.log(payload);
+    setCropImage: (state: UIState, { payload }: ReduxAction<SetCropData>) => {
       return {
         ...state,
         cropper: {
           ...state.cropper,
-          imageUrl: payload,
+          imageUrl: payload.imageUrl,
+          isAvatar: payload.isAvatar,
         },
       };
     },

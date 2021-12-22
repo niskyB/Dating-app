@@ -56,4 +56,5 @@ export const notificationDefault: NotificationData = {
 export const cropperDefault: CropperData = {
   imageUrl: "",
   croppedImage: "",
+  isAvatar: null,
 };

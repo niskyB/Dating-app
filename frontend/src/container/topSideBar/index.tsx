@@ -23,13 +23,14 @@ const TopSideBar: React.FunctionComponent<TopSideBarProps> = ({ isLogin }) => {
               url={userState && "./images/defaultAvatar.png"}
             />
             <div className="ml-3 text-lg font-bold text-white cursor-pointer">
-              Duc Dauu
+              {userState.data.name}
             </div>
           </div>
           <div className="flex">
             <Routes>
               {["/me", "setting"].map((link) => (
                 <Route
+                  key={link}
                   path={link}
                   element={
                     <Link to="/">
