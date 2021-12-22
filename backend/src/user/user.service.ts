@@ -14,6 +14,7 @@ import { ResponseMessage } from '../constants/message/responseMessage.enum';
 import { SALT } from '../constants/bcrypt.constants';
 import {
   ChangeHobbiesDto,
+  ChangeShowAgeOptionDto,
   ChangeStudyAtDto,
   ChangeUserAddressDto,
   ChangeUserBioDto,
@@ -304,6 +305,28 @@ export class UserService {
     return await this.hobbyRepository.manager.save(hobby);
   }
 
+  /**
+   * @description change show age option of user
+   * @param changeShowAgeOptionDto
+   * @param id
+   */
+  async changeShowAge(
+    changeShowAgeOptionDto: ChangeShowAgeOptionDto,
+    id: string,
+  ) {
+    const user = await this.userRepository.findUserWithFullInfoByField(
+      'id',
+      id,
+    );
+    user.showOptions.showAge = changeShowAgeOptionDto.showAge;
+    await this.userRepository.save(user);
+  }
+
+  /**
+   * @description delete hobby with given id in database
+   * @param userId
+   * @param hobbyId
+   */
   async removeHobby(userId: string, hobbyId: string) {
     const user = await this.userRepository.findUserWithFullInfoByField(
       'id',

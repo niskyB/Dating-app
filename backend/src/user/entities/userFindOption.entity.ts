@@ -22,7 +22,9 @@ export class UserFindOption {
   @Column({ nullable: false })
   sexOption: sexEnumString;
 
-  @OneToOne(() => User, (user) => user.findOptions)
+  @OneToOne(() => User, (user) => user.findOptions, {
+    cascade: true,
+  })
   @JoinColumn()
   user: User;
 }

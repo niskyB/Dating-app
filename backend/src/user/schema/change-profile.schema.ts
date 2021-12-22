@@ -74,3 +74,9 @@ export const changeHobbySchema = Joi.object({
     .max(255)
     .messages(JoiMessage.createStringMessages({ field: 'Hobby' })),
 });
+
+export const changeShowAgeOptionSchema = Joi.object({
+  showAge: Joi.boolean()
+    .required()
+    .messages(JoiMessage.createBooleanMessages({ field: 'showAge' })),
+});

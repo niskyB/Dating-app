@@ -22,6 +22,7 @@ import { Request } from 'express';
 import { apiResponse } from '../common/interface/apiResponse';
 import {
   ChangeHobbiesDto,
+  ChangeShowAgeOptionDto,
   ChangeStudyAtDto,
   ChangeUserAddressDto,
   ChangeUserBioDto,
@@ -32,6 +33,7 @@ import {
 } from './dto/change-profile.dto';
 import {
   changeHobbySchema,
+  changeShowAgeOptionSchema,
   changeStudyAtSchema,
   changeUserAddressSchema,
   changeUserBioSchema,
@@ -277,6 +279,31 @@ export class UserController {
     return apiResponse.send(null, null);
   }
 
+  /**
+   * @description PUT method for user to change show age option
+   * @param changeShowAgeOptionDto
+   * @param req
+   * @returns response form with no data and error
+   */
+  @Put('/showOption/showAge')
+  @UsePipes(new JoiValidationPipe(changeShowAgeOptionSchema))
+  async changeShowAge(
+    @Body() changeShowAgeOptionDto: ChangeShowAgeOptionDto,
+    @Req() req: Request,
+  ) {
+    await this.userService.changeShowAge(
+      changeShowAgeOptionDto,
+      req.currentUser.id,
+    );
+    return apiResponse.send(null, null);
+  }
+
+  /**
+   * @description DELETE method for user to remove hobby
+   * @param id
+   * @param req
+   * @returns response form with no data and error
+   */
   @Delete('/hobbies/:id')
   async removeHobby(@Param('id') id: string, @Req() req: Request) {
     await this.userService.removeHobby(req.currentUser.id, id);
