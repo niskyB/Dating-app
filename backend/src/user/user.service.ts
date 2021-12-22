@@ -16,6 +16,7 @@ import {
   ChangeHobbiesDto,
   ChangeShowAgeOptionDto,
   ChangeShowBioOptionDto,
+  ChangeShowHobbiesOptionDto,
   ChangeShowStudyOptionDto,
   ChangeStudyAtDto,
   ChangeUserAddressDto,
@@ -355,6 +356,18 @@ export class UserService {
       id,
     );
     user.showOptions.showBio = changeShowBioOptionDto.showBio;
+    await this.userRepository.save(user);
+  }
+
+  async changeShowHobbies(
+    changeShowHobbiesOptionDto: ChangeShowHobbiesOptionDto,
+    id: string,
+  ) {
+    const user = await this.userRepository.findUserWithFullInfoByField(
+      'id',
+      id,
+    );
+    user.showOptions.showHobbies = changeShowHobbiesOptionDto.showHobbies;
     await this.userRepository.save(user);
   }
 

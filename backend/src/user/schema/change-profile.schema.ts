@@ -92,3 +92,9 @@ export const changeShowBioOptionSchema = Joi.object({
     .required()
     .messages(JoiMessage.createBooleanMessages({ field: 'Show bio' })),
 });
+
+export const changeShowHobbiesOptionSchema = Joi.object({
+  showHobbies: Joi.boolean()
+    .required()
+    .messages(JoiMessage.createBooleanMessages({ field: 'Show hobbies' })),
+});

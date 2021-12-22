@@ -24,6 +24,7 @@ import {
   ChangeHobbiesDto,
   ChangeShowAgeOptionDto,
   ChangeShowBioOptionDto,
+  ChangeShowHobbiesOptionDto,
   ChangeShowStudyOptionDto,
   ChangeStudyAtDto,
   ChangeUserAddressDto,
@@ -37,6 +38,7 @@ import {
   changeHobbySchema,
   changeShowAgeOptionSchema,
   changeShowBioOptionSchema,
+  changeShowHobbiesOptionSchema,
   changeShowStudyOptionSchema,
   changeStudyAtSchema,
   changeUserAddressSchema,
@@ -335,6 +337,25 @@ export class UserController {
   ) {
     await this.userService.changeShowBio(
       changeShowBioOptionDto,
+      req.currentUser.id,
+    );
+    return apiResponse.send(null, null);
+  }
+
+  /**
+   * @description PUT method for user to change show hobbies option
+   * @param changeShowHobbiesOptionDto
+   * @param req
+   * @returns response form with no data and error
+   */
+  @Put('/showOption/showHobbies')
+  @UsePipes(new JoiValidationPipe(changeShowHobbiesOptionSchema))
+  async changeShowHobbies(
+    @Body() changeShowHobbiesOptionDto: ChangeShowHobbiesOptionDto,
+    @Req() req: Request,
+  ) {
+    await this.userService.changeShowHobbies(
+      changeShowHobbiesOptionDto,
       req.currentUser.id,
     );
     return apiResponse.send(null, null);
