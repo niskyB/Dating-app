@@ -1,5 +1,6 @@
 import { PickType } from '@nestjs/mapped-types';
 import { User } from '../entities/user.entity';
+import { UserFindOption } from '../entities/userFindOption.entity';
 import { Hobby } from '../entities/userHobbies.entity';
 import { UserShowOption } from '../entities/userShowOption.entity';
 
@@ -37,4 +38,10 @@ export class ChangeShowBioOptionDto extends PickType(UserShowOption, [
 
 export class ChangeShowHobbiesOptionDto extends PickType(UserShowOption, [
   'showHobbies',
+] as const) {}
+
+export class ChangeFindOptionDto extends PickType(UserFindOption, [
+  'minAge',
+  'maxAge',
+  'sexOption',
 ] as const) {}

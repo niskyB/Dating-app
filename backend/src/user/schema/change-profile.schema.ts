@@ -98,3 +98,22 @@ export const changeShowHobbiesOptionSchema = Joi.object({
     .required()
     .messages(JoiMessage.createBooleanMessages({ field: 'Show hobbies' })),
 });
+
+export const changeFindOptionSchema = Joi.object({
+  minAge: Joi.number()
+    .required()
+    .min(18)
+    .required()
+    .messages(JoiMessage.createNumberMessages({ field: 'Min age', min: 18 })),
+  maxAge: Joi.number()
+    .min(18)
+    .required()
+    .messages(JoiMessage.createNumberMessages({ field: 'Max age', min: 18 })),
+  sexOption: Joi.string()
+    .valid(Sex.MALE, Sex.FEMALE)
+    .required()
+    .messages({
+      ...JoiMessage.createStringMessages({ field: 'Sex' }),
+      'any.only': ResponseMessage.INVALID_SEX,
+    }),
+});

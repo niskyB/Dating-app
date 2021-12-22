@@ -75,7 +75,9 @@ export class User {
   @Expose()
   showOptions: UserShowOption;
 
-  @OneToOne(() => UserFindOption, (options) => options.user)
+  @OneToOne(() => UserFindOption, (options) => options.user, {
+    cascade: true,
+  })
   @Expose()
   findOptions: UserFindOption;
 }

@@ -13,6 +13,7 @@ import { apiResponse } from '../common/interface/apiResponse';
 import { ResponseMessage } from '../constants/message/responseMessage.enum';
 import { SALT } from '../constants/bcrypt.constants';
 import {
+  ChangeFindOptionDto,
   ChangeHobbiesDto,
   ChangeShowAgeOptionDto,
   ChangeShowBioOptionDto,
@@ -359,6 +360,11 @@ export class UserService {
     await this.userRepository.save(user);
   }
 
+  /**
+   * @description change show hobbies option of user
+   * @param changeShowHobbiesOptionDto
+   * @param id
+   */
   async changeShowHobbies(
     changeShowHobbiesOptionDto: ChangeShowHobbiesOptionDto,
     id: string,
@@ -368,6 +374,22 @@ export class UserService {
       id,
     );
     user.showOptions.showHobbies = changeShowHobbiesOptionDto.showHobbies;
+    await this.userRepository.save(user);
+  }
+
+  /**
+   * @description change find option of user
+   * @param changeFindOptionDto
+   * @param id
+   */
+  async changeFindOption(changeFindOptionDto: ChangeFindOptionDto, id: string) {
+    const user = await this.userRepository.findUserWithFullInfoByField(
+      'id',
+      id,
+    );
+    user.findOptions.minAge = changeFindOptionDto.minAge;
+    user.findOptions.maxAge = changeFindOptionDto.maxAge;
+    user.findOptions.sexOption = changeFindOptionDto.sexOption;
     await this.userRepository.save(user);
   }
 

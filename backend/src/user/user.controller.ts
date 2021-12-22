@@ -21,6 +21,7 @@ import { UserService } from './user.service';
 import { Request } from 'express';
 import { apiResponse } from '../common/interface/apiResponse';
 import {
+  ChangeFindOptionDto,
   ChangeHobbiesDto,
   ChangeShowAgeOptionDto,
   ChangeShowBioOptionDto,
@@ -35,6 +36,7 @@ import {
   ChangeUserSexDto,
 } from './dto/change-profile.dto';
 import {
+  changeFindOptionSchema,
   changeHobbySchema,
   changeShowAgeOptionSchema,
   changeShowBioOptionSchema,
@@ -356,6 +358,25 @@ export class UserController {
   ) {
     await this.userService.changeShowHobbies(
       changeShowHobbiesOptionDto,
+      req.currentUser.id,
+    );
+    return apiResponse.send(null, null);
+  }
+
+  /**
+   * @description PUT method for user to change find option
+   * @param changeFindOptionDto
+   * @param req
+   * @returns response form with no data and error
+   */
+  @Put('/findOption')
+  @UsePipes(new JoiValidationPipe(changeFindOptionSchema))
+  async changeFindOption(
+    @Body() changeFindOptionDto: ChangeFindOptionDto,
+    @Req() req: Request,
+  ) {
+    await this.userService.changeFindOption(
+      changeFindOptionDto,
       req.currentUser.id,
     );
     return apiResponse.send(null, null);
