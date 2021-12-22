@@ -1,4 +1,4 @@
-import { Hobby } from "../../common/interface/entity/user";
+import { Hobby } from "../../common/interface/entity/hobby";
 import Badge from "../../component/badge";
 
 interface ProfileHobbiesProps {

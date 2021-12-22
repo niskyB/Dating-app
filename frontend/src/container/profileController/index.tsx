@@ -1,11 +1,10 @@
-import { showOptions } from "../../common/interface/entity/user";
+import { ShowOptions } from "../../common/interface/entity/showOptions";
 import ToggleButton from "../../component/toggleButton";
 import { store } from "../../store";
 import { userAction } from "../../store/user";
-import LogoutSection from "../logout";
 
 interface ProfileControllerProps {
-  showOptions: showOptions;
+  showOptions: ShowOptions;
 }
 
 const ProfileController: React.FunctionComponent<ProfileControllerProps> = ({

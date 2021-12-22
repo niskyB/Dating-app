@@ -1,11 +1,11 @@
 import { PlusIcon } from "@heroicons/react/solid";
 import { store } from "../../store";
 import { UIAction } from "../../store/UI";
-import PlusCircleIcon from "../icon/plusCircle";
 import XIcon from "../icon/x";
 
 interface AHightLightImageProps {
   imgUrl?: string;
+  id?: string;
 }
 
 const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
