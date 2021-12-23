@@ -1,3 +1,4 @@
+import { DislikeUser, LikeUser } from "./../dto/user";
 import { sexEnumString } from "./../redux/user";
 import { FindOption } from "./findOption";
 import { HighlightImg } from "./highlightImg";
@@ -22,4 +23,6 @@ export interface User {
   showOptions: ShowOptions;
   createDate: string;
   highlightImgs: HighlightImg[];
+  like: LikeUser[];
+  dislike: DislikeUser[];
 }

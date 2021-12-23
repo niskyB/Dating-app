@@ -24,11 +24,7 @@ export const userDataDefault: UserDataDTO = {
   bio: "",
   email: "",
   highlightImgs: [],
-  hobbies: [
-    // { id: "1", name: "game" },
-    // { id: "2", name: "travel" },
-    // { id: "3", name: "sleep" },
-  ],
+  hobbies: [],
   matchList: [],
   phone: "",
   name: "",
@@ -38,6 +34,8 @@ export const userDataDefault: UserDataDTO = {
   showOptions: showOptionsDefault,
   sex: "MALE",
   createDate: "",
+  like: [],
+  dislike: [],
 };
 
 export const successModelDefault: SuccessModel = {
