@@ -1,9 +1,11 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 interface SelectedFieldProps {
   data: string[];
   current: string;
+  value: string;
+  setValue: React.Dispatch<React.SetStateAction<any>>;
 }
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -11,16 +13,16 @@ function classNames(...classes: any) {
 
 const SelectedField: React.FunctionComponent<SelectedFieldProps> = ({
   data,
-  current,
+  value,
+  setValue,
 }) => {
-  const [selected, setSelected] = useState<string>(current);
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={value} onChange={(data) => setValue(data)}>
       {({ open }) => (
         <>
           <div className="relative flex items-center">
             <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border border-gray-300 rounded-md shadow-sm cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              <span className="block lowercase truncate ">{selected}</span>
+              <span className="block lowercase truncate ">{value}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon
                   className="w-5 h-5 text-gray-400"

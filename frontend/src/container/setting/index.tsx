@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { sexEnumString, UserState } from "../../common/interface/redux/user";
 import InputField from "../../component/inputField";
 import SelectedField from "../../component/selectedField";
-import { RootState } from "../../store";
+import { RootState, store } from "../../store";
+import { userThunk } from "../../store/user/thunk";
+import { openSuccessNotification } from "../../utils/notificationHelper";
+import { updateChangeOption } from "./action";
 import { findOptionDTO } from "./interface.dto";
 
 interface SettingProps {}
@@ -12,8 +16,22 @@ const sexFindingData: sexEnumString[] = ["FEMALE", "MALE"];
 const Setting: React.FunctionComponent<SettingProps> = () => {
   const { register, handleSubmit } = useForm<findOptionDTO>();
   const UserState = useSelector<RootState, UserState>((state) => state.user);
+  const [sexOption, setSexOption] = useState<sexEnumString>(
+    UserState.data.findOptions.sexOption
+  );
+  const onSubmit = async (data: findOptionDTO) => {
+    data.sexOption = sexOption;
+    const res = await updateChangeOption(data);
+    if (res.status === 200) {
+      openSuccessNotification("Update finding setting success!");
+      store.dispatch(userThunk.getCurrentUser());
+    }
+  };
   return (
-    <form className="absolute top-0 bottom-0 z-10 flex flex-col items-start flex-1 w-full pt-5 bg-white moveInFromRight">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="absolute top-0 bottom-0 z-10 flex flex-col items-start flex-1 w-full pt-5 bg-white moveInFromRight"
+    >
       <label className="block px-3 mb-3 text-base font-semibold text-black">
         Finding setting
       </label>
@@ -23,6 +41,8 @@ const Setting: React.FunctionComponent<SettingProps> = () => {
           <SelectedField
             data={sexFindingData}
             current={UserState.data.findOptions.sexOption}
+            value={sexOption}
+            setValue={setSexOption}
           />
         </div>
         <div className="flex items-center justify-between px-3 py-3 bg-gray-300 border-y-1">
