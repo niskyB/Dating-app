@@ -27,10 +27,15 @@ const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
     }
   };
   const onRemoveHighlightImage = async () => {
-    const res = await deleteHighLighImage(id);
-    if (res.status === 200) store.dispatch(userThunk.getCurrentUser());
+    if (
+      window.confirm(
+        "Do you really want to delete this image from your libary?"
+      )
+    ) {
+      const res = await deleteHighLighImage(id);
+      if (res.status === 200) store.dispatch(userThunk.getCurrentUser());
+    }
   };
-  console.log(id);
   return (
     <>
       <div
@@ -46,7 +51,7 @@ const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
       >
         {imgUrl && !isAvatar ? (
           <div
-            className="absolute w-7 h-7 p-1 text-red-500 bg-white shadow-lg  rounded-full cursor-pointer -right-3 -bottom-3"
+            className="absolute p-1 text-red-500 bg-white rounded-full shadow-lg cursor-pointer w-7 h-7 -right-3 -bottom-3"
             onClick={onRemoveHighlightImage}
           >
             <XIcon />
@@ -55,7 +60,7 @@ const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
           <>
             <label
               htmlFor={id}
-              className="absolute w-7 h-7 p-1 text-white bg-red-500 rounded-full cursor-pointer -right-3 -bottom-3"
+              className="absolute p-1 text-white bg-red-500 rounded-full cursor-pointer w-7 h-7 -right-3 -bottom-3"
             >
               <PlusIcon />
             </label>
