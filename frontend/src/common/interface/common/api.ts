@@ -1,4 +1,5 @@
-import { JoiError } from "./../redux/form";
+import { JoiError } from "./redux";
+
 export interface DataResponse<T> {
   data: T;
   errors: JoiError;

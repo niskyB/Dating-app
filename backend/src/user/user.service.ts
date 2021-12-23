@@ -18,7 +18,7 @@ import {
   ChangeShowAgeOptionDto,
   ChangeShowBioOptionDto,
   ChangeShowHobbiesOptionDto,
-  ChangeShowStudyOptionDto,
+  ChangeShowStudyAtOptionDto,
   ChangeStudyAtDto,
   ChangeUserAddressDto,
   ChangeUserBioDto,
@@ -331,15 +331,15 @@ export class UserService {
    * @param changeShowStudyOptionDto
    * @param id
    */
-  async changeShowStudy(
-    changeShowStudyOptionDto: ChangeShowStudyOptionDto,
+  async changeShowStudyAt(
+    changeShowStudyAtOptionDto: ChangeShowStudyAtOptionDto,
     id: string,
   ) {
     const user = await this.userRepository.findUserWithFullInfoByField(
       'id',
       id,
     );
-    user.showOptions.showStudy = changeShowStudyOptionDto.showStudy;
+    user.showOptions.showStudy = changeShowStudyAtOptionDto.showStudy;
     await this.userRepository.save(user);
   }
 

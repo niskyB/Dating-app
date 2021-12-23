@@ -5,6 +5,7 @@ import TinderCard from "react-tinder-card";
 import GoBackIcon from "../../component/icon/goBack";
 import Card from "../../component/card";
 import MatchWrapper from "../../component/matchWrapper";
+import { showOptionsDefault } from "../../store/defaultData/user";
 interface MatchPageProps {}
 
 export interface matchData {
@@ -177,7 +178,7 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
           onCardLeftScreen={() => outOfFrame(data.name, index)}
           preventSwipe={["up", "down"]}
         >
-          <Card data={data} />
+          <Card data={data} options={showOptionsDefault} />
         </TinderCard>
       ))}
       <div className="absolute bottom-0 left-0 right-0 flex flex-row items-center flex-1 pb-4 justify-evenly">
@@ -188,7 +189,7 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
           <GoBackIcon />
         </div>
         <div
-          className="flex items-center justify-center w-20 h-20 rounded-full text-radical-red-500 border-radical-red-500 solid border-1"
+          className="flex items-center justify-center w-20 h-20 p-3 rounded-full text-radical-red-500 border-radical-red-500 solid border-1"
           onClick={() => swipe("left")}
         >
           <XIcon />

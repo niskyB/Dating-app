@@ -7,12 +7,4 @@ export const userThunk = {
     const url = "/api/users";
     return (await axiosClient.get(url)).data.data;
   }),
-  // updateUserInfo: createAsyncThunk<
-  //   Partial<UpdateUserTextField>,
-  //   UpdateUserInput
-  // >("updateUserInfo", async ({ name, newValue }) => {
-  //   return await (
-  //     await updateUserInfo(name, newValue)
-  //   ).data;
-  // }),
 };

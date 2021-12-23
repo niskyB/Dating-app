@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import NotLoginMessage from "../../component/notLogin";
-import TopSideBar from "../../component/topSideBar";
+import TopSideBar from "../topSideBar";
 import { UserState } from "../../common/interface/redux/user";
 import { RootState } from "../../store";
 import SideBarNav from "../sideBarNav";

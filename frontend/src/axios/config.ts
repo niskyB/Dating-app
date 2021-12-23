@@ -2,11 +2,10 @@ import { FormAction } from "./../store/form/index";
 import { store } from "./../store/index";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { DataResponse } from "../common/interface/common/api";
-import * as env from "../constants/env";
 import { openWarningNotification } from "../utils/notificationHelper";
 import Cookies from "universal-cookie";
 const axiosClient: AxiosInstance = axios.create({
-  baseURL: env.SERVER_URL,
+  baseURL: process.env.REACT_APP_SERVER_URL,
   withCredentials: true,
 });
 

@@ -16,6 +16,8 @@ import { UserHighLightImg } from './user/entities/userHighlightImg.entity';
 import { Hobby } from './user/entities/userHobbies.entity';
 import { UserShowOption } from './user/entities/userShowOption.entity';
 import { UserFindOption } from './user/entities/userFindOption.entity';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 const Config = ConfigModule.forRoot({
   isGlobal: true,
@@ -42,6 +44,10 @@ const DBConfig = TypeOrmModule.forRoot({
     // -- Modules
     UserModule,
     AuthModule,
+    // -- serve static folder
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+    }),
   ],
   providers: [AppService],
 })
