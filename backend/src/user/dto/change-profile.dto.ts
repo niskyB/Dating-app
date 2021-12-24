@@ -22,7 +22,7 @@ export class ChangeUserDateOfBirthDto extends PickType(User, [
 
 export class ChangeStudyAtDto extends PickType(User, ['studyAt'] as const) {}
 
-export class ChangeHobbiesDto extends PickType(Hobby, ['hobby'] as const) {}
+export class ChangeHobbiesDto extends PickType(Hobby, ['hobbies'] as const) {}
 
 export class ChangeShowAgeOptionDto extends PickType(UserShowOption, [
   'showAge',
