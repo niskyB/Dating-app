@@ -14,10 +14,15 @@ const ProfileHobbies: React.FunctionComponent<ProfileHobbiesProps> = ({
   data,
 }) => {
   const onRemoveHobby = async (id: string) => {
-    const res = await removeHobby(id);
-    if (res.status === 200) {
-      store.dispatch(userThunk.getCurrentUser());
-      openSuccessNotification("remove hobby success!");
+    const isConfirm = window.confirm(
+      "Do you really want to delete this hobby from your list?"
+    );
+    if (isConfirm) {
+      const res = await removeHobby(id);
+      if (res.status === 200) {
+        store.dispatch(userThunk.getCurrentUser());
+        openSuccessNotification("remove hobby success!");
+      }
     }
   };
   const onAddHobby = () => {
@@ -51,7 +56,7 @@ const ProfileHobbies: React.FunctionComponent<ProfileHobbiesProps> = ({
         {data.map((hobby) => {
           return (
             <Badge
-              value={hobby.name}
+              value={hobby.hobbies}
               onRemove={() => onRemoveHobby(hobby.id)}
             />
           );
