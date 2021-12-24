@@ -1,11 +1,21 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from '../auth/auth.module';
-import { UserRepository } from './entities/user.repository';
+
+//---- entity
 import { UserHighLightImg } from './entities/userHighlightImg.entity';
 import { Hobby } from './entities/userHobbies.entity';
-import { UserController } from './user.controller';
+
+//---- module
+import { AuthModule } from '../auth/auth.module';
+
+//---- service
 import { UserService } from './user.service';
+
+//---- controller
+import { UserController } from './user.controller';
+
+//---- repository
+import { UserRepository } from './entities/user.repository';
 
 @Module({
   imports: [

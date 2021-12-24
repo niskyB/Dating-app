@@ -13,13 +13,15 @@ import {
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
-import { UserGuard } from '../auth/guard/auth.guard';
-import { JoiValidationPipe } from '../utils/validation/JoiValidationPipe.pipe';
-import { ChangePasswordDto } from './dto/change-password.dto';
-import { changePasswordSchema } from './schema/change-password.schema';
-import { UserService } from './user.service';
 import { Request } from 'express';
-import { apiResponse } from '../common/interface/apiResponse';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { UserService } from './user.service';
+
+//---- entity
+import { User } from './entities/user.entity';
+
+//---- dto
+import { ChangePasswordDto } from './dto/change-password.dto';
 import {
   ChangeFindOptionDto,
   ChangeHobbiesDto,
@@ -35,6 +37,8 @@ import {
   ChangeUserPhoneDto,
   ChangeUserSexDto,
 } from './dto/change-profile.dto';
+
+//---- schema
 import {
   changeFindOptionSchema,
   changeHobbySchema,
@@ -50,12 +54,26 @@ import {
   changeUserPhoneSchema,
   changeUserSexSchema,
 } from './schema/change-profile.schema';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { changePasswordSchema } from './schema/change-password.schema';
+
+//---- guard
+import { UserGuard } from '../auth/guard/auth.guard';
+
+//---- pipe
+import { JoiValidationPipe } from '../utils/validation/JoiValidationPipe.pipe';
+
+//---- api response
+import { apiResponse } from '../common/interface/apiResponse';
+
+//---- multer
 import { multerOptions } from '../utils/multer/multerOptions';
+
+//---- interceptor
+import { serialize } from '../utils/interceptor/serialize.interceptor';
+
+//---- constants
 import { ResponseMessage } from '../constants/message/responseMessage.enum';
 import { MAX_COUNT } from '../constants/multer.constants';
-import { serialize } from '../utils/interceptor/serialize.interceptor';
-import { User } from './entities/user.entity';
 
 @Controller('users')
 @UseGuards(UserGuard)
@@ -64,7 +82,7 @@ export class UserController {
 
   /**
    * @description GET method to get current user
-   * @param req
+   * @param req Http request
    * @returns response form with user data
    */
   @Get()
@@ -100,7 +118,7 @@ export class UserController {
   /**
    * @description PUT method for user to change name
    * @param changeUserNameDto
-   * @param req
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/name')
@@ -117,7 +135,7 @@ export class UserController {
   /**
    * @description PUT method for user to update bio
    * @param changeUserBioDto
-   * @param req
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/bio')
@@ -134,7 +152,7 @@ export class UserController {
   /**
    * @description PUT method for user to change phone number
    * @param changeUserPhoneDto
-   * @param req
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/phone')
@@ -151,7 +169,7 @@ export class UserController {
   /**
    * @description PUT method for user to change address
    * @param changeUserAddressDto
-   * @param req
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/address')
@@ -171,7 +189,7 @@ export class UserController {
   /**
    * @description PUT method for user to update sex
    * @param changeUserSexDto
-   * @param req
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/sex')
@@ -187,8 +205,8 @@ export class UserController {
 
   /**
    * @description PUT method for user to change avatar
-   * @param file
-   * @param req
+   * @param file multer file
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/avatar')
@@ -213,7 +231,7 @@ export class UserController {
   /**
    * @description PUT method for user to change date of birth
    * @param changeUserDateOfBirth
-   * @param req
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/dateOfBirth')
@@ -232,8 +250,8 @@ export class UserController {
 
   /**
    * @description PUT method for user to update highlight images
-   * @param files
-   * @param req
+   * @param files array of multer files
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/highlightImgs')
@@ -258,7 +276,7 @@ export class UserController {
   /**
    * @description PUT method for user to change study at
    * @param changeStudyAtDto
-   * @param req
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/studyAt')
@@ -274,7 +292,7 @@ export class UserController {
   /**
    * @description PUT method for user to change hobbies
    * @param changeHobbiesDto
-   * @param req
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/hobbies')
@@ -290,7 +308,7 @@ export class UserController {
   /**
    * @description PUT method for user to change show age option
    * @param changeShowAgeOptionDto
-   * @param req
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/showOption/showAge')
@@ -309,7 +327,7 @@ export class UserController {
   /**
    * @description PUT method for user to change show study option
    * @param changeShowStudyOptionDto
-   * @param req
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/showOption/showStudyAt')
@@ -328,7 +346,7 @@ export class UserController {
   /**
    * @description PUT method for user to change show bio option
    * @param changeShowBioOptionDto
-   * @param req
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/showOption/showBio')
@@ -347,7 +365,7 @@ export class UserController {
   /**
    * @description PUT method for user to change show hobbies option
    * @param changeShowHobbiesOptionDto
-   * @param req
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/showOption/showHobbies')
@@ -366,7 +384,7 @@ export class UserController {
   /**
    * @description PUT method for user to change find option
    * @param changeFindOptionDto
-   * @param req
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Put('/findOption')
@@ -384,8 +402,8 @@ export class UserController {
 
   /**
    * @description DELETE method for user to remove hobby
-   * @param id
-   * @param req
+   * @param id id of deleted hobby
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Delete('/hobbies/:id')
@@ -396,8 +414,8 @@ export class UserController {
 
   /**
    * @description DELETE method for user to remove highlight image
-   * @param id
-   * @param req
+   * @param id id of deleted img
+   * @param req Http request
    * @returns response form with no data and error
    */
   @Delete('/highlightImgs/:id')
