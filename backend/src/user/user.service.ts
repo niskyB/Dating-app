@@ -311,9 +311,24 @@ export class UserService {
     changeHobbiesDto: ChangeHobbiesDto,
     id: string,
   ): Promise<Hobby> {
-    const user = await this.userRepository.findOneByField('id', id);
+    const user = await this.userRepository.findUserWithFullInfoByField(
+      'id',
+      id,
+    );
+
+    const newHobby = changeHobbiesDto.hobbies.toLowerCase();
+    user.hobbies.forEach((hobby) => {
+      if (hobby.hobbies === newHobby) {
+        throw new BadRequestException(
+          apiResponse.send(null, {
+            hobbies: ResponseMessage.DUPLICATED_HOBBIES,
+          }),
+        );
+      }
+    });
+
     const hobby = this.hobbyRepository.create();
-    hobby.hobbies = changeHobbiesDto.hobbies;
+    hobby.hobbies = newHobby;
     hobby.user = user;
     return await this.hobbyRepository.manager.save(hobby);
   }

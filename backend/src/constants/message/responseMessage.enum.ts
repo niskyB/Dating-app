@@ -12,5 +12,6 @@ export enum ResponseMessage {
   DUPLICATED_PASSWORD = 'New password is same with your current password',
   DUPLICATED_NAME = 'New name is same with your current name',
   DUPLICATED_PHONE = 'New phone number is same with your current phone number',
+  DUPLICATED_HOBBIES = 'Hobby has already existed',
   IMG_ERROR = 'Image uploaded should be jpg/jpeg or png',
 }
