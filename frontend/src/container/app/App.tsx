@@ -29,7 +29,7 @@ function App() {
       <div className="flex text-4xl ">
         {userState.isLogin && <SideBar />}
         <div className="justify-center flex-1 w-full h-screen bg-gray-50 align-center">
-          <Suspense fallback={<LoadingAnimation />}>
+          <Suspense fallback={<LoadingAnimation isLoading={true} />}>
             <Routes>{renderHelper(contentRoutes, true)}</Routes>
           </Suspense>
         </div>
@@ -48,6 +48,7 @@ function App() {
         onCloseSuccessModel={onCloseSuccessModel}
       />
       <CropperBox />
+      <LoadingAnimation isLoading={UIState.isLoading} />
     </>
   );
 }

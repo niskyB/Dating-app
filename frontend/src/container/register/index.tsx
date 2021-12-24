@@ -5,11 +5,13 @@ import InputField from "../../component/inputField";
 import CheckBox from "../../component/checkbox";
 import { useState } from "react";
 import { userRegister } from "./action";
-import { RootState } from "../../store";
+import { RootState, store } from "../../store";
 import { useSelector } from "react-redux";
 import { FormState } from "../../common/interface/redux/form";
 import { RegisterUserDTO } from "./interface.dto";
 import { openSuccessNotification } from "../../utils/notificationHelper";
+import { UIAction } from "../../store/UI";
+import { timeDelay } from "../../constants/loading";
 
 interface RegisterPageProps {}
 
@@ -25,10 +27,14 @@ const RegisterPage: React.FunctionComponent<RegisterPageProps> = () => {
     } else if (femaleCheck) {
       data.sex = "FEMALE";
     }
+    store.dispatch(UIAction.setIsLoading(true));
     const response = await userRegister(data);
     if (response.status === 201) {
-      openSuccessNotification("register success!");
-      navigate("/login");
+      setTimeout(() => {
+        store.dispatch(UIAction.setIsLoading(false));
+        openSuccessNotification("register success!");
+        navigate("/login");
+      }, timeDelay);
     }
   };
   return (

@@ -7,6 +7,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { userThunk } from "../../store/user/thunk";
 import { openSuccessNotification } from "../../utils/notificationHelper";
 import { updateUserInfo } from "./action";
+import { timeDelay } from "../../constants/loading";
 const UpdateInfoPopup: React.FunctionComponent = () => {
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
   const {
@@ -23,11 +24,15 @@ const UpdateInfoPopup: React.FunctionComponent = () => {
     defaultValues: { [name]: defaultValue },
   });
   const onSubmit: SubmitHandler<any> = async (data) => {
+    store.dispatch(UIAction.setIsLoading(true));
     const res = await updateUserInfo(name, data[name]);
     if (res.status === 200) {
-      store.dispatch(userThunk.getCurrentUser());
+      await store.dispatch(userThunk.getCurrentUser());
       store.dispatch(UIAction.closeUpdatePopup());
-      openSuccessNotification(`Update your ${name} success!`);
+      setTimeout(() => {
+        store.dispatch(UIAction.setIsLoading(false));
+        openSuccessNotification(`Update your ${name} success!`);
+      }, timeDelay);
     }
   };
 

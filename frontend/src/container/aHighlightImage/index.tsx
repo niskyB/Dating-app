@@ -4,6 +4,8 @@ import { UIAction } from "../../store/UI";
 import XIcon from "../../component/icon/x";
 import { deleteHighLighImage } from "./action";
 import { userThunk } from "../../store/user/thunk";
+import { timeDelay } from "../../constants/loading";
+import { openSuccessNotification } from "../../utils/notificationHelper";
 
 interface AHightLightImageProps {
   imgUrl?: string;
@@ -32,8 +34,15 @@ const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
         "Do you really want to delete this image from your libary?"
       )
     ) {
+      store.dispatch(UIAction.setIsLoading(true));
       const res = await deleteHighLighImage(id);
-      if (res.status === 200) store.dispatch(userThunk.getCurrentUser());
+      if (res.status === 200) {
+        await store.dispatch(userThunk.getCurrentUser());
+        setTimeout(() => {
+          store.dispatch(UIAction.setIsLoading(false));
+          openSuccessNotification("Remove image success!");
+        }, timeDelay);
+      }
     }
   };
   return (

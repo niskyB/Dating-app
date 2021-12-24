@@ -40,7 +40,7 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
         ) : (
           <NotLoginMessage />
         )}
-        <Suspense fallback={<LoadingAnimation />}>
+        <Suspense fallback={<LoadingAnimation isLoading={true} />}>
           <Routes>{renderHelper(sideBarRoute, false)}</Routes>
         </Suspense>
       </div>

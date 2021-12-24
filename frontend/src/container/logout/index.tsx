@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import { timeDelay } from "../../constants/loading";
 import { store } from "../../store";
+import { UIAction } from "../../store/UI";
 import { userAction } from "../../store/user";
 import { openSuccessNotification } from "../../utils/notificationHelper";
 import { logout } from "./action";
@@ -9,10 +11,14 @@ interface LogoutSectionProps {}
 const LogoutSection: React.FunctionComponent<LogoutSectionProps> = () => {
   const navigate = useNavigate();
   const onLogout = async () => {
+    store.dispatch(UIAction.setIsLoading(true));
     await logout().then(() => {
-      store.dispatch(userAction.setIsLogin(false));
       navigate("/login");
-      openSuccessNotification("Log out success!");
+      store.dispatch(userAction.setIsLogin(false));
+      setTimeout(() => {
+        store.dispatch(UIAction.setIsLoading(false));
+        openSuccessNotification("Log out success!");
+      }, timeDelay);
     });
   };
   return (
