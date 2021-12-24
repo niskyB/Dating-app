@@ -56,7 +56,7 @@ const ProfileHobbies: React.FunctionComponent<ProfileHobbiesProps> = ({
         {data.map((hobby) => {
           return (
             <Badge
-              value={hobby.name}
+              value={hobby.hobbies}
               onRemove={() => onRemoveHobby(hobby.id)}
             />
           );
