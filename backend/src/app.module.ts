@@ -18,7 +18,6 @@ import { UserShowOption } from './user/entities/userShowOption.entity';
 import { UserFindOption } from './user/entities/userFindOption.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { MatchModule } from './match/match.module';
 
 const Config = ConfigModule.forRoot({
   isGlobal: true,
@@ -49,7 +48,6 @@ const DBConfig = TypeOrmModule.forRoot({
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),
-    MatchModule,
   ],
   providers: [AppService],
 })
