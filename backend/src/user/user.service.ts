@@ -18,7 +18,7 @@ import {
   ChangeShowAgeOptionDto,
   ChangeShowBioOptionDto,
   ChangeShowHobbiesOptionDto,
-  ChangeShowStudyOptionDto,
+  ChangeShowStudyAtOptionDto,
   ChangeStudyAtDto,
   ChangeUserAddressDto,
   ChangeUserBioDto,
@@ -304,7 +304,7 @@ export class UserService {
   ): Promise<Hobby> {
     const user = await this.userRepository.findOneByField('id', id);
     const hobby = this.hobbyRepository.create();
-    hobby.name = changeHobbiesDto.name;
+    hobby.hobby = changeHobbiesDto.hobby;
     hobby.user = user;
     return await this.hobbyRepository.manager.save(hobby);
   }
@@ -331,15 +331,15 @@ export class UserService {
    * @param changeShowStudyOptionDto
    * @param id
    */
-  async changeShowStudy(
-    changeShowStudyOptionDto: ChangeShowStudyOptionDto,
+  async changeShowStudyAt(
+    changeShowStudyAtOptionDto: ChangeShowStudyAtOptionDto,
     id: string,
   ) {
     const user = await this.userRepository.findUserWithFullInfoByField(
       'id',
       id,
     );
-    user.showOptions.showStudy = changeShowStudyOptionDto.showStudy;
+    user.showOptions.showStudy = changeShowStudyAtOptionDto.showStudy;
     await this.userRepository.save(user);
   }
 
