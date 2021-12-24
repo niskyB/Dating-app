@@ -76,6 +76,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
         {inputOutlineField.map((input) => {
           return (
             <InputOutline
+              key={input.label}
               label={input.label}
               name={input.name}
               value={input.value}

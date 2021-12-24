@@ -15,6 +15,7 @@ export interface matchData {
   studyAt: string;
   bio: string;
 }
+
 const data: matchData[] = [
   {
     avatar:

@@ -1,5 +1,10 @@
 import { Hobby } from "../../common/interface/entity/hobby";
 import Badge from "../../component/badge";
+import { store } from "../../store";
+import { UIAction } from "../../store/UI";
+import { userThunk } from "../../store/user/thunk";
+import { openSuccessNotification } from "../../utils/notificationHelper";
+import { removeHobby } from "./action";
 
 interface ProfileHobbiesProps {
   data: Hobby[];
@@ -8,10 +13,24 @@ interface ProfileHobbiesProps {
 const ProfileHobbies: React.FunctionComponent<ProfileHobbiesProps> = ({
   data,
 }) => {
-  const onRemoveHobby = (hobby: string) => {
-    console.log(`removing ${hobby}....`);
+  const onRemoveHobby = async (id: string) => {
+    const res = await removeHobby(id);
+    if (res.status === 200) {
+      store.dispatch(userThunk.getCurrentUser());
+      openSuccessNotification("remove hobby success!");
+    }
   };
-  const onAddHobby = () => {};
+  const onAddHobby = () => {
+    store.dispatch(
+      UIAction.setUpdatePopup({
+        isOpenning: true,
+        name: "hobbies",
+        label: "hobby",
+        description: "add new hobby to let everyone know about this",
+        type: "text",
+      })
+    );
+  };
   return (
     <div className="mt-5">
       <div className="flex flex-row justify-between px-2">
@@ -33,7 +52,7 @@ const ProfileHobbies: React.FunctionComponent<ProfileHobbiesProps> = ({
           return (
             <Badge
               value={hobby.name}
-              onRemove={() => onRemoveHobby(hobby.name)}
+              onRemove={() => onRemoveHobby(hobby.id)}
             />
           );
         })}

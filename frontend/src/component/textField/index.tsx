@@ -39,7 +39,6 @@ const TextField: React.FunctionComponent<TextFieldProps> = ({
           id="comment"
           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm bg-gray-300 border-gray-300 "
           defaultValue={defaultValue}
-          value={value}
         />
       </div>
     </div>

@@ -13,7 +13,9 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
       <div
         className="flex flex-col justify-end w-96 h-140"
         style={{
-          backgroundImage: `url("${process.env.REACT_APP_SERVER_URL}/${data.avatar}") `,
+          backgroundImage: data.avatar.startsWith("https:")
+            ? `url(${data.avatar})`
+            : `url("${process.env.REACT_APP_SERVER_URL}/${data.avatar}") `,
           backgroundSize: "cover",
           backgroundPosition: "50% 50%",
           backgroundRepeat: "no-repeat",

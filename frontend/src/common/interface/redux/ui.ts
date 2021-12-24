@@ -17,6 +17,7 @@ export interface SuccessModel {
 export interface CropperData {
   imageUrl: string;
   croppedImage: string;
+  isAvatar: boolean | null;
 }
 export interface UIState {
   isMatchOpen: boolean;
@@ -44,4 +45,9 @@ export interface NotificationData {
   status: NotificationStatusString;
   title: string;
   message: string;
+}
+
+export interface SetCropData {
+  imageUrl: string;
+  isAvatar: boolean | null;
 }
