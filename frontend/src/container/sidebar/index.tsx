@@ -10,6 +10,8 @@ import { UIState } from "../../common/interface/redux/ui";
 import { Routes } from "react-router-dom";
 import { renderHelper } from "../../utils/renderHelper";
 import { sideBarRoute } from "../../constants/route";
+import { Suspense } from "react";
+import LoadingAnimation from "../../component/loading";
 
 interface SideBarProps {}
 
@@ -38,7 +40,9 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
         ) : (
           <NotLoginMessage />
         )}
-        <Routes>{renderHelper(sideBarRoute, false)}</Routes>
+        <Suspense fallback={<LoadingAnimation />}>
+          <Routes>{renderHelper(sideBarRoute, false)}</Routes>
+        </Suspense>
       </div>
     </div>
   );

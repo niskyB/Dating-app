@@ -16,6 +16,7 @@ import {
 const initialState: UIState = {
   isMatchOpen: true,
   isMessagesOpen: false,
+  isLoading: false,
   updatePopup: updateInfoPopupDefault,
   successModel: successModelDefault,
   notification: notificationDefault,
@@ -105,6 +106,12 @@ export const UI = createSlice({
           ...state.cropper,
           croppedImage: payload,
         },
+      };
+    },
+    setIsLoading: (state: UIState, { payload }: ReduxAction<boolean>) => {
+      return {
+        ...state,
+        isLoading: payload,
       };
     },
   },

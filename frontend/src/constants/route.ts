@@ -1,13 +1,12 @@
-import * as React from "react";
-import PreviewProfile from "../container/previewProfile";
-import ChatBox from "../container/chatBox";
-import MyProfile from "../container/myProfile";
-import Setting from "../container/setting";
+import { lazy } from "react";
 
-const LoginPage = React.lazy(() => import("../container/login"));
-const RegisterPage = React.lazy(() => import("../container/register"));
-const MatchPage = React.lazy(() => import("../container/match"));
-
+const PreviewProfile = lazy(() => import("../container/previewProfile"));
+const ChatBox = lazy(() => import("../container/chatBox"));
+const LoginPage = lazy(() => import("../container/login"));
+const RegisterPage = lazy(() => import("../container/register"));
+const MatchPage = lazy(() => import("../container/match"));
+const Setting = lazy(() => import("../container/setting"));
+const MyProfile = lazy(() => import("../container/myProfile"));
 export interface route {
   link: string;
   component: any;
