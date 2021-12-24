@@ -16,7 +16,7 @@ export class UserShowOption {
   showAge: boolean;
 
   @Column({ default: true })
-  showStudy: boolean;
+  showStudyAt: boolean;
 
   @Column({ default: true })
   showBio: boolean;

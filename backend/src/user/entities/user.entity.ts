@@ -2,6 +2,8 @@ import { Expose } from 'class-transformer';
 import {
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -80,4 +82,12 @@ export class User {
   })
   @Expose()
   findOptions: UserFindOption;
+
+  @ManyToMany(() => User, { cascade: true })
+  @JoinTable()
+  like: User[];
+
+  @ManyToMany(() => User, { cascade: true })
+  @JoinTable()
+  disLike: User[];
 }

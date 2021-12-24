@@ -339,7 +339,7 @@ export class UserService {
       'id',
       id,
     );
-    user.showOptions.showStudy = changeShowStudyAtOptionDto.showStudy;
+    user.showOptions.showStudyAt = changeShowStudyAtOptionDto.showStudyAt;
     await this.userRepository.save(user);
   }
 
