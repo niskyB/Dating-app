@@ -304,7 +304,7 @@ export class UserService {
   ): Promise<Hobby> {
     const user = await this.userRepository.findOneByField('id', id);
     const hobby = this.hobbyRepository.create();
-    hobby.hobby = changeHobbiesDto.hobby;
+    hobby.hobbies = changeHobbiesDto.hobbies;
     hobby.user = user;
     return await this.hobbyRepository.manager.save(hobby);
   }

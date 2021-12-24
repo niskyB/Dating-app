@@ -7,7 +7,7 @@ export class Hobby {
   id: string;
 
   @Column({ nullable: false })
-  hobby: string;
+  hobbies: string;
 
   @ManyToOne(() => User, (user) => user.hobbies, {
     cascade: true,
