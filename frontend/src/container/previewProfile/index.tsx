@@ -8,18 +8,35 @@ interface PreviewProfileProps {}
 
 const PreviewProfile: React.FunctionComponent<PreviewProfileProps> = () => {
   const userState = useSelector<RootState, UserState>((state) => state.user);
-  const { avatar, bio, name, dateOfBirth, studyAt } = userState.data;
-  const dateOfBirthYear = new Date(dateOfBirth).getFullYear();
-  const currentYear = new Date().getFullYear();
+  const {
+    avatar,
+    bio,
+    name,
+    dateOfBirth,
+    studyAt,
+    hobbies,
+    highlightImgs,
+    id,
+    sex,
+    showOptions,
+    findOptions,
+  } = userState.data;
+
   return (
     <MatchWrapper>
       <Card
         data={{
-          age: currentYear - dateOfBirthYear,
+          dateOfBirth,
           avatar,
           bio,
           name,
           studyAt,
+          hobbies,
+          highlightImgs,
+          id,
+          sex,
+          showOptions,
+          findOptions,
         }}
         options={userState.data.showOptions}
       />

@@ -20,7 +20,11 @@ const TopSideBar: React.FunctionComponent<TopSideBarProps> = ({ isLogin }) => {
             <AvatarCircle
               to={"/me"}
               alt="avatar"
-              url={userState && "./images/defaultAvatar.png"}
+              url={
+                userState.data.avatar
+                  ? `${process.env.REACT_APP_SERVER_URL}/${userState.data.avatar}`
+                  : "./images/defaultAvatar.png"
+              }
             />
             <div className="ml-3 text-lg font-bold text-white cursor-pointer">
               {userState.data.name}

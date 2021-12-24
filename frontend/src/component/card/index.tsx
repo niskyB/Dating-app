@@ -1,29 +1,83 @@
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
+import { useState } from "react";
 import { ShowOptions } from "../../common/interface/entity/showOptions";
-import { matchData } from "../../container/match";
 import EducationIcon from "../icon/education";
+import { MatchCard } from "./interface.dto";
 
 interface CardProps {
-  data: matchData;
+  data: MatchCard;
   options: ShowOptions;
 }
 
 const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const numberOfImage = data.highlightImgs.length + 1;
+  const onPreviosImage = () => {
+    if (currentIndex - 1 >= 0) {
+      setCurrentIndex(currentIndex - 1);
+    } else {
+      setCurrentIndex(numberOfImage - 1);
+    }
+  };
+  const onNextImage = () => {
+    if (currentIndex + 1 > numberOfImage - 1) {
+      setCurrentIndex(0);
+    } else {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
   return (
-    <div className="flex flex-col w-full h-full bg-black shadow-lg card">
+    <div className="flex flex-col w-96 h-140  shadow-lg card relative overflow-hidden">
+      <div className="">
+        <div
+          className="absolute inset-0 w-auto flex  flex-row  duration-200 transition-all ease-in-out "
+          style={{
+            transform: `translateX(-${currentIndex * 100}%)`,
+          }}
+        >
+          <div
+            className="min-w-full min-h-full"
+            style={{
+              backgroundImage: `url("${process.env.REACT_APP_SERVER_URL}/${data.avatar}") `,
+              backgroundSize: "cover",
+              backgroundPosition: "50% 50%",
+              backgroundRepeat: "no-repeat",
+            }}
+          ></div>
+          {data.highlightImgs.map((image) => {
+            return (
+              <div
+                className="min-w-full min-h-full "
+                style={{
+                  backgroundImage: `url("${process.env.REACT_APP_SERVER_URL}/${image.image}") `,
+                  backgroundSize: "cover",
+                  backgroundPosition: "50% 50%",
+                  backgroundRepeat: "no-repeat",
+                }}
+              ></div>
+            );
+          })}
+        </div>
+      </div>
       <div
-        className="flex flex-col justify-end w-96 h-140"
-        style={{
-          backgroundImage: data.avatar.startsWith("https:")
-            ? `url(${data.avatar})`
-            : `url("${process.env.REACT_APP_SERVER_URL}/${data.avatar}") `,
-          backgroundSize: "cover",
-          backgroundPosition: "50% 50%",
-          backgroundRepeat: "no-repeat",
-        }}
+        className="z-30 text-white/70 hover:text-white cursor-pointer w-10 h-10 absolute top-1/2 left-2"
+        onClick={onPreviosImage}
       >
+        <ChevronLeftIcon />
+      </div>
+      <div
+        className="z-30 text-white/70 hover:text-white cursor-pointer w-10 h-10 absolute top-1/2 right-2"
+        onClick={onNextImage}
+      >
+        <ChevronRightIcon />
+      </div>
+      <div className="flex flex-col z-10 justify-end w-96 h-140">
         <div className="flex flex-col items-start justify-end w-full px-5 py-5 customShadow h-1/4">
           <div className="text-3xl font-medium text-white">
-            {data.name} {options.showAge && data.age}
+            {data.name}{" "}
+            {options.showAge &&
+              new Date().getFullYear() -
+                new Date(data.dateOfBirth).getFullYear()}
           </div>
           {options.showStudyAt && (
             <div className="flex items-center justify-start my-2 text-base font-medium text-gray-200">
