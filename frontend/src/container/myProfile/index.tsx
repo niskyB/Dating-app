@@ -63,7 +63,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
     },
     {
       label: "Birthdate",
-      name: "birthdate",
+      name: "dateOfBirth",
       type: "date",
       value: parseDate(dateOfBirthString),
       editable: false,
