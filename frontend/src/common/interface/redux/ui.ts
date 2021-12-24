@@ -26,6 +26,7 @@ export interface UIState {
   successModel: SuccessModel;
   notification: NotificationData;
   cropper: CropperData;
+  isLoading: boolean;
 }
 export enum NotificationStatus {
   SUCCESS = "SUCCESS",
