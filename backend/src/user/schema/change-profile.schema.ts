@@ -69,7 +69,7 @@ export const changeStudyAtSchema = Joi.object({
 });
 
 export const changeHobbySchema = Joi.object({
-  name: Joi.string()
+  hobby: Joi.string()
     .required()
     .max(255)
     .messages(JoiMessage.createStringMessages({ field: 'Hobby' })),
