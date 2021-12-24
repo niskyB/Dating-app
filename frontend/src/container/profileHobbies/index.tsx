@@ -1,5 +1,6 @@
 import { Hobby } from "../../common/interface/entity/hobby";
 import Badge from "../../component/badge";
+import { timeDelay } from "../../constants/loading";
 import { store } from "../../store";
 import { UIAction } from "../../store/UI";
 import { userThunk } from "../../store/user/thunk";
@@ -18,10 +19,14 @@ const ProfileHobbies: React.FunctionComponent<ProfileHobbiesProps> = ({
       "Do you really want to delete this hobby from your list?"
     );
     if (isConfirm) {
+      store.dispatch(UIAction.setIsLoading(true));
       const res = await removeHobby(id);
       if (res.status === 200) {
-        store.dispatch(userThunk.getCurrentUser());
-        openSuccessNotification("remove hobby success!");
+        await store.dispatch(userThunk.getCurrentUser());
+        setTimeout(() => {
+          store.dispatch(UIAction.setIsLoading(false));
+          openSuccessNotification("remove hobby success!");
+        }, timeDelay);
       }
     }
   };

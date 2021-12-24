@@ -3,10 +3,11 @@ import * as React from "react";
 import Cropper from "react-easy-crop";
 import { useSelector } from "react-redux";
 import { UIState } from "../../common/interface/redux/ui";
-import { UserState } from "../../common/interface/redux/user";
+import { timeDelay } from "../../constants/loading";
 import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
 import { userThunk } from "../../store/user/thunk";
+import { openSuccessNotification } from "../../utils/notificationHelper";
 import { updateAvatar, updateHighlightImg } from "./action";
 import getCroppedImg from "./cropImage";
 interface CropperProps {}
@@ -17,12 +18,12 @@ const CropperBox: React.FunctionComponent<CropperProps> = () => {
   const [croppedAreaPixels, setCroppedAreaPixels] = React.useState(null);
   const [rotateImage, setRotateImage] = React.useState<number>(0);
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
-  const userState = useSelector<RootState, UserState>((state) => state.user);
   const onCropComplete = React.useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
-  const showCroppedImage = React.useCallback(async () => {
+  const onCropImage = React.useCallback(async () => {
     try {
+      store.dispatch(UIAction.setIsLoading(true));
       const croppedImageUrl = (await getCroppedImg(
         UIState.cropper.imageUrl,
         croppedAreaPixels,
@@ -40,11 +41,16 @@ const CropperBox: React.FunctionComponent<CropperProps> = () => {
         res = await updateHighlightImg(file);
       }
       if (res.status === 200) {
-        store.dispatch(userThunk.getCurrentUser());
+        await store.dispatch(userThunk.getCurrentUser());
         store.dispatch(UIAction.setCropImage({ imageUrl: "", isAvatar: null }));
         //remove previous blob image url
         URL.revokeObjectURL(UIState.cropper.imageUrl);
         store.dispatch(UIAction.setCroppedImage(croppedImageUrl));
+
+        setTimeout(() => {
+          store.dispatch(UIAction.setIsLoading(false));
+          openSuccessNotification("Update success!");
+        }, timeDelay);
       }
     } catch (e) {
       console.error(e);
@@ -53,7 +59,7 @@ const CropperBox: React.FunctionComponent<CropperProps> = () => {
     croppedAreaPixels,
     rotateImage,
     UIState.cropper.imageUrl,
-    userState.data.avatar,
+    UIState.cropper.isAvatar,
   ]);
 
   const onRotateChange = (e: any) => {
@@ -99,7 +105,7 @@ const CropperBox: React.FunctionComponent<CropperProps> = () => {
             />
           </div>
           <button
-            onClick={showCroppedImage}
+            onClick={onCropImage}
             type="button"
             className="inline-flex ml-5 items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >

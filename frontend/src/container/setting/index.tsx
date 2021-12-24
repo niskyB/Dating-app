@@ -4,7 +4,9 @@ import { useSelector } from "react-redux";
 import { sexEnumString, UserState } from "../../common/interface/redux/user";
 import InputField from "../../component/inputField";
 import SelectedField from "../../component/selectedField";
+import { timeDelay } from "../../constants/loading";
 import { RootState, store } from "../../store";
+import { UIAction } from "../../store/UI";
 import { userThunk } from "../../store/user/thunk";
 import { openSuccessNotification } from "../../utils/notificationHelper";
 import { updateChangeOption } from "./action";
@@ -22,9 +24,13 @@ const Setting: React.FunctionComponent<SettingProps> = () => {
   const onSubmit = async (data: findOptionDTO) => {
     data.sexOption = sexOption;
     const res = await updateChangeOption(data);
+    store.dispatch(UIAction.setIsLoading(true));
     if (res.status === 200) {
-      openSuccessNotification("Update finding setting success!");
-      store.dispatch(userThunk.getCurrentUser());
+      await store.dispatch(userThunk.getCurrentUser());
+      setTimeout(() => {
+        store.dispatch(UIAction.setIsLoading(false));
+        openSuccessNotification("Update finding setting success!");
+      }, timeDelay);
     }
   };
   return (

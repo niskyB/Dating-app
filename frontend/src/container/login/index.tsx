@@ -9,6 +9,8 @@ import { FormState } from "../../common/interface/redux/form";
 import { login } from "./action";
 import { userAction } from "../../store/user";
 import { openSuccessNotification } from "../../utils/notificationHelper";
+import { UIAction } from "../../store/UI";
+import { timeDelay } from "../../constants/loading";
 interface LoginPageProps {}
 
 const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
@@ -16,11 +18,15 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
   const form = useSelector<RootState, FormState>((state) => state.form);
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<LoginUserDTO> = async (data) => {
+    store.dispatch(UIAction.setIsLoading(true));
     const response = await login(data);
     if (response.status === 200) {
-      store.dispatch(userAction.setIsLogin(true));
-      openSuccessNotification("Login success!");
       navigate("/");
+      store.dispatch(userAction.setIsLogin(true));
+      setTimeout(() => {
+        store.dispatch(UIAction.setIsLoading(false));
+        openSuccessNotification("Login success!");
+      }, timeDelay);
     }
   };
   return (
