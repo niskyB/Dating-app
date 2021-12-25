@@ -38,7 +38,7 @@ export class AuthService {
    * @param createUserDto
    */
   async create(createUserDto: CreateUserDto) {
-    let errors = {};
+    let errors: any;
     errors = await this.checkExistedUser(
       'email',
       createUserDto.email,
