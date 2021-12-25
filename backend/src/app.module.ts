@@ -1,16 +1,17 @@
-// module
+//---- module
 import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { MatchModule } from './match/match.module';
 
-// config
+//---- config
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-// service
+//---- service
 import { AppService } from './app.service';
 
-// entity
+//---- entity
 import { User } from './user/entities/user.entity';
 import { UserHighLightImg } from './user/entities/userHighlightImg.entity';
 import { Hobby } from './user/entities/userHobbies.entity';
@@ -44,6 +45,8 @@ const DBConfig = TypeOrmModule.forRoot({
     // -- Modules
     UserModule,
     AuthModule,
+    MatchModule,
+
     // -- serve static folder
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),

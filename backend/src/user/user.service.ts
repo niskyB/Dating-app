@@ -3,15 +3,21 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDto } from '../auth/dto/create-user.dto';
-import { User } from './entities/user.entity';
 import { plainToClass } from 'class-transformer';
-import { UserRepository } from './entities/user.repository';
-import { ChangePasswordDto } from './dto/change-password.dto';
 import * as bcrypt from 'bcrypt';
-import { apiResponse } from '../common/interface/apiResponse';
-import { ResponseMessage } from '../constants/message/responseMessage.enum';
-import { SALT } from '../constants/bcrypt.constants';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+//---- entity
+import { User } from './entities/user.entity';
+import { UserHighLightImg } from './entities/userHighlightImg.entity';
+import { UserShowOption } from './entities/userShowOption.entity';
+import { UserFindOption } from './entities/userFindOption.entity';
+import { Hobby } from './entities/userHobbies.entity';
+
+//---- dto
+import { CreateUserDto } from '../auth/dto/create-user.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 import {
   ChangeFindOptionDto,
   ChangeHobbiesDto,
@@ -27,13 +33,17 @@ import {
   ChangeUserPhoneDto,
   ChangeUserSexDto,
 } from './dto/change-profile.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UserHighLightImg } from './entities/userHighlightImg.entity';
-import { Repository } from 'typeorm';
-import { UserShowOption } from './entities/userShowOption.entity';
-import { UserFindOption } from './entities/userFindOption.entity';
+
+//---- constants
+import { ResponseMessage } from '../constants/message/responseMessage.enum';
+import { SALT } from '../constants/bcrypt.constants';
 import { Sex } from './enum/user.sex.enum';
-import { Hobby } from './entities/userHobbies.entity';
+
+//---- repository
+import { UserRepository } from './entities/user.repository';
+
+//---- api response
+import { apiResponse } from '../common/interface/apiResponse';
 
 @Injectable()
 export class UserService {
@@ -47,8 +57,8 @@ export class UserService {
 
   /**
    * @description find user by field
-   * @param field
-   * @param value
+   * @param field key of user
+   * @param value any
    * @returns Promise<User>
    */
   async findOneByField(field: keyof User, value: any): Promise<User> {
@@ -57,8 +67,8 @@ export class UserService {
 
   /**
    * @description find full infomation of user
-   * @param field
-   * @param value
+   * @param field key of user
+   * @param value any
    * @returns Promise<User>
    */
   async findCurrentUserByField(field: keyof User, value: any): Promise<User> {
@@ -85,6 +95,7 @@ export class UserService {
   /**
    * @description validate password and save to database if valid
    * @param changePasswordDto
+   * @returns Promise<User>
    */
   async changePassword(
     changePasswordDto: ChangePasswordDto,
@@ -116,8 +127,7 @@ export class UserService {
   /**
    * @description check and update name of user
    * @param changeUserNameDto
-   * @param id
-   * @param name
+   * @param id id of user
    * @returns Promise<User>
    */
   async changeName(
@@ -142,7 +152,7 @@ export class UserService {
   /**
    * @description update bio of user to database
    * @param changeUserBioDto
-   * @param id
+   * @param id id of user
    * @returns Promise<User>
    */
   async changeBio(
@@ -158,8 +168,7 @@ export class UserService {
   /**
    * @description check and update phone number
    * @param changeUserPhoneDto
-   * @param id
-   * @param phone
+   * @param id id of user
    * @returns Promise<User>
    */
   async changePhone(
@@ -196,7 +205,7 @@ export class UserService {
   /**
    * @description update user address to database
    * @param changeUserAddressDto
-   * @param id
+   * @param id id of user
    * @returns Promise<User>
    */
   async changeAddress(
@@ -212,7 +221,7 @@ export class UserService {
   /**
    * @description update user sex to database
    * @param changeUserSexDto
-   * @param id
+   * @param id id of user
    * @returns Promise<User>
    */
   async changeSex(
@@ -227,8 +236,8 @@ export class UserService {
 
   /**
    * @description update user avatar to database
-   * @param file
-   * @param id
+   * @param file multer file
+   * @param id id of user
    * @returns Promise<User>
    */
   async changeAvatar(file: Express.Multer.File, id: string): Promise<User> {
@@ -241,7 +250,7 @@ export class UserService {
   /**
    * @description update user date of birth to database
    * @param changeUserDateOfBirth
-   * @param id
+   * @param id id of user
    * @returns Promise<User>
    */
   async changeDateOfBirth(
@@ -256,8 +265,8 @@ export class UserService {
 
   /**
    * @description change highlight imgs then save to database
-   * @param files
-   * @param id
+   * @param files array of multer files
+   * @param id id of user
    * @returns Promise<User>
    */
   async changeHighlightImgs(
@@ -280,7 +289,7 @@ export class UserService {
   /**
    * @description change study at of user and save to database
    * @param changeStudyAtDto
-   * @param id
+   * @param id id of user
    * @returns Promise<User>
    */
   async changeStudyAt(
@@ -295,16 +304,31 @@ export class UserService {
   /**
    * @description change hobby of user
    * @param changeHobbiesDto
-   * @param id
+   * @param id id of user
    * @returns Promise<Hobby>
    */
   async changeHobby(
     changeHobbiesDto: ChangeHobbiesDto,
     id: string,
   ): Promise<Hobby> {
-    const user = await this.userRepository.findOneByField('id', id);
+    const user = await this.userRepository.findUserWithFullInfoByField(
+      'id',
+      id,
+    );
+
+    const newHobby = changeHobbiesDto.hobbies.toLowerCase();
+    user.hobbies.forEach((hobby) => {
+      if (hobby.hobbies === newHobby) {
+        throw new BadRequestException(
+          apiResponse.send(null, {
+            hobbies: ResponseMessage.DUPLICATED_HOBBIES,
+          }),
+        );
+      }
+    });
+
     const hobby = this.hobbyRepository.create();
-    hobby.hobbies = changeHobbiesDto.hobbies;
+    hobby.hobbies = newHobby;
     hobby.user = user;
     return await this.hobbyRepository.manager.save(hobby);
   }
@@ -312,7 +336,7 @@ export class UserService {
   /**
    * @description change show age option of user
    * @param changeShowAgeOptionDto
-   * @param id
+   * @param id id of user
    */
   async changeShowAge(
     changeShowAgeOptionDto: ChangeShowAgeOptionDto,
@@ -329,7 +353,7 @@ export class UserService {
   /**
    * @description change show study option of user
    * @param changeShowStudyOptionDto
-   * @param id
+   * @param id id of user
    */
   async changeShowStudyAt(
     changeShowStudyAtOptionDto: ChangeShowStudyAtOptionDto,
@@ -339,14 +363,14 @@ export class UserService {
       'id',
       id,
     );
-    user.showOptions.showStudy = changeShowStudyAtOptionDto.showStudy;
+    user.showOptions.showStudyAt = changeShowStudyAtOptionDto.showStudyAt;
     await this.userRepository.save(user);
   }
 
   /**
    * @description change show bio option of user
    * @param changeShowBioOptionDto
-   * @param id
+   * @param id id of user
    */
   async changeShowBio(
     changeShowBioOptionDto: ChangeShowBioOptionDto,
@@ -363,7 +387,7 @@ export class UserService {
   /**
    * @description change show hobbies option of user
    * @param changeShowHobbiesOptionDto
-   * @param id
+   * @param id id of user
    */
   async changeShowHobbies(
     changeShowHobbiesOptionDto: ChangeShowHobbiesOptionDto,
@@ -380,7 +404,7 @@ export class UserService {
   /**
    * @description change find option of user
    * @param changeFindOptionDto
-   * @param id
+   * @param id id of user
    */
   async changeFindOption(changeFindOptionDto: ChangeFindOptionDto, id: string) {
     const user = await this.userRepository.findUserWithFullInfoByField(
@@ -395,8 +419,8 @@ export class UserService {
 
   /**
    * @description delete hobby with given id in database
-   * @param userId
-   * @param hobbyId
+   * @param userId id of user
+   * @param hobbyId id of hobby
    */
   async removeHobby(userId: string, hobbyId: string) {
     const user = await this.userRepository.findUserWithFullInfoByField(
@@ -422,8 +446,8 @@ export class UserService {
 
   /**
    * @description delete highlight img with given id in database
-   * @param userId
-   * @param imgId
+   * @param userId id of user
+   * @param imgId id of img
    */
   async removeUserHighlightImg(userId: string, imgId: string) {
     const user = await this.userRepository.findUserWithFullInfoByField(

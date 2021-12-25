@@ -2,6 +2,8 @@ import { Expose } from 'class-transformer';
 import {
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -53,7 +55,7 @@ export class User {
   @Expose()
   bio: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   @Expose()
   studyAt: string;
 
@@ -80,4 +82,16 @@ export class User {
   })
   @Expose()
   findOptions: UserFindOption;
+
+  @ManyToMany(() => User, { cascade: true })
+  @JoinTable()
+  like: User[];
+
+  @ManyToMany(() => User, { cascade: true })
+  @JoinTable()
+  disLike: User[];
+
+  @ManyToMany(() => User, { cascade: true })
+  @JoinTable()
+  matchList: User[];
 }

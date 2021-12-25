@@ -1,16 +1,26 @@
 import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
-import { UserService } from '../user/user.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
-import { SigninUserDto } from './dto/signin-user.dto';
-import { User } from '../user/entities/user.entity';
-import { UserToken } from './dto/user-token.dto';
 import { plainToClass } from 'class-transformer';
 import { JwtService } from '@nestjs/jwt';
+import { Response } from 'express';
+
+//---- entity
+import { User } from '../user/entities/user.entity';
+
+//---- dto
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserToken } from './dto/user-token.dto';
+import { SigninUserDto } from './dto/signin-user.dto';
+
+//---- service
+import { UserService } from '../user/user.service';
+
+//---- api response
 import { apiResponse } from '../common/interface/apiResponse';
+
+//---- constants
 import { ResponseMessage } from '../constants/message/responseMessage.enum';
 import { SALT } from '../constants/bcrypt.constants';
-import { Response } from 'express';
 
 // expect result
 const expectExist = true;
@@ -94,11 +104,11 @@ export class AuthService {
 
   /**
    * @description check user and throw error if fail
-   * @param field
-   * @param value
-   * @param message
+   * @param field key of user
+   * @param value any
+   * @param message error message
    * @param isExisted
-   * @returns user instance
+   * @returns Promise<User>
    */
   async checkExistedUser(
     field: keyof User,
@@ -106,7 +116,7 @@ export class AuthService {
     message: string,
     isExisted: boolean,
     errors?: any,
-  ) {
+  ): Promise<User> {
     const user = await this.userService.findOneByField(field, value);
 
     if (user && !isExisted) {
@@ -143,11 +153,11 @@ export class AuthService {
 
   /**
    * @description set token to cookie
-   * @param res
-   * @param name
-   * @param value
-   * @param status
-   * @param age
+   * @param res Http response
+   * @param name name of token
+   * @param value value of token
+   * @param status response status
+   * @param age age of cookie
    */
   setCookie(
     res: Response,

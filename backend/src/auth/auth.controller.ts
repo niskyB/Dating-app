@@ -6,14 +6,26 @@ import {
   Res,
   UsePipes,
 } from '@nestjs/common';
-import { JoiValidationPipe } from '../utils/validation/JoiValidationPipe.pipe';
-import { AuthService } from './auth.service';
+import { Response } from 'express';
+
+//---- dto
 import { CreateUserDto } from './dto/create-user.dto';
 import { SigninUserDto } from './dto/signin-user.dto';
+
+//---- schema
 import { createUserSchema } from './schema/create-user.schema';
 import { signinUserSchema } from './schema/signin-user.schema';
-import { Response } from 'express';
+
+//---- service
+import { AuthService } from './auth.service';
+
+//---- pipe
+import { JoiValidationPipe } from '../utils/validation/JoiValidationPipe.pipe';
+
+//---- api response
 import { apiResponse } from '../common/interface/apiResponse';
+
+//---- constants
 import { EXPIRED_AGE, MAX_AGE, TOKEN } from '../constants/cookie.constants';
 
 @Controller('auth')
