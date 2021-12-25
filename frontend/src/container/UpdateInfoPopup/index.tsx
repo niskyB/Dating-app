@@ -25,7 +25,7 @@ const UpdateInfoPopup: React.FunctionComponent = () => {
   } = UIState.updatePopup;
   const errorMessage = formState.errors[name];
   const { register, handleSubmit } = useForm<any>({
-    // defaultValues: { [name]: defaultValue },
+    defaultValues: { [name]: defaultValue },
   });
   const onSubmit: SubmitHandler<any> = async (data) => {
     store.dispatch(UIAction.setIsLoading(true));
