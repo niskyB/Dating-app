@@ -19,6 +19,7 @@ const InputOutline: React.FunctionComponent<InputOutlineProps> = ({
   onEditClick,
   updatable = true,
 }) => {
+  console.log(updatable);
   return (
     <div className="mt-5">
       <div className="flex flex-row justify-between px-2">

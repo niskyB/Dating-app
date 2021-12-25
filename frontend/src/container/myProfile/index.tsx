@@ -81,6 +81,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
               name={input.name}
               value={input.value}
               editable={input.editable}
+              updatable={input.updatable}
               onEditClick={() =>
                 store.dispatch(
                   UIAction.setUpdatePopup({
