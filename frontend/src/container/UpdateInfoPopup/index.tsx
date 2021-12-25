@@ -8,20 +8,24 @@ import { userThunk } from "../../store/user/thunk";
 import { openSuccessNotification } from "../../utils/notificationHelper";
 import { updateUserInfo } from "./action";
 import { timeDelay } from "../../constants/loading";
+import InputField from "../../component/inputField";
+import { FormState } from "../../common/interface/redux/form";
 const UpdateInfoPopup: React.FunctionComponent = () => {
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
+  const formState = useSelector<RootState, FormState>((state) => state.form);
+
   const {
     label,
     description,
     name,
-    value,
     defaultValue,
     type = "text",
     isOpenning,
     isTextArea = false,
   } = UIState.updatePopup;
+  const errorMessage = formState.errors[name];
   const { register, handleSubmit } = useForm<any>({
-    defaultValues: { [name]: defaultValue },
+    // defaultValues: { [name]: defaultValue },
   });
   const onSubmit: SubmitHandler<any> = async (data) => {
     store.dispatch(UIAction.setIsLoading(true));
@@ -35,7 +39,6 @@ const UpdateInfoPopup: React.FunctionComponent = () => {
       }, timeDelay);
     }
   };
-
   if (isOpenning)
     return (
       <>
@@ -65,12 +68,13 @@ const UpdateInfoPopup: React.FunctionComponent = () => {
                     />
                   </>
                 ) : (
-                  <input
-                    {...register(name)}
-                    value={value}
-                    defaultValue={defaultValue}
+                  <InputField
+                    register={register}
+                    name={name}
                     type={type}
-                    className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    showLabel={false}
+                    defaultValue={defaultValue}
+                    errorMessage={errorMessage}
                   />
                 )}
               </div>

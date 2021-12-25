@@ -1,9 +1,11 @@
 import { useSelector } from "react-redux";
+import { FormState } from "../../common/interface/redux/form";
 import { UserState } from "../../common/interface/redux/user";
 import DeviderWithText from "../../component/deviderWithText";
 import InputOutline, { InputOutlineProps } from "../../component/inputOutline";
 import TextField from "../../component/textField";
 import { RootState, store } from "../../store";
+import { FormAction } from "../../store/form";
 import { UIAction } from "../../store/UI";
 import { parseDate } from "../../utils/dataHelper";
 import HighlightImage from "../highlightImage";
@@ -15,7 +17,6 @@ interface MyProfileProps {}
 
 const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
   const userState = useSelector<RootState, UserState>((state) => state.user);
-
   const {
     name,
     address,
@@ -75,32 +76,32 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
       <div className="flex flex-col justify-start w-full ">
         <HighlightImage highlightImgs={highlightImgs} avatar={avatar} />
         {inputOutlineField.map((input) => {
+          const { label, name, editable, type, updatable, value, valueToShow } =
+            input;
           return (
             <InputOutline
-              key={input.label}
-              label={input.label}
-              name={input.name}
-              value={input.valueToShow || input.value}
-              editable={input.editable}
-              updatable={input.updatable}
-              onEditClick={() =>
+              key={label}
+              label={label}
+              name={name}
+              value={valueToShow || value}
+              editable={editable}
+              updatable={updatable}
+              onEditClick={() => {
+                store.dispatch(FormAction.resetError());
                 store.dispatch(
                   UIAction.setUpdatePopup({
                     isOpenning: true,
-                    name: input.name,
-                    label:
-                      input.name === "studyAt"
-                        ? "school/university"
-                        : input.label,
+                    name: name,
+                    label: name === "studyAt" ? "school/university" : label,
                     description:
-                      input.name === "studyAt"
+                      name === "studyAt"
                         ? "Update to let everyone know where you are studying"
                         : "",
-                    defaultValue: input.value,
-                    type: input.type,
+                    defaultValue: value,
+                    type: type,
                   })
-                )
-              }
+                );
+              }}
             />
           );
         })}
@@ -111,7 +112,8 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
           label="Bio"
           defaultValue={bio}
           value={bio}
-          onEditClick={() =>
+          onEditClick={() => {
+            store.dispatch(FormAction.resetError());
             store.dispatch(
               UIAction.setUpdatePopup({
                 isOpenning: true,
@@ -121,8 +123,8 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
                 type: "textarea",
                 isTextArea: true,
               })
-            )
-          }
+            );
+          }}
         />
         <ProfileHobbies data={hobbies} />
       </div>
