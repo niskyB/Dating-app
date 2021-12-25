@@ -37,6 +37,7 @@ export class UserRepository extends RepositoryService<User> {
       .where(`user.${field} = :value`, { value })
       .leftJoinAndSelect('user.like', 'like')
       .leftJoinAndSelect('user.disLike', 'disLike')
+      .leftJoinAndSelect('user.matchList', 'matchList')
       .getOne();
   }
 

@@ -91,7 +91,7 @@ export class User {
   @JoinTable()
   disLike: User[];
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => User, { cascade: true })
   @JoinTable()
   matchList: User[];
 }

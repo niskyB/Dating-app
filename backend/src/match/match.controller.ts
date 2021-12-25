@@ -2,7 +2,7 @@ import { Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { MatchService } from './match.service';
 import { Request } from 'express';
 import { UserGuard } from '../auth/guard/auth.guard';
-import { apiResponse } from 'src/common/interface/apiResponse';
+import { apiResponse } from '../common/interface/apiResponse';
 
 @Controller('match')
 @UseGuards(UserGuard)
@@ -21,12 +21,14 @@ export class MatchController {
   }
 
   /**
-   * @description test method to match a user
-   * @param req
-   * @param id
+   * @description POST method to like a user
+   * @param req Http request
+   * @param id id of liked user
+   * @returns response form with no data and error
    */
-  @Post('/:id')
+  @Post('/likeList/:id')
   async testMatch(@Req() req: Request, @Param('id') id: string) {
     await this.matchService.match(req.currentUser.id, id);
+    return apiResponse.send(null, null);
   }
 }
