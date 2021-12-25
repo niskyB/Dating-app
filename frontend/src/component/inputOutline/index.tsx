@@ -7,6 +7,7 @@ export interface InputOutlineProps {
   defaultValue?: string;
   onEditClick?: () => any;
   updatable?: boolean;
+  valueToShow?: string;
 }
 
 const InputOutline: React.FunctionComponent<InputOutlineProps> = ({

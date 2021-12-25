@@ -65,8 +65,9 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
       label: "Birthdate",
       name: "dateOfBirth",
       type: "date",
-      value: parseDate(dateOfBirthString),
+      value: dateOfBirthString,
       editable: false,
+      valueToShow: new Date(dateOfBirth).toLocaleDateString(),
     },
   ];
   return (
@@ -79,7 +80,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
               key={input.label}
               label={input.label}
               name={input.name}
-              value={input.value}
+              value={input.valueToShow || input.value}
               editable={input.editable}
               updatable={input.updatable}
               onEditClick={() =>
