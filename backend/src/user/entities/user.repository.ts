@@ -63,6 +63,9 @@ export class UserRepository extends RepositoryService<User> {
       .where(`user.id NOT IN (:...ids)`, {
         ids: list,
       })
+      .leftJoinAndSelect('user.highlightImgs', 'userId')
+      .leftJoinAndSelect('user.showOptions', 'showOptionsId')
+      .leftJoinAndSelect('user.hobbies', 'hobbies')
       .getMany();
   }
 }

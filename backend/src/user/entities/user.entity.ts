@@ -55,7 +55,7 @@ export class User {
   @Expose()
   bio: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   @Expose()
   studyAt: string;
 
@@ -90,4 +90,8 @@ export class User {
   @ManyToMany(() => User, { cascade: true })
   @JoinTable()
   disLike: User[];
+
+  @ManyToMany(() => User)
+  @JoinTable()
+  matchList: User[];
 }
