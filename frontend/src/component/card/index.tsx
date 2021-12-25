@@ -59,6 +59,18 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
           })}
         </div>
       </div>
+      <div className="bg-transparent w-full h-6 flex items-center absolute top-0 left-0 right-0 z-30 gap-2 px-3">
+        {[...Array(numberOfImage)].map((value, index) => {
+          return (
+            <div
+              style={{ width: `calc(100%/ ${numberOfImage})` }}
+              className={`h-1 ${
+                index === currentIndex ? "bg-white/90" : "bg-black/10"
+              } rounded-md`}
+            ></div>
+          );
+        })}
+      </div>
       <div
         className="z-30 text-white/70 hover:text-white cursor-pointer w-10 h-10 absolute top-1/2 left-2"
         onClick={onPreviosImage}
@@ -74,7 +86,7 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
       <div className="flex flex-col z-10 justify-end w-96 h-140">
         <div className="flex flex-col items-start justify-end w-full px-5 py-5 customShadow h-1/4">
           <div className="text-3xl font-medium text-white">
-            {data.name}{" "}
+            {data.name}
             {options.showAge &&
               new Date().getFullYear() -
                 new Date(data.dateOfBirth).getFullYear()}
