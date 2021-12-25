@@ -104,6 +104,15 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
               {data.bio}
             </div>
           )}
+          {options.showHobbies && (
+            <div className="flex flex-row flex-wrap space-x-2">
+              {data.hobbies.map((hobby) => (
+                <span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-black/40 text-gray-200 capitalize mt-2">
+                  {hobby.hobbies}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-row items-center flex-1 bg-black justify-evenly "></div>

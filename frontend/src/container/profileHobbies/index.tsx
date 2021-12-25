@@ -57,7 +57,7 @@ const ProfileHobbies: React.FunctionComponent<ProfileHobbiesProps> = ({
           Add
         </div>
       </div>
-      <div className="flex mt-3 border-gray-300 focus-within:border-indigo-600">
+      <div className="flex flex-wrap mt-3 border-gray-300 focus-within:border-indigo-600">
         {data.map((hobby) => {
           return (
             <Badge
