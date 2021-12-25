@@ -26,9 +26,12 @@ const TopSideBar: React.FunctionComponent<TopSideBarProps> = ({ isLogin }) => {
                   : "./images/defaultAvatar.png"
               }
             />
-            <div className="ml-3 text-lg font-bold text-white cursor-pointer">
+            <Link
+              to="/me"
+              className="ml-3 text-lg font-bold text-white cursor-pointer"
+            >
               {userState.data.name}
-            </div>
+            </Link>
           </div>
           <div className="flex">
             <Routes>
