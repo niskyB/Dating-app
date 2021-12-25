@@ -106,7 +106,7 @@ export class UserService {
     if (!(await bcrypt.compare(changePasswordDto.password, user.password))) {
       throw new BadRequestException(
         apiResponse.send(null, {
-          common: ResponseMessage.INVALID_PASSWORD,
+          password: ResponseMessage.INVALID_PASSWORD,
         }),
       );
     }
@@ -114,7 +114,7 @@ export class UserService {
     if (changePasswordDto.password === changePasswordDto.newPassword) {
       throw new BadRequestException(
         apiResponse.send(null, {
-          common: ResponseMessage.DUPLICATED_PASSWORD,
+          password: ResponseMessage.DUPLICATED_PASSWORD,
         }),
       );
     }
@@ -139,7 +139,7 @@ export class UserService {
     if (changeUserNameDto.name === user.name) {
       throw new BadRequestException(
         apiResponse.send(null, {
-          common: ResponseMessage.DUPLICATED_NAME,
+          name: ResponseMessage.DUPLICATED_NAME,
         }),
       );
     }
@@ -180,7 +180,7 @@ export class UserService {
     if (changeUserPhoneDto.phone === user.phone) {
       throw new BadRequestException(
         apiResponse.send(null, {
-          common: ResponseMessage.DUPLICATED_PHONE,
+          phone: ResponseMessage.DUPLICATED_PHONE,
         }),
       );
     }
@@ -192,7 +192,7 @@ export class UserService {
     if (existedUser) {
       throw new BadRequestException(
         apiResponse.send(null, {
-          common: ResponseMessage.EXISTED_PHONE,
+          phone: ResponseMessage.EXISTED_PHONE,
         }),
       );
     }

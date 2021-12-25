@@ -135,7 +135,11 @@ export class AuthService {
       );
     }
 
-    return user;
+    if (user && isExisted) {
+      return user;
+    }
+
+    return errors;
   }
 
   /**
