@@ -8,6 +8,7 @@ export interface UpdatePopupData {
   defaultValue?: string;
   isTextArea?: boolean;
   onConfirm?: () => any;
+  errorMessage?: string;
 }
 export interface SuccessModel {
   isOpenning: boolean;

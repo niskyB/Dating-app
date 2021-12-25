@@ -3,7 +3,10 @@ import { FormAction } from "./../store/form/index";
 import { store } from "./../store/index";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { DataResponse } from "../common/interface/common/api";
-import { openWarningNotification } from "../utils/notificationHelper";
+import {
+  openErrorNotification,
+  openWarningNotification,
+} from "../utils/notificationHelper";
 import Cookies from "universal-cookie";
 import { timeDelay } from "../constants/loading";
 const axiosClient: AxiosInstance = axios.create({
@@ -31,7 +34,7 @@ const onReponseRejected = (res: any) => {
     cookies.set("x-auth-token", "", { maxAge: -999 });
   }
   if (status === 500) {
-    openWarningNotification("Some unexpected error, please try again later");
+    openErrorNotification("Some unexpected error, please try again later");
   }
 };
 
