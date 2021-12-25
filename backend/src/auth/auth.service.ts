@@ -130,7 +130,7 @@ export class AuthService {
     if (!user && isExisted) {
       throw new BadRequestException(
         apiResponse.send(null, {
-          common: message,
+          login: message,
         }),
       );
     }
