@@ -8,7 +8,10 @@ import { timeDelay } from "../../constants/loading";
 import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
 import { userThunk } from "../../store/user/thunk";
-import { openSuccessNotification } from "../../utils/notificationHelper";
+import {
+  openSuccessNotification,
+  openWarningNotification,
+} from "../../utils/notificationHelper";
 import { updateChangeOption } from "./action";
 import { findOptionDTO } from "./interface.dto";
 
@@ -22,6 +25,10 @@ const Setting: React.FunctionComponent<SettingProps> = () => {
     UserState.data.findOptions.sexOption
   );
   const onSubmit = async (data: findOptionDTO) => {
+    if (data.minAge < 18 || data.maxAge < 18) {
+      openWarningNotification("Min age or max age should be higher than 18");
+      return;
+    }
     data.sexOption = sexOption;
     const res = await updateChangeOption(data);
     store.dispatch(UIAction.setIsLoading(true));

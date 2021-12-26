@@ -57,14 +57,17 @@ const ProfileHobbies: React.FunctionComponent<ProfileHobbiesProps> = ({
           Add
         </div>
       </div>
-      <div className="flex mt-3 border-gray-300 focus-within:border-indigo-600">
-        {data.map((hobby) => {
-          return (
-            <Badge
-              value={hobby.hobbies}
-              onRemove={() => onRemoveHobby(hobby.id)}
-            />
-          );
+      <div className="flex flex-wrap mt-3 border-gray-300 focus-within:border-indigo-600">
+        {data.map((hobby, index) => {
+          if (index <= 6) {
+            return (
+              <Badge
+                value={hobby.hobbies}
+                onRemove={() => onRemoveHobby(hobby.id)}
+              />
+            );
+          }
+          return <></>;
         })}
       </div>
     </div>

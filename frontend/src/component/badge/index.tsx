@@ -5,7 +5,7 @@ interface BadgeProps {
 
 const Badge: React.FunctionComponent<BadgeProps> = ({ value, onRemove }) => {
   return (
-    <span className="inline-flex ml-3  rounded-full items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100 text-indigo-700">
+    <span className="inline-flex ml-3 w-auto  rounded-full items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100 text-indigo-700 mt-3">
       {value}
       <button
         type="button"

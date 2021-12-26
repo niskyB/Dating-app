@@ -9,14 +9,6 @@ import { showOptionsDefault } from "../../store/defaultData/user";
 import { MatchCard } from "../../component/card/interface.dto";
 interface MatchPageProps {}
 
-// export interface MatchCard {
-//   avatar: string;
-//   name: string;
-//   age: number;
-//   studyAt: string;
-//   bio: string;
-// }
-
 const data: MatchCard[] = [
   // {
   //   avatar:
