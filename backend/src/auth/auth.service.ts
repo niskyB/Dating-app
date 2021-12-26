@@ -80,7 +80,7 @@ export class AuthService {
     if (!(await bcrypt.compare(signinUserDto.password, user.password))) {
       throw new BadRequestException(
         apiResponse.send(null, {
-          common: ResponseMessage.SIGNIN_FAIL,
+          login: ResponseMessage.SIGNIN_FAIL,
         }),
       );
     }
