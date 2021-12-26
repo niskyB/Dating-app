@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { UserRepository } from '../user/entities/user.repository';
+import { UserRepository } from '../user/repository/user.repository';
 import { MatchCardDto } from './dto/match-card.dto';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class MatchService {
    * @returns Promise<MatchCardDto[]>
    */
   async getUsers(id: string): Promise<MatchCardDto[]> {
-    const results = await this.userRepository.findMatchList('id', id);
+    const results = await this.userRepository.findUserForMatching('id', id);
     return results.map((user) =>
       plainToClass(MatchCardDto, user, {
         excludeExtraneousValues: true,
@@ -47,5 +47,19 @@ export class MatchService {
     user.like.push(matchUser);
     await this.userRepository.save(matchUser);
     await this.userRepository.save(user);
+  }
+
+  /**
+   * @description get user's match list
+   * @param id id of user
+   * @returns Promise<MatchCardDto[]>
+   */
+  async getMatchList(id: string): Promise<MatchCardDto[]> {
+    const user = await this.userRepository.findMatchList('id', id);
+    return user.matchList.map((user) =>
+      plainToClass(MatchCardDto, user, {
+        excludeExtraneousValues: true,
+      }),
+    );
   }
 }
