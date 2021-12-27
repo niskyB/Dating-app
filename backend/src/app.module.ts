@@ -19,6 +19,7 @@ import { UserShowOption } from './user/entities/userShowOption.entity';
 import { UserFindOption } from './user/entities/userFindOption.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { NotificationsModule } from './notifications/notifications.module';
 
 const Config = ConfigModule.forRoot({
   isGlobal: true,
@@ -51,6 +52,8 @@ const DBConfig = TypeOrmModule.forRoot({
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),
+
+    NotificationsModule,
   ],
   providers: [AppService],
 })
