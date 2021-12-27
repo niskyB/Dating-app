@@ -8,8 +8,12 @@ import { RedisService } from './redis.service';
     {
       provide: 'RedisClient',
       useFactory: () => {
-        const redis = createClient();
-        redis.select(+process.env.REDIS_DB_NUMBER || 1);
+        const redisPort = Number(process.env.REDIS_PORT) || 7000;
+        const redis = createClient({
+          port: redisPort,
+          host: process.env.REDIS_HOST || '',
+        });
+        redis.select(process.env.REDIS_DB_NUMBER || 1);
         return redis;
       },
     },
