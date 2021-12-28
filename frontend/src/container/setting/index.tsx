@@ -19,7 +19,7 @@ interface SettingProps {}
 
 const sexFindingData: sexEnumString[] = ["FEMALE", "MALE"];
 const Setting: React.FunctionComponent<SettingProps> = () => {
-  const { register, handleSubmit } = useForm<findOptionDTO>();
+  const { register, handleSubmit, setValue } = useForm<findOptionDTO>();
   const UserState = useSelector<RootState, UserState>((state) => state.user);
   const [sexOption, setSexOption] = useState<sexEnumString>(
     UserState.data.findOptions.sexOption
@@ -27,6 +27,8 @@ const Setting: React.FunctionComponent<SettingProps> = () => {
   const onSubmit = async (data: findOptionDTO) => {
     if (data.minAge < 18 || data.maxAge < 18) {
       openWarningNotification("Min age or max age should be higher than 18");
+      setValue("minAge", UserState.data.findOptions.minAge);
+      setValue("maxAge", UserState.data.findOptions.maxAge);
       return;
     }
     data.sexOption = sexOption;

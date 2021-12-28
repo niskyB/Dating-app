@@ -15,7 +15,7 @@ interface LoginPageProps {}
 
 const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
   const { register, handleSubmit } = useForm<LoginUserDTO>();
-  const form = useSelector<RootState, FormState>((state) => state.form);
+  const formState = useSelector<RootState, FormState>((state) => state.form);
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<LoginUserDTO> = async (data) => {
     store.dispatch(UIAction.setIsLoading(true));
@@ -48,15 +48,20 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
               label="Email"
               name="email"
               type="text"
-              errorMessage={form.errors.email}
+              errorMessage={formState.errors.email}
             />
             <InputField
               register={register}
               type="password"
               label="Password"
               name="password"
-              errorMessage={form.errors.password}
+              errorMessage={formState.errors.password}
             />
+            {formState.errors.login && (
+              <p className="mt-2 text-sm text-red-600" id="email-error">
+                {formState.errors.login}
+              </p>
+            )}
             <div className="mt-2">
               <button
                 type="submit"

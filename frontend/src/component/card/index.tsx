@@ -93,7 +93,7 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
       </div>
 
       <div className="flex flex-col z-10 justify-end w-96 h-140">
-        <div className="flex flex-col items-start justify-end w-full px-5 py-5 customShadow h-1/4">
+        <div className="flex flex-col items-start justify-end w-full px-5 py-5 customShadow h-1/4 pb-7">
           <div className="text-3xl font-medium text-white">
             {data.name}{" "}
             {options.showAge &&

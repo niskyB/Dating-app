@@ -49,6 +49,20 @@ export class MatchService {
     await this.userRepository.save(user);
   }
 
+  //on user dislike someone
+  async dislike(currentUserId: string, targetId: string) {
+    const currentUser = await this.userRepository.findUserMatchInfoByField(
+      'id',
+      currentUserId,
+    );
+    const dislikeUser = await this.userRepository.findUserMatchInfoByField(
+      'id',
+      targetId,
+    );
+    currentUser.disLike.push(dislikeUser);
+    return await this.userRepository.save(currentUser);
+  }
+
   /**
    * @description get user's match list
    * @param id id of user

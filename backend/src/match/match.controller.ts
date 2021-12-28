@@ -42,4 +42,10 @@ export class MatchController {
     await this.matchService.match(req.currentUser.id, id);
     return apiResponse.send(null, null);
   }
+
+  @Post('/dislikeList/:id')
+  async dislikeUser(@Req() req: Request, @Param('id') id: string) {
+    const res = await this.matchService.dislike(req.currentUser.id, id);
+    return apiResponse.send(res, null);
+  }
 }
