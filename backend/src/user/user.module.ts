@@ -15,7 +15,7 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 
 //---- repository
-import { UserRepository } from './entities/user.repository';
+import { UserRepository } from './repository/user.repository';
 
 @Module({
   imports: [

@@ -1,6 +1,6 @@
 import { RepositoryService } from '../../utils/repository/repository.service';
 import { EntityRepository } from 'typeorm';
-import { User } from './user.entity';
+import { User } from '../entities/user.entity';
 
 @EntityRepository(User)
 export class UserRepository extends RepositoryService<User> {
@@ -42,12 +42,15 @@ export class UserRepository extends RepositoryService<User> {
   }
 
   /**
-   * @description find match list (all users except user in like, dislike and current user)
+   * @description find user for matching (all users except user in like, dislike and current user)
    * @param field key of User
    * @param value any
    * @returns Promise<User[]>
    */
-  public async findMatchList(field: keyof User, value: any): Promise<User[]> {
+  public async findUserForMatching(
+    field: keyof User,
+    value: any,
+  ): Promise<User[]> {
     const userMatchInfo = await this.findUserMatchInfoByField(field, value);
     const list = [];
     list.push(userMatchInfo.id);
@@ -68,5 +71,18 @@ export class UserRepository extends RepositoryService<User> {
       .leftJoinAndSelect('user.showOptions', 'showOptionsId')
       .leftJoinAndSelect('user.hobbies', 'hobbies')
       .getMany();
+  }
+
+  /**
+   * @description find match list of user
+   * @param field
+   * @param value
+   * @returns Promise<User>
+   */
+  async findMatchList(field: keyof User, value: any): Promise<User> {
+    return await this.createQueryBuilder('user')
+      .where(`user.${field} = :value`, { value })
+      .leftJoinAndSelect('user.matchList', 'matchList')
+      .getOne();
   }
 }

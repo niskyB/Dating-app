@@ -40,7 +40,7 @@ import { SALT } from '../constants/bcrypt.constants';
 import { Sex } from './enum/user.sex.enum';
 
 //---- repository
-import { UserRepository } from './entities/user.repository';
+import { UserRepository } from './repository/user.repository';
 
 //---- api response
 import { apiResponse } from '../common/interface/apiResponse';

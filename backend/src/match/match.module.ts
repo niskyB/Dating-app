@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MatchService } from './match.service';
 import { MatchController } from './match.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserRepository } from '../user/entities/user.repository';
+import { UserRepository } from '../user/repository/user.repository';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({

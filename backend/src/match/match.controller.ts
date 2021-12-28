@@ -11,10 +11,21 @@ export class MatchController {
 
   /**
    * @description GET method to get match list
-   * @param req Http Request
-   * @returns array of users
+   * @param req  Http request
+   * @returns  response form with array of user
    */
-  @Get('')
+  @Get('/matchList')
+  async getMatchList(@Req() req: Request) {
+    const users = await this.matchService.getMatchList(req.currentUser.id);
+    return apiResponse.send(users, null);
+  }
+
+  /**
+   * @description GET method to get users for matching
+   * @param req Http Request
+   * @returns response form with array of user
+   */
+  @Get('/')
   async getListUsers(@Req() req: Request) {
     const users = await this.matchService.getUsers(req.currentUser.id);
     return apiResponse.send(users, null);
