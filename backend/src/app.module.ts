@@ -21,11 +21,6 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { NotificationsModule } from './notifications/notifications.module';
 
-const Config = ConfigModule.forRoot({
-  isGlobal: true,
-  envFilePath: `./config/.env.` + process.env.NODE_ENV,
-});
-
 const DBConfig = TypeOrmModule.forRoot({
   type: 'mysql',
   host: process.env.DB_HOST,
@@ -40,7 +35,6 @@ const DBConfig = TypeOrmModule.forRoot({
 @Module({
   imports: [
     // -- Configs
-    Config,
     DBConfig,
 
     // -- Modules

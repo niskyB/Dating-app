@@ -10,7 +10,14 @@ import { socketResponse } from 'src/common/interface/socketResponse';
 import { UserSocketGuard } from '../auth/guard/authSocket.guard';
 import { NotificationAction } from './notifications.actions';
 
-@WebSocketGateway({ namespace: 'notifications' })
+@WebSocketGateway({
+  namespace: 'notifications',
+  cors: {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  },
+  allowEIO3: true,
+})
 @UseGuards(UserSocketGuard)
 export class NotificationsGateway {
   @WebSocketServer()
@@ -18,7 +25,9 @@ export class NotificationsGateway {
 
   @SubscribeMessage(NotificationAction.NOTIFICATIONS_CONNECTION)
   handleInitNotification(@ConnectedSocket() client: SocketExtend) {
-    client.join('notifications-' + client.user.id);
+    const roomName = 'notifications-' + client.user.id;
+    client.join(roomName);
+    this.server.to(roomName).emit('test', { test: client.user.id });
     return socketResponse.send({}, NotificationAction.NOTIFICATIONS_CONNECTION);
   }
 }

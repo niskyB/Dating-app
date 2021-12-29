@@ -3,8 +3,8 @@ import { SocketResponseBody } from './socket.interface';
 class SocketResponse {
   public send<T>(data: T, event: string) {
     return {
-      data: data,
-      event: event,
+      data,
+      event,
     } as SocketResponseBody<T>;
   }
 }
