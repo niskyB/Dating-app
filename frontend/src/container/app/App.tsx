@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Routes } from "react-router";
 import { UIState } from "../../common/interface/redux/ui";
@@ -12,8 +12,24 @@ import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
 import { renderHelper } from "../../utils/renderHelper";
 import SideBar from "../sidebar";
-
+import * as socketIo from "socket.io-client";
+import { NOTIFICATIONS_CONNECTION } from "../../constants/event";
+const clientIo = socketIo.connect(
+  `${process.env.REACT_APP_SERVER_URL}/notifications`,
+  { path: "/socket.io" }
+);
 function App() {
+  const onHandleGetData = (data: any) => {
+    console.log(data);
+  };
+  useEffect(() => {
+    clientIo.on(NOTIFICATIONS_CONNECTION, onHandleGetData);
+    clientIo.emit(NOTIFICATIONS_CONNECTION, "HELLO");
+    clientIo.on("test", onHandleGetData);
+    return () => {
+      clientIo.off(NOTIFICATIONS_CONNECTION, onHandleGetData);
+    };
+  }, []);
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
   const userState = useSelector<RootState, UserState>((state) => state.user);
 
