@@ -141,3 +141,8 @@
 .card *::selection {
   background-color: transparent;
 }
+.card:hover .controlIcon {
+  color: white;
+  visibility: visible;
+  display: block;
+}
