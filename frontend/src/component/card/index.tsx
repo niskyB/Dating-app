@@ -74,19 +74,23 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
         </div>
       )}
       {/* privious icon */}
-      <div
-        className="absolute z-30 invisible hidden w-10 h-10 cursor-pointer controlIcon top-1/2 left-2"
-        onClick={onPreviosImage}
-      >
-        <ChevronLeftIcon />
-      </div>
-      {/* next icon */}
-      <div
-        className="absolute z-30 invisible hidden w-10 h-10 cursor-pointer controlIcon top-1/2 right-2"
-        onClick={onNextImage}
-      >
-        <ChevronRightIcon />
-      </div>
+      {numberOfImage > 1 && (
+        <>
+          <div
+            className="absolute z-30 invisible hidden w-10 h-10 cursor-pointer controlIcon top-1/2 left-2"
+            onClick={onPreviosImage}
+          >
+            <ChevronLeftIcon />
+          </div>
+          {/* next icon */}
+          <div
+            className="absolute z-30 invisible hidden w-10 h-10 cursor-pointer controlIcon top-1/2 right-2"
+            onClick={onNextImage}
+          >
+            <ChevronRightIcon />
+          </div>
+        </>
+      )}
       {/* profile */}
       <div className="absolute bottom-0 flex flex-col items-start justify-end w-full px-5 py-5 customShadow h-1/4 pb-7">
         <div className="text-3xl font-medium text-white">
