@@ -6,9 +6,10 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, SocketExtend } from 'socket.io';
-import { socketResponse } from 'src/common/interface/socketResponse';
+import { UserRepository } from '../user/repository/user.repository';
 import { UserSocketGuard } from '../auth/guard/authSocket.guard';
 import { NotificationAction } from './notifications.actions';
+import { NotificationsService } from './notifications.service';
 
 @WebSocketGateway({
   namespace: 'notifications',
@@ -20,14 +21,17 @@ import { NotificationAction } from './notifications.actions';
 })
 @UseGuards(UserSocketGuard)
 export class NotificationsGateway {
+  constructor(private readonly notificationsService: NotificationsService) {}
   @WebSocketServer()
   server: Server;
 
   @SubscribeMessage(NotificationAction.NOTIFICATIONS_CONNECTION)
-  handleInitNotification(@ConnectedSocket() client: SocketExtend) {
+  async handleInitNotification(@ConnectedSocket() client: SocketExtend) {
     const roomName = 'notifications-' + client.user.id;
     client.join(roomName);
-    this.server.to(roomName).emit('test', { test: client.user.id });
-    return socketResponse.send({}, NotificationAction.NOTIFICATIONS_CONNECTION);
+    const noti = await this.notificationsService.getNoti(client.user.id);
+    this.server
+      .to(roomName)
+      .emit(NotificationAction.NOTIFICATIONS_GET, { notification: noti });
   }
 }
