@@ -41,6 +41,8 @@ export class MatchService {
       if (element.id === currentUserId) {
         user.matchList.push(matchUser);
         matchUser.matchList.push(user);
+        user.matchNotification++;
+        matchUser.matchNotification++;
       }
     });
 

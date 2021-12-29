@@ -94,4 +94,10 @@ export class User {
   @ManyToMany(() => User, { cascade: true })
   @JoinTable()
   matchList: User[];
+
+  @Column({ default: 0 })
+  matchNotification: number;
+
+  @Column({ default: 0 })
+  chatNotification: number;
 }
