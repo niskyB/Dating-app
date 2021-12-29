@@ -8,3 +8,8 @@ export const getMatchList = async (): Promise<
   const url = `/api/match`;
   return await axiosClient.get(url);
 };
+
+export const likeCard = async (id: string) => {
+  const url = `/api/match/likeList/${id}`;
+  return await axiosClient.post(url);
+};
