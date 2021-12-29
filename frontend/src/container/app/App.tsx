@@ -13,7 +13,10 @@ import { UIAction } from "../../store/UI";
 import { renderHelper } from "../../utils/renderHelper";
 import SideBar from "../sidebar";
 import * as socketIo from "socket.io-client";
-import { NOTIFICATIONS_CONNECTION } from "../../constants/event";
+import {
+  NOTIFICATIONS_CONNECTION,
+  NOTIFICATIONS_GET,
+} from "../../constants/event";
 const clientIo = socketIo.connect(
   `${process.env.REACT_APP_SERVER_URL}/notifications`,
   { path: "/socket.io" }
@@ -25,7 +28,7 @@ function App() {
   useEffect(() => {
     clientIo.on(NOTIFICATIONS_CONNECTION, onHandleGetData);
     clientIo.emit(NOTIFICATIONS_CONNECTION, "HELLO");
-    clientIo.on("test", onHandleGetData);
+    clientIo.on(NOTIFICATIONS_GET, onHandleGetData);
     return () => {
       clientIo.off(NOTIFICATIONS_CONNECTION, onHandleGetData);
     };
