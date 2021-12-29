@@ -30,6 +30,7 @@ export class NotificationsGateway {
     const roomName = 'notifications-' + client.user.id;
     client.join(roomName);
     const noti = await this.notificationsService.getNoti(client.user.id);
+
     this.server
       .to(roomName)
       .emit(NotificationAction.NOTIFICATIONS_GET, { notification: noti });
