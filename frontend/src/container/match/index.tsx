@@ -8,12 +8,16 @@ import MatchWrapper from "../../component/matchWrapper";
 import { showOptionsDefault } from "../../store/defaultData/user";
 import { getMatchList } from "./action";
 import { MatchCard } from "../../component/card/interface.dto";
+import { store } from "../../store";
+import { UIAction } from "../../store/UI";
+import { timeDelay } from "../../constants/loading";
 interface MatchPageProps {}
 
 const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
   const [data, setData] = useState<MatchCard[]>([]);
 
   useEffect(() => {
+    store.dispatch(UIAction.setIsLoading(true));
     async function getData() {
       return await (
         await getMatchList()
@@ -21,6 +25,9 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     }
     getData().then((data) => {
       setData(data);
+      setTimeout(() => {
+        store.dispatch(UIAction.setIsLoading(false));
+      }, timeDelay);
     });
     return () => {};
   }, []);
