@@ -38,6 +38,7 @@ export class UserRepository extends RepositoryService<User> {
       .leftJoinAndSelect('user.like', 'like')
       .leftJoinAndSelect('user.disLike', 'disLike')
       .leftJoinAndSelect('user.matchList', 'matchList')
+      .leftJoinAndSelect('user.findOptions', 'findOptions')
       .getOne();
   }
 
@@ -52,6 +53,7 @@ export class UserRepository extends RepositoryService<User> {
     value: any,
   ): Promise<User[]> {
     const userMatchInfo = await this.findUserMatchInfoByField(field, value);
+
     const list = [];
     list.push(userMatchInfo.id);
 
@@ -67,6 +69,7 @@ export class UserRepository extends RepositoryService<User> {
       .where(`user.id NOT IN (:...ids)`, {
         ids: list,
       })
+      .where(`user.sex = :sex`, { sex: userMatchInfo.findOptions.sexOption })
       .leftJoinAndSelect('user.highlightImgs', 'userId')
       .leftJoinAndSelect('user.showOptions', 'showOptionsId')
       .leftJoinAndSelect('user.hobbies', 'hobbies')

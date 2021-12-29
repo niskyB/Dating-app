@@ -14,6 +14,7 @@ export class MatchService {
    */
   async getUsers(id: string): Promise<MatchCardDto[]> {
     const results = await this.userRepository.findUserForMatching('id', id);
+
     return results.map((user) =>
       plainToClass(MatchCardDto, user, {
         excludeExtraneousValues: true,
