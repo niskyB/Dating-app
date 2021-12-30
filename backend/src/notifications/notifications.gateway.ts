@@ -24,6 +24,10 @@ export class NotificationsGateway {
   @WebSocketServer()
   server: Server;
 
+  emitNotiToRoom(event: string, room: string, data: any) {
+    this.server.to(room).emit(event, data);
+  }
+
   @SubscribeMessage(NotificationAction.NOTIFICATIONS_CONNECTION)
   async handleInitNotification(@ConnectedSocket() client: SocketExtend) {
     const roomName = 'notifications-' + client.user.id;
@@ -43,6 +47,6 @@ export class NotificationsGateway {
 
     this.server
       .to(roomName)
-      .emit(NotificationAction.NOTIFICATIONS_GET, { notification: noti });
+      .emit(NotificationAction.NOTIFICATIONS_GET, { newMatch: noti });
   }
 }
