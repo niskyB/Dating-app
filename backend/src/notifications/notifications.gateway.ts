@@ -10,6 +10,7 @@ import { UserRepository } from '../user/repository/user.repository';
 import { UserSocketGuard } from '../auth/guard/authSocket.guard';
 import { NotificationAction } from './notifications.actions';
 import { NotificationsService } from './notifications.service';
+import { Client } from 'socket.io/dist/client';
 
 @WebSocketGateway({
   namespace: 'notifications',
@@ -29,6 +30,17 @@ export class NotificationsGateway {
   async handleInitNotification(@ConnectedSocket() client: SocketExtend) {
     const roomName = 'notifications-' + client.user.id;
     client.join(roomName);
+    const noti = await this.notificationsService.getNoti(client.user.id);
+
+    this.server
+      .to(roomName)
+      .emit(NotificationAction.NOTIFICATIONS_GET, { notification: noti });
+  }
+
+  @SubscribeMessage(NotificationAction.NOTIFICATIONS_RESET)
+  async handleResetNotification(@ConnectedSocket() client: SocketExtend) {
+    const roomName = 'notifications-' + client.user.id;
+    await this.notificationsService.resetNoti(client.user.id);
     const noti = await this.notificationsService.getNoti(client.user.id);
 
     this.server
