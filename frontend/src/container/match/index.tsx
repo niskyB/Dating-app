@@ -51,8 +51,6 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     currentIndexRef.current = val;
   };
 
-  const canGoBack = currentIndex < data.length - 1;
-
   const canSwipe = currentIndex >= 0;
   const swipeApiAction = (dir: DirectionString, id: string) => {
     if (dir === "left") {
@@ -67,7 +65,7 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     updateCurrentIndex(index - 1);
   };
 
-  const outOfFrame = (name: string, idx: number) => {
+  const outOfFrame = (id: string, idx: number) => {
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
 
@@ -77,13 +75,6 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     }
   };
 
-  // increase current index and show card
-  const goBack = async () => {
-    if (!canGoBack) return;
-    const newIndex = currentIndex + 1;
-    updateCurrentIndex(newIndex);
-    await childRefs[newIndex].current.restoreCard();
-  };
   return (
     <MatchWrapper>
       {data.map((data, index) => (
@@ -100,12 +91,6 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
       ))}
 
       <div className="absolute bottom-0 left-0 right-0 flex flex-row items-center flex-1 pb-4 justify-evenly">
-        <div
-          className="flex items-center justify-center w-20 h-20 rounded-full text-sun-500 border-sun-500 solid border-1"
-          onClick={() => goBack()}
-        >
-          <GoBackIcon />
-        </div>
         <div
           className="flex items-center justify-center w-20 h-20 p-3 rounded-full text-radical-red-500 border-radical-red-500 solid border-1"
           onClick={() => swipe("left")}
