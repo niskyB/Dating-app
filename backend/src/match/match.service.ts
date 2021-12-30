@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
+import { RedisService } from '../utils/redis/redis.service';
+import { NotificationAction } from '../notifications/notifications.actions';
+import { NotificationsGateway } from '../notifications/notifications.gateway';
 import { UserRepository } from '../user/repository/user.repository';
 import { MatchCardDto } from './dto/match-card.dto';
 
 @Injectable()
 export class MatchService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly notificationsGateway: NotificationsGateway,
+    private readonly redisService: RedisService,
+  ) {}
 
   /**
    * @description get match list by given id
@@ -42,8 +49,30 @@ export class MatchService {
       if (element.id === currentUserId) {
         user.matchList.push(matchUser);
         matchUser.matchList.push(user);
+
         user.matchNotification++;
         matchUser.matchNotification++;
+
+        const userNotiId = 'notifications-' + user.id;
+        const matchUserNotiId = 'notifications-' + matchUser.id;
+
+        this.notificationsGateway.emitNotiToRoom(
+          NotificationAction.NOTIFICATIONS_GET,
+          userNotiId,
+          { newMatch: user.matchNotification, name: user.name },
+        );
+
+        this.notificationsGateway.emitNotiToRoom(
+          NotificationAction.NOTIFICATIONS_GET,
+          matchUserNotiId,
+          { newMatch: matchUser.matchNotification, name: matchUser.name },
+        );
+
+        this.redisService.setValueByKey(userNotiId, user.matchNotification);
+        this.redisService.setValueByKey(
+          matchUserNotiId,
+          matchUser.matchNotification,
+        );
       }
     });
 
