@@ -42,28 +42,28 @@ const MatchList: React.FunctionComponent<MatchListProps> = ({ isOpenning }) => {
     console.log("hello");
     notificationIo.emit(NOTIFICATIONS_RESET);
     return () => {};
-  }, []);
-  if (isOpenning)
-    return (
-      <div className="flex flex-row flex-wrap justify-around w-full gap-5 px-5 mt-5 intro-y">
-        {matchList.map((match) => {
-          return (
-            <Link
-              to="#"
-              key={match.id}
-              className="w-5/12 h-40 duration-200 border-2 rounded-lg shadow-lg cursor-pointer hover:scale-110"
-              style={{
-                backgroundImage: `url("${match.avatar}") `,
-                backgroundSize: "cover",
-                backgroundPosition: "50% 50%",
-                backgroundRepeat: "no-repeat",
-              }}
-            ></Link>
-          );
-        })}
-      </div>
-    );
-  return <></>;
+  }, [isOpenning]);
+  if (!isOpenning) return null;
+
+  return (
+    <div className="flex flex-row flex-wrap justify-around w-full gap-5 px-5 mt-5 intro-y">
+      {matchList.map((match) => {
+        return (
+          <Link
+            to="#"
+            key={match.id}
+            className="w-5/12 h-40 duration-200 border-2 rounded-lg shadow-lg cursor-pointer hover:scale-110"
+            style={{
+              backgroundImage: `url("${match.avatar}") `,
+              backgroundSize: "cover",
+              backgroundPosition: "50% 50%",
+              backgroundRepeat: "no-repeat",
+            }}
+          ></Link>
+        );
+      })}
+    </div>
+  );
 };
 
 export default MatchList;
