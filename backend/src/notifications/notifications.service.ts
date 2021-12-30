@@ -16,14 +16,27 @@ export class NotificationsService {
 
   async getNoti(userId: string) {
     const notiId = `notifications-${userId}`;
-    let noti: number = +(await this.redisService.getValueByKey(notiId));
+    const result = await this.redisService.getValueByKey(notiId);
+    let noti: number;
+    if (result) {
+      noti = +result;
+    }
 
     if (isNaN(noti)) {
       const user = await this.userRepository.findOneByField('id', userId);
       noti = user.matchNotification;
-      if (!noti) return null;
+      if (isNaN(noti)) return null;
       await this.setNoti(userId, noti);
     }
     return noti;
+  }
+
+  async resetNoti(userId: string) {
+    const notiId = `notifications-${userId}`;
+    const user = await this.userRepository.findOneByField('id', userId);
+
+    user.matchNotification = 0;
+    await this.userRepository.save(user);
+    await this.redisService.deleteByKey(notiId);
   }
 }

@@ -69,7 +69,14 @@ export class UserRepository extends RepositoryService<User> {
       .where(`user.id NOT IN (:...ids)`, {
         ids: list,
       })
-      .where(`user.sex = :sex`, { sex: userMatchInfo.findOptions.sexOption })
+      .andWhere(`user.sex = :sex`, { sex: userMatchInfo.findOptions.sexOption })
+      .andWhere(
+        `year(now()) - year(user.dateOfBirth) between :minAge and :maxAge`,
+        {
+          minAge: userMatchInfo.findOptions.minAge,
+          maxAge: userMatchInfo.findOptions.maxAge,
+        },
+      )
       .leftJoinAndSelect('user.highlightImgs', 'userId')
       .leftJoinAndSelect('user.showOptions', 'showOptionsId')
       .leftJoinAndSelect('user.hobbies', 'hobbies')
