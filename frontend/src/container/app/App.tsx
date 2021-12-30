@@ -17,20 +17,21 @@ import {
   NOTIFICATIONS_CONNECTION,
   NOTIFICATIONS_GET,
 } from "../../constants/event";
+
 const clientIo = socketIo.connect(
   `${process.env.REACT_APP_SERVER_URL}/notifications`,
   { path: "/socket.io" }
 );
+
 function App() {
   const onHandleGetData = (data: any) => {
     console.log(data);
   };
   useEffect(() => {
-    clientIo.on(NOTIFICATIONS_CONNECTION, onHandleGetData);
-    clientIo.emit(NOTIFICATIONS_CONNECTION, "HELLO");
+    clientIo.emit(NOTIFICATIONS_CONNECTION);
     clientIo.on(NOTIFICATIONS_GET, onHandleGetData);
     return () => {
-      clientIo.off(NOTIFICATIONS_CONNECTION, onHandleGetData);
+      clientIo.off(NOTIFICATIONS_GET, onHandleGetData);
     };
   }, []);
   const UIState = useSelector<RootState, UIState>((state) => state.UI);

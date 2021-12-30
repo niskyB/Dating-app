@@ -28,6 +28,7 @@ export const contentRoutes: route[] = [
     isLoginRequire: true,
   },
   { link: "/me", component: PreviewProfile, isLoginRequire: true },
+  { link: "/setting", component: PreviewProfile, isLoginRequire: true },
   {
     link: "/*",
     component: MatchPage,

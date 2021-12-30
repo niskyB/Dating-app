@@ -13,6 +13,7 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const numberOfImage = data.highlightImgs.length + 1;
   const onPreviosImage = () => {
+    console.log("on prev click");
     if (currentIndex - 1 >= 0) {
       setCurrentIndex(currentIndex - 1);
     } else {
@@ -20,6 +21,7 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
     }
   };
   const onNextImage = () => {
+    console.log("on next click");
     if (currentIndex + 1 > numberOfImage - 1) {
       setCurrentIndex(0);
     } else {
@@ -27,7 +29,7 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
     }
   };
   return (
-    <div className="relative flex flex-col overflow-hidden transition-all duration-300 ease-in-out bg-red-500 w-96 h-140 card">
+    <div className="relative flex flex-col overflow-hidden transition-all duration-300 ease-in-out bg-black-500 w-96 h-140 card">
       {/* avatar + image */}
       <div
         className="absolute inset-0 z-0 flex flex-row w-auto transition-all duration-200 ease-in-out"

@@ -25,6 +25,7 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     }
     getData().then((data) => {
       setData(data);
+      setCurrentIndex(data.length - 1);
       setTimeout(() => {
         store.dispatch(UIAction.setIsLoading(false));
       }, timeDelay);
@@ -63,6 +64,7 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
   };
 
   const swipe = async (dir: any) => {
+    console.log(currentIndex);
     if (canSwipe && currentIndex < data.length) {
       await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
     }
