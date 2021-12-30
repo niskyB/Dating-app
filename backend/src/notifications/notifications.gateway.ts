@@ -33,6 +33,6 @@ export class NotificationsGateway {
 
     this.server
       .to(roomName)
-      .emit(NotificationAction.NOTIFICATIONS_GET, { notification: noti });
+      .emit(NotificationAction.NOTIFICATIONS_GET, { newMatch: noti });
   }
 }
