@@ -1,4 +1,10 @@
-import { updateInfoPopupDefault } from "../defaultData/UI";
+import {
+  cropperDefault,
+  notificationDefault,
+  socketDefault,
+  successModelDefault,
+  updateInfoPopupDefault,
+} from "../defaultData/UI";
 import {
   NotificationData,
   SetCropData,
@@ -8,11 +14,7 @@ import {
 } from "../../common/interface/redux/ui";
 import { createSlice } from "@reduxjs/toolkit";
 import { ReduxAction } from "../../common/interface/common/redux";
-import {
-  cropperDefault,
-  notificationDefault,
-  successModelDefault,
-} from "../defaultData/user";
+import { SocketNotificationPayload } from "./interface";
 const initialState: UIState = {
   isMatchOpen: true,
   isMessagesOpen: false,
@@ -20,6 +22,7 @@ const initialState: UIState = {
   updatePopup: updateInfoPopupDefault,
   successModel: successModelDefault,
   notification: notificationDefault,
+  socket: socketDefault,
   cropper: cropperDefault,
 };
 
@@ -112,6 +115,18 @@ export const UI = createSlice({
       return {
         ...state,
         isLoading: payload,
+      };
+    },
+    setSocketNotification: (
+      state: UIState,
+      { payload }: ReduxAction<SocketNotificationPayload>
+    ) => {
+      return {
+        ...state,
+        socket: {
+          ...state.socket,
+          ...payload,
+        },
       };
     },
   },
