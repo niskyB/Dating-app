@@ -13,11 +13,15 @@ const AvatarCircle: React.FunctionComponent<AvatarCircleProps> = ({
 }) => {
   return (
     <Link to={to}>
-      <img
-        className="inline-block h-10 w-10 rounded-full cursor-pointer hover:outline outline-3 outline-white"
-        src={url}
-        alt={alt}
-      />
+      <div
+        className="h-10 w-10 rounded-full cursor-pointer hover:outline outline-3 outline-white"
+        style={{
+          backgroundImage: `url("${url}") `,
+          backgroundSize: "cover",
+          backgroundPosition: "50% 50%",
+          backgroundRepeat: "no-repeat",
+        }}
+      ></div>
     </Link>
   );
 };
