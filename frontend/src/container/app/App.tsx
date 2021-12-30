@@ -17,6 +17,7 @@ import {
   NOTIFICATIONS_CONNECTION,
   NOTIFICATIONS_GET,
 } from "../../constants/event";
+import { SocketNotificationPayload } from "../../store/UI/interface";
 
 const clientIo = socketIo.connect(
   `${process.env.REACT_APP_SERVER_URL}/notifications`,
@@ -24,14 +25,14 @@ const clientIo = socketIo.connect(
 );
 
 function App() {
-  const onHandleGetData = (data: any) => {
-    console.log(data);
+  const onHandleGetData = (data: SocketNotificationPayload) => {
+    store.dispatch(UIAction.setSocketNotification(data));
   };
   useEffect(() => {
     clientIo.emit(NOTIFICATIONS_CONNECTION);
     clientIo.on(NOTIFICATIONS_GET, onHandleGetData);
     return () => {
-      clientIo.off(NOTIFICATIONS_GET, onHandleGetData);
+      clientIo.off(NOTIFICATIONS_GET);
     };
   }, []);
   const UIState = useSelector<RootState, UIState>((state) => state.UI);

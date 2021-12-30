@@ -28,7 +28,7 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
       >
         {userState.isLogin ? (
           <>
-            <div className="flex w-full h-10 px-5 text-base">
+            <div className="flex w-full h-10 px-5 mt-2 text-base">
               <SideBarNav
                 isMatchOpen={UIState.isMatchOpen}
                 isMessagesOpen={UIState.isMessagesOpen}

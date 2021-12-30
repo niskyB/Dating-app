@@ -1,10 +1,5 @@
 import { FindingOptions } from "./../../common/interface/redux/user";
 import { UserDataDTO } from "../../common/interface/dto/user";
-import {
-  CropperData,
-  NotificationData,
-  SuccessModel,
-} from "../../common/interface/redux/ui";
 import { ShowOptions } from "../../common/interface/entity/showOptions";
 export const findingOptionsDefault: FindingOptions = {
   sexOption: "FEMALE",
@@ -36,23 +31,4 @@ export const userDataDefault: UserDataDTO = {
   createDate: "",
   like: [],
   dislike: [],
-};
-
-export const successModelDefault: SuccessModel = {
-  isOpenning: false,
-  message: "",
-  title: "",
-};
-
-export const notificationDefault: NotificationData = {
-  status: "SUCCESS",
-  title: "",
-  message: "",
-  isOpenning: false,
-};
-
-export const cropperDefault: CropperData = {
-  imageUrl: "",
-  croppedImage: "",
-  isAvatar: null,
 };

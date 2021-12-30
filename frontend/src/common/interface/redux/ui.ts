@@ -20,6 +20,9 @@ export interface CropperData {
   croppedImage: string;
   isAvatar: boolean | null;
 }
+export interface SocketData {
+  newMatch: string;
+}
 export interface UIState {
   isMatchOpen: boolean;
   isMessagesOpen: boolean;
@@ -28,6 +31,7 @@ export interface UIState {
   notification: NotificationData;
   cropper: CropperData;
   isLoading: boolean;
+  socket: SocketData;
 }
 export enum NotificationStatus {
   SUCCESS = "SUCCESS",

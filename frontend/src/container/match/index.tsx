@@ -6,11 +6,13 @@ import GoBackIcon from "../../component/icon/goBack";
 import Card from "../../component/card";
 import MatchWrapper from "../../component/matchWrapper";
 import { showOptionsDefault } from "../../store/defaultData/user";
-import { getMatchList } from "./action";
+import { dislikeCard, getMatchList, likeCard } from "./action";
 import { MatchCard } from "../../component/card/interface.dto";
 import { store } from "../../store";
 import { UIAction } from "../../store/UI";
 import { timeDelay } from "../../constants/loading";
+import { DirectionString } from "./interface";
+import { dir } from "console";
 interface MatchPageProps {}
 
 const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
@@ -52,19 +54,24 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
   const canGoBack = currentIndex < data.length - 1;
 
   const canSwipe = currentIndex >= 0;
-
+  const swipeApiAction = (dir: DirectionString, id: string) => {
+    if (dir === "left") {
+      dislikeCard(id);
+    } else if (dir === "right") {
+      likeCard(id);
+    }
+  };
   // set last direction and decrease current index
-  const swiped = (direction: any, nameToDelete: any, index: any) => {
+  const swiped = (direction: DirectionString, id: string, index: number) => {
+    swipeApiAction(direction, id);
     updateCurrentIndex(index - 1);
   };
 
-  const outOfFrame = (name: any, idx: any) => {
-    console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current);
+  const outOfFrame = (name: string, idx: number) => {
     currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
   };
 
-  const swipe = async (dir: any) => {
-    console.log(currentIndex);
+  const swipe = async (dir: string) => {
     if (canSwipe && currentIndex < data.length) {
       await childRefs[currentIndex].current.swipe(dir); // Swipe the card!
     }
@@ -83,9 +90,9 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
         <TinderCard
           ref={childRefs[index]}
           className="absolute inset-0 swipe"
-          key={data.name}
-          onSwipe={(dir) => swiped(dir, data.name, index)}
-          onCardLeftScreen={() => outOfFrame(data.name, index)}
+          key={data.id}
+          onSwipe={(dir) => swiped(dir, data.id, index)}
+          onCardLeftScreen={() => outOfFrame(data.id, index)}
           preventSwipe={["up", "down"]}
         >
           <Card data={data} options={showOptionsDefault} />
