@@ -16,7 +16,11 @@ export class NotificationsService {
 
   async getNoti(userId: string) {
     const notiId = `notifications-${userId}`;
-    let noti: number = +(await this.redisService.getValueByKey(notiId));
+    const result = await this.redisService.getValueByKey(notiId);
+    let noti: number;
+    if (result) {
+      noti = +result;
+    }
 
     if (isNaN(noti)) {
       const user = await this.userRepository.findOneByField('id', userId);
