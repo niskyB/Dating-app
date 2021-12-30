@@ -41,13 +41,12 @@ const DBConfig = TypeOrmModule.forRoot({
     UserModule,
     AuthModule,
     MatchModule,
+    NotificationsModule,
 
     // -- serve static folder
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),
-
-    NotificationsModule,
   ],
   providers: [AppService],
 })
