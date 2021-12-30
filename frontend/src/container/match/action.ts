@@ -15,6 +15,6 @@ export const likeCard = async (id: string) => {
 };
 
 export const dislikeCard = async (id: string) => {
-  const url = `/api/match/likeList/${id}`;
+  const url = `/api/match/dislikeList/${id}`;
   return await axiosClient.post(url);
 };
