@@ -19,7 +19,7 @@ import {
 } from "../../constants/event";
 import { SocketNotificationPayload } from "../../store/UI/interface";
 
-const clientIo = socketIo.connect(
+export const notificationIo = socketIo.connect(
   `${process.env.REACT_APP_SERVER_URL}/notifications`,
   { path: "/socket.io" }
 );
@@ -29,10 +29,10 @@ function App() {
     store.dispatch(UIAction.setSocketNotification(data));
   };
   useEffect(() => {
-    clientIo.emit(NOTIFICATIONS_CONNECTION);
-    clientIo.on(NOTIFICATIONS_GET, onHandleGetData);
+    notificationIo.emit(NOTIFICATIONS_CONNECTION);
+    notificationIo.on(NOTIFICATIONS_GET, onHandleGetData);
     return () => {
-      clientIo.off(NOTIFICATIONS_GET);
+      notificationIo.off(NOTIFICATIONS_GET);
     };
   }, []);
   const UIState = useSelector<RootState, UIState>((state) => state.UI);

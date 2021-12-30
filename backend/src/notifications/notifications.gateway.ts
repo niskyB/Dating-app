@@ -6,11 +6,9 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, SocketExtend } from 'socket.io';
-import { UserRepository } from '../user/repository/user.repository';
 import { UserSocketGuard } from '../auth/guard/authSocket.guard';
 import { NotificationAction } from './notifications.actions';
 import { NotificationsService } from './notifications.service';
-import { Client } from 'socket.io/dist/client';
 
 @WebSocketGateway({
   namespace: 'notifications',

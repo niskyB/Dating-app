@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { NOTIFICATIONS_RESET } from "../../constants/event";
+import { notificationIo } from "../app/App";
 
 interface MatchListProps {
   isOpenning: boolean;
@@ -35,6 +38,11 @@ const matchList: matched[] = [
   },
 ];
 const MatchList: React.FunctionComponent<MatchListProps> = ({ isOpenning }) => {
+  useEffect(() => {
+    console.log("hello");
+    notificationIo.emit(NOTIFICATIONS_RESET);
+    return () => {};
+  }, []);
   if (isOpenning)
     return (
       <div className="flex flex-row flex-wrap justify-around w-full gap-5 px-5 mt-5 intro-y">

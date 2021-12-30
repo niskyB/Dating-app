@@ -25,6 +25,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
       store.dispatch(userAction.setIsLogin(true));
       setTimeout(() => {
         store.dispatch(UIAction.setIsLoading(false));
+        store.dispatch(UIAction.resetState());
         openSuccessNotification("Login success!");
       }, timeDelay);
     }
