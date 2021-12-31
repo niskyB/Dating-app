@@ -11,8 +11,8 @@ import { userAction } from "../../store/user";
 import { openSuccessNotification } from "../../utils/notificationHelper";
 import { UIAction } from "../../store/UI";
 import { timeDelay } from "../../constants/loading";
-import { notificationIo } from "../app/App";
 import { NOTIFICATIONS_CONNECTION } from "../../constants/event";
+import { notificationIo } from "../app/App";
 interface LoginPageProps {}
 
 const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
@@ -25,7 +25,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
     if (response.status === 200) {
       navigate("/");
       store.dispatch(userAction.setIsLogin(true));
-      notificationIo.emit(NOTIFICATIONS_CONNECTION, {});
+      // notificationIo.emit(NOTIFICATIONS_CONNECTION, {});
       setTimeout(() => {
         store.dispatch(UIAction.setIsLoading(false));
         store.dispatch(UIAction.resetState());

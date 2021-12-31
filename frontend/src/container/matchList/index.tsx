@@ -17,6 +17,7 @@ const MatchList: React.FunctionComponent<MatchListProps> = ({ isOpenning }) => {
     GetMatchedList().then((data) => {
       setData(data.data.data);
     });
+
     return () => {};
   }, [UIState.socket.newMatch]);
   if (!isOpenning) return null;

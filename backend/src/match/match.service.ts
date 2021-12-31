@@ -35,6 +35,9 @@ export class MatchService {
    * @param matchId id of matched user
    */
   async match(currentUserId: string, matchId: string) {
+    // this variable is for checking that matchUser is like the current user or not
+    let isMatched = false;
+
     const user = await this.userRepository.findUserMatchInfoByField(
       'id',
       currentUserId,
@@ -44,40 +47,49 @@ export class MatchService {
       'id',
       matchId,
     );
+    //push new like user to the list
+    user.like.push(matchUser);
 
+    //check matchUser like current user or not, if matched, return true for isMatch
     matchUser.like.forEach((element) => {
       if (element.id === currentUserId) {
-        user.matchList.push(matchUser);
-        matchUser.matchList.push(user);
-
-        user.matchNotification++;
-        matchUser.matchNotification++;
-
-        const userNotiId = 'notifications-' + user.id;
-        const matchUserNotiId = 'notifications-' + matchUser.id;
-
-        this.notificationsGateway.emitNotiToRoom(
-          NotificationAction.NOTIFICATIONS_GET,
-          userNotiId,
-          { newMatch: user.matchNotification },
-        );
-
-        this.notificationsGateway.emitNotiToRoom(
-          NotificationAction.NOTIFICATIONS_GET,
-          matchUserNotiId,
-          { newMatch: matchUser.matchNotification },
-        );
-
-        this.redisService.setValueByKey(userNotiId, user.matchNotification);
-        this.redisService.setValueByKey(
-          matchUserNotiId,
-          matchUser.matchNotification,
-        );
+        isMatched = true;
       }
     });
 
-    user.like.push(matchUser);
-    await this.userRepository.save(matchUser);
+    if (isMatched) {
+      user.matchList.push(matchUser);
+      matchUser.matchList.push(user);
+      //++ noti of both user
+      user.matchNotification++;
+      matchUser.matchNotification++;
+      //save to db before emit to client
+      await this.userRepository.save(matchUser);
+      await this.userRepository.save(user);
+      //emit to client
+      const userNotiId = 'notifications-' + user.id;
+      const matchUserNotiId = 'notifications-' + matchUser.id;
+
+      this.notificationsGateway.emitNotiToRoom(
+        NotificationAction.NOTIFICATIONS_GET,
+        userNotiId,
+        { newMatch: user.matchNotification },
+      );
+
+      this.notificationsGateway.emitNotiToRoom(
+        NotificationAction.NOTIFICATIONS_GET,
+        matchUserNotiId,
+        { newMatch: matchUser.matchNotification },
+      );
+
+      this.redisService.setValueByKey(userNotiId, user.matchNotification);
+      this.redisService.setValueByKey(
+        matchUserNotiId,
+        matchUser.matchNotification,
+      );
+      return;
+    }
+
     await this.userRepository.save(user);
   }
 
