@@ -25,6 +25,7 @@ export class NotificationsGateway {
   server: Server;
 
   emitNotiToRoom(event: string, room: string, data: any) {
+    console.log(room, data);
     this.server.to(room).emit(event, data);
   }
 
@@ -32,8 +33,8 @@ export class NotificationsGateway {
   async handleInitNotification(@ConnectedSocket() client: SocketExtend) {
     const roomName = 'notifications-' + client.user.id;
     client.join(roomName);
-    const noti = await this.notificationsService.getNoti(client.user.id);
 
+    const noti = await this.notificationsService.getNoti(client.user.id);
     this.server
       .to(roomName)
       .emit(NotificationAction.NOTIFICATIONS_GET, { newMatch: noti });

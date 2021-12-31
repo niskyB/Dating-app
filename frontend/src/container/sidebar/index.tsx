@@ -18,13 +18,14 @@ interface SideBarProps {}
 const SideBar: React.FunctionComponent<SideBarProps> = () => {
   const userState = useSelector<RootState, UserState>((state) => state.user);
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
+
   return (
     <div className="flex flex-col w-full h-screen max-w-sm overflow-hidden bg-white">
       <TopSideBar isLogin={userState.isLogin} />
       <div
-        className={`flex flex-col relative ${
+        className={`flex flex-1 overflow-scroll flex-col relative ${
           userState.isLogin ? "justify-start" : "justify-center"
-        } flex-auto  py-3 text-center`}
+        } flex-auto  py-3 text-center `}
       >
         {userState.isLogin ? (
           <>
