@@ -1,4 +1,4 @@
-import { ResponseBody } from './api.interface';
+import { ResponseBody } from '../interface/api.interface';
 
 class ApiResponse {
   public send<T>(data: T, errors: any) {

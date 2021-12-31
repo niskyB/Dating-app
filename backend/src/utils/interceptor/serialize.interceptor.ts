@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { map, Observable } from 'rxjs';
-import { apiResponse } from 'src/common/interface/apiResponse';
+import { apiResponse } from 'src/common/response/apiResponse';
 
 interface ClassContructor {
   new (...args: any[]): object;

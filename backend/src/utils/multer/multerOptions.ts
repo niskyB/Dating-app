@@ -4,7 +4,7 @@ import { Request } from 'express';
 import { BadRequestException } from '@nestjs/common';
 import { FOLDER, MAX_SIZE, MIMETYPE } from '../../constants/multer.constants';
 import { ResponseMessage } from '../../constants/message/responseMessage.enum';
-import { apiResponse } from '../../common/interface/apiResponse';
+import { apiResponse } from '../../common/response/apiResponse';
 
 const storage = multer.diskStorage({
   destination: function (req: Request, file: Express.Multer.File, cb: any) {

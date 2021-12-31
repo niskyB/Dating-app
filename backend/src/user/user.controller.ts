@@ -63,7 +63,7 @@ import { UserGuard } from '../auth/guard/auth.guard';
 import { JoiValidationPipe } from '../utils/validation/JoiValidationPipe.pipe';
 
 //---- api response
-import { apiResponse } from '../common/interface/apiResponse';
+import { apiResponse } from '../common/response/apiResponse';
 
 //---- multer
 import { multerOptions } from '../utils/multer/multerOptions';

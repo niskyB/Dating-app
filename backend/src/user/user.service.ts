@@ -43,7 +43,7 @@ import { Sex } from './enum/user.sex.enum';
 import { UserRepository } from './repository/user.repository';
 
 //---- api response
-import { apiResponse } from '../common/interface/apiResponse';
+import { apiResponse } from '../common/response/apiResponse';
 
 @Injectable()
 export class UserService {
