@@ -23,7 +23,7 @@ import { AuthService } from './auth.service';
 import { JoiValidationPipe } from '../utils/validation/JoiValidationPipe.pipe';
 
 //---- api response
-import { apiResponse } from '../common/interface/apiResponse';
+import { apiResponse } from '../common/response/apiResponse';
 
 //---- constants
 import { EXPIRED_AGE, MAX_AGE, TOKEN } from '../constants/cookie.constants';

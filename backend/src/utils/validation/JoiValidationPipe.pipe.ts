@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import { ObjectSchema } from 'joi';
-import { apiResponse } from '../../common/interface/apiResponse';
+import { apiResponse } from '../../common/response/apiResponse';
 
 @Injectable()
 export class JoiValidationPipe implements PipeTransform {

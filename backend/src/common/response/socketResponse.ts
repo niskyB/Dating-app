@@ -1,4 +1,4 @@
-import { SocketResponseBody } from './socket.interface';
+import { SocketResponseBody } from '../interface/socket.interface';
 
 class SocketResponse {
   public send<T>(data: T, event: string) {

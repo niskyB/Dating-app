@@ -16,7 +16,7 @@ import { SigninUserDto } from './dto/signin-user.dto';
 import { UserService } from '../user/user.service';
 
 //---- api response
-import { apiResponse } from '../common/interface/apiResponse';
+import { apiResponse } from '../common/response/apiResponse';
 
 //---- constants
 import { ResponseMessage } from '../constants/message/responseMessage.enum';

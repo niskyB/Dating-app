@@ -2,7 +2,7 @@ import { Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { MatchService } from './match.service';
 import { Request } from 'express';
 import { UserGuard } from '../auth/guard/auth.guard';
-import { apiResponse } from '../common/interface/apiResponse';
+import { apiResponse } from '../common/response/apiResponse';
 
 @Controller('match')
 @UseGuards(UserGuard)

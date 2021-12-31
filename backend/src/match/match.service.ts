@@ -59,13 +59,13 @@ export class MatchService {
         this.notificationsGateway.emitNotiToRoom(
           NotificationAction.NOTIFICATIONS_GET,
           userNotiId,
-          { newMatch: user.matchNotification, name: user.name },
+          { newMatch: user.matchNotification },
         );
 
         this.notificationsGateway.emitNotiToRoom(
           NotificationAction.NOTIFICATIONS_GET,
           matchUserNotiId,
-          { newMatch: matchUser.matchNotification, name: matchUser.name },
+          { newMatch: matchUser.matchNotification },
         );
 
         this.redisService.setValueByKey(userNotiId, user.matchNotification);

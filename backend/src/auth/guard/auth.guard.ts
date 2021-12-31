@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '../auth.service';
 import { Request } from 'express';
-import { apiResponse } from '../../common/interface/apiResponse';
+import { apiResponse } from '../../common/response/apiResponse';
 import { ResponseMessage } from '../../constants/message/responseMessage.enum';
 import { TOKEN } from '../../constants/cookie.constants';
 
