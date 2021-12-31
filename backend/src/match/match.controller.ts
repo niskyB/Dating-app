@@ -14,7 +14,7 @@ export class MatchController {
    * @param req  Http request
    * @returns  response form with array of user
    */
-  @Get('/matchList')
+  @Get('/matchedList')
   async getMatchList(@Req() req: Request) {
     const users = await this.matchService.getMatchList(req.currentUser.id);
     return apiResponse.send(users, null);

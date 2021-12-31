@@ -1,7 +1,9 @@
 import { useSelector } from "react-redux";
 import { UIState } from "../../common/interface/redux/ui";
+import { NOTIFICATIONS_RESET } from "../../constants/event";
 import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
+import { notificationIo } from "../app/App";
 
 interface SideBarNavProps {
   isMatchOpen: boolean;
@@ -16,10 +18,13 @@ const SideBarNav: React.FunctionComponent<SideBarNavProps> = ({
   return (
     <>
       <div
-        className={`relative cursor-pointer font-semibold ${
+        className={`relative cursor-pointer font-semibold w-1/2 ${
           isMatchOpen && "line"
         }`}
-        onClick={() => store.dispatch(UIAction.openMatchUI())}
+        onClick={() => {
+          store.dispatch(UIAction.openMatchUI());
+          notificationIo.emit(NOTIFICATIONS_RESET);
+        }}
       >
         Matched
         {parseInt(UIState.socket.newMatch) > 0 && (
@@ -30,7 +35,7 @@ const SideBarNav: React.FunctionComponent<SideBarNavProps> = ({
       </div>
 
       <div
-        className={`ml-7 font-semibold relative cursor-pointer ${
+        className={`ml-7 font-semibold relative cursor-pointer w-1/2 ${
           isMessagesOpen && "line"
         }`}
         onClick={() => store.dispatch(UIAction.openMessagesUI())}
