@@ -18,15 +18,8 @@ const AutoLogingWrapper: React.FunctionComponent<AutoLogingWrapperProps> = ({
   children,
 }) => {
   const user = useSelector<RootState, UserState>((state) => state.user);
-  const onHandleGetData = (data: SocketNotificationPayload) => {
-    console.log("this is from autologging  get data" + data);
-    store.dispatch(UIAction.setSocketNotification(data));
-    GetMatchedList();
-  };
+
   useEffect(() => {
-    console.log("auto logging");
-    notificationIo.emit(NOTIFICATIONS_CONNECTION);
-    notificationIo.on(NOTIFICATIONS_GET, onHandleGetData);
     store.dispatch(userThunk.getCurrentUser());
     return () => {
       notificationIo.off(NOTIFICATIONS_GET);
