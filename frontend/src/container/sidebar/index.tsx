@@ -20,12 +20,12 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
 
   return (
-    <div className="flex flex-col w-full h-screen max-w-sm overflow-hidden bg-white">
+    <div className="flex flex-col w-full h-screen max-w-sm  bg-white">
       <TopSideBar isLogin={userState.isLogin} />
       <div
-        className={`flex flex-1 overflow-scroll flex-col relative ${
+        className={`flex flex-1 flex-col relative ${
           userState.isLogin ? "justify-start" : "justify-center"
-        } flex-auto  py-3 text-center `}
+        } flex-auto  py-3 text-center overflow-hidden`}
       >
         {userState.isLogin ? (
           <>

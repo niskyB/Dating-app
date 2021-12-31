@@ -23,13 +23,13 @@ const MatchList: React.FunctionComponent<MatchListProps> = ({ isOpenning }) => {
   if (!isOpenning) return null;
 
   return (
-    <div className="flex flex-row flex-wrap w-full gap-5 px-5 mt-5 intro-y ">
+    <div className="flex flex-row flex-1 flex-wrap w-full gap-6 px-5 pt-5 intro-y overflow-auto">
       {data.map((match) => {
         return (
           <Link
             to="#"
             key={match.id}
-            className="w-[45%] h-52 duration-200 border-2 rounded-lg shadow-lg cursor-pointer hover:scale-110"
+            className="w-[45%] h-52 duration-200 border-2 rounded-lg shadow-lg cursor-pointer hover:scale-110 block"
             style={{
               backgroundImage: `url("${process.env.REACT_APP_SERVER_URL}/${match.avatar}") `,
               backgroundSize: "cover",
