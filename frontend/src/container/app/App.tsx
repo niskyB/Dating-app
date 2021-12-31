@@ -18,6 +18,7 @@ import {
   NOTIFICATIONS_GET,
 } from "../../constants/event";
 import { SocketNotificationPayload } from "../../store/UI/interface";
+import { GetMatchedList } from "../matchList/action";
 
 export const notificationIo = socketIo.connect(
   `${process.env.REACT_APP_SERVER_URL}/notifications`,
@@ -27,6 +28,7 @@ export const notificationIo = socketIo.connect(
 function App() {
   const onHandleGetData = (data: SocketNotificationPayload) => {
     store.dispatch(UIAction.setSocketNotification(data));
+    GetMatchedList();
   };
   useEffect(() => {
     notificationIo.emit(NOTIFICATIONS_CONNECTION);
