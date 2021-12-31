@@ -25,14 +25,12 @@ export class NotificationsGateway {
   server: Server;
 
   emitNotiToRoom(event: string, room: string, data: any) {
-    console.log(room, data);
     this.server.to(room).emit(event, data);
   }
 
   @SubscribeMessage(NotificationAction.NOTIFICATIONS_CONNECTION)
   async handleInitNotification(@ConnectedSocket() client: SocketExtend) {
     const roomName = 'notifications-' + client.user.id;
-    console.log(client.user);
     client.join(roomName);
 
     const noti = await this.notificationsService.getNoti(client.user.id);

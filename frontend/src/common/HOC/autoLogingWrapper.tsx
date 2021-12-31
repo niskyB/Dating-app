@@ -11,22 +11,25 @@ import { UIAction } from "../../store/UI";
 import { SocketNotificationPayload } from "../../store/UI/interface";
 import { userThunk } from "../../store/user/thunk";
 import { UserState } from "../interface/redux/user";
-
+// import * as socketIo from "socket.io-client";
 interface AutoLogingWrapperProps {}
-
+// export const notificationIo = socketIo.connect(
+//   `${process.env.REACT_APP_SERVER_URL}/notifications`,
+//   { path: "/socket.io" }
+// );
 const AutoLogingWrapper: React.FunctionComponent<AutoLogingWrapperProps> = ({
   children,
 }) => {
   const user = useSelector<RootState, UserState>((state) => state.user);
-  const onHandleGetData = (data: SocketNotificationPayload) => {
-    console.log("this is from autologging  get data" + data);
-    store.dispatch(UIAction.setSocketNotification(data));
-    GetMatchedList();
+  const onHandleGetData = async (data: SocketNotificationPayload) => {
+    await store.dispatch(UIAction.setSocketNotification(data));
   };
   useEffect(() => {
-    console.log("auto logging");
-    notificationIo.emit(NOTIFICATIONS_CONNECTION);
+    notificationIo.disconnect();
+    notificationIo.connect();
     notificationIo.on(NOTIFICATIONS_GET, onHandleGetData);
+    notificationIo.emit(NOTIFICATIONS_CONNECTION);
+
     store.dispatch(userThunk.getCurrentUser());
     return () => {
       notificationIo.off(NOTIFICATIONS_GET);

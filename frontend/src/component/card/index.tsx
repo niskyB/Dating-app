@@ -13,7 +13,6 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const numberOfImage = data.highlightImgs.length + 1;
   const onPreviosImage = () => {
-    console.log("on prev click");
     if (currentIndex - 1 >= 0) {
       setCurrentIndex(currentIndex - 1);
     } else {
@@ -21,7 +20,6 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
     }
   };
   const onNextImage = () => {
-    console.log("on next click");
     if (currentIndex + 1 > numberOfImage - 1) {
       setCurrentIndex(0);
     } else {

@@ -69,6 +69,7 @@ export class AuthController {
   @Post('/logout')
   async logout(@Res({ passthrough: true }) res: Response) {
     res.cookie(TOKEN, '', { maxAge: EXPIRED_AGE }).status(HttpStatus.OK);
+
     return apiResponse.send(null, null);
   }
 }
