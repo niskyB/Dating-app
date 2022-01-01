@@ -67,7 +67,6 @@ export class MatchController {
       );
     }
     if (limit <= 0) limit = 1;
-    if (limit > 4) limit = 4;
     const users = await this.matchService.getUsers(req.currentUser.id, limit);
     return apiResponse.send(users, null);
   }
