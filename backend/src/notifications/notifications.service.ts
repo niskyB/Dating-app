@@ -33,10 +33,10 @@ export class NotificationsService {
 
   async resetNoti(userId: string) {
     const notiId = `notifications-${userId}`;
+    await this.redisService.deleteByKey(notiId);
     const user = await this.userRepository.findOneByField('id', userId);
 
     user.matchNotification = 0;
     await this.userRepository.save(user);
-    await this.redisService.deleteByKey(notiId);
   }
 }
