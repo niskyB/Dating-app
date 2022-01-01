@@ -5,6 +5,7 @@ import { NotificationAction } from '../notifications/notifications.actions';
 import { NotificationsGateway } from '../notifications/notifications.gateway';
 import { UserRepository } from '../user/repository/user.repository';
 import { MatchCardDto } from './dto/match-card.dto';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class MatchService {
@@ -26,11 +27,21 @@ export class MatchService {
       limit,
     );
 
+    await this.sendToDislikeList(id, results);
+
     return results.map((user) =>
       plainToClass(MatchCardDto, user, {
         excludeExtraneousValues: true,
       }),
     );
+  }
+
+  async sendToDislikeList(id: string, users: User[]) {
+    const user = await this.userRepository.findUserMatchInfoByField('id', id);
+    users.forEach((element) => {
+      user.disLike.push(element);
+    });
+    await this.userRepository.save(user);
   }
 
   //get view again list
