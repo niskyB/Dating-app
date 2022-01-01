@@ -51,6 +51,8 @@ export class UserRepository extends RepositoryService<User> {
   public async findUserForMatching(
     field: keyof User,
     value: any,
+    index: number,
+    limit: number,
   ): Promise<User[]> {
     const userMatchInfo = await this.findUserMatchInfoByField(field, value);
 
@@ -80,6 +82,8 @@ export class UserRepository extends RepositoryService<User> {
       .leftJoinAndSelect('user.highlightImgs', 'userId')
       .leftJoinAndSelect('user.showOptions', 'showOptionsId')
       .leftJoinAndSelect('user.hobbies', 'hobbies')
+      .skip(index)
+      .take(limit)
       .getMany();
   }
 
