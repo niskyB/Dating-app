@@ -1,4 +1,13 @@
-import { Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { MatchService } from './match.service';
 import { Request } from 'express';
 import { UserGuard } from '../auth/guard/auth.guard';
@@ -20,21 +29,10 @@ export class MatchController {
     return apiResponse.send(users, null);
   }
 
-  @Get('/viewagain')
-  async getViewAgainList(@Req() req: Request) {
-    const users = await this.matchService.getViewAgainList(req.currentUser.id);
-    return apiResponse.send(users, null);
-  }
-
-  /**
-   * @description GET method to get users for matching
-   * @param req Http Request
-   * @returns response form with array of user
-   */
-  @Get('/:limit')
-  async getListUsers(@Req() req: Request, @Param('limit') limit: number) {
-    const users = await this.matchService.getUsers(req.currentUser.id, limit);
-    return apiResponse.send(users, null);
+  @Put('/resetdislike')
+  async resetDislikeList(@Req() req: Request) {
+    await this.matchService.resetDislikeList(req.currentUser.id);
+    return apiResponse.send(null, null);
   }
 
   /**
@@ -53,5 +51,16 @@ export class MatchController {
   async dislikeUser(@Req() req: Request, @Param('id') id: string) {
     const res = await this.matchService.dislike(req.currentUser.id, id);
     return apiResponse.send(res, null);
+  }
+
+  /**
+   * @description GET method to get users for matching
+   * @param req Http Request
+   * @returns response form with array of user
+   */
+  @Get('/:limit')
+  async getListUsers(@Req() req: Request, @Param('limit') limit: number) {
+    const users = await this.matchService.getUsers(req.currentUser.id, limit);
+    return apiResponse.send(users, null);
   }
 }

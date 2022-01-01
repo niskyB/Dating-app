@@ -2,11 +2,18 @@ import { DataResponse } from "./../../common/interface/common/api";
 import { MatchCard } from "./../../component/card/interface.dto";
 import { AxiosResponse } from "axios";
 import axiosClient from "../../axios/config";
-export const getMatchList = async (): Promise<
+export const getMatchList = async (
+  limit: number
+): Promise<AxiosResponse<DataResponse<MatchCard[]>>> => {
+  const url = `/api/match/${limit}`;
+  return await axiosClient.get(url);
+};
+
+export const resetDislikeList = async (): Promise<
   AxiosResponse<DataResponse<MatchCard[]>>
 > => {
-  const url = `/api/match`;
-  return await axiosClient.get(url);
+  const url = `/api/match/resetdislike`;
+  return await axiosClient.put(url);
 };
 
 export const likeCard = async (id: string) => {
@@ -17,11 +24,4 @@ export const likeCard = async (id: string) => {
 export const dislikeCard = async (id: string) => {
   const url = `/api/match/dislikeList/${id}`;
   return await axiosClient.post(url);
-};
-
-export const viewAgain = async (): Promise<
-  AxiosResponse<DataResponse<MatchCard[]>>
-> => {
-  const url = `/api/match/viewagain`;
-  return await axiosClient.get(url);
 };
