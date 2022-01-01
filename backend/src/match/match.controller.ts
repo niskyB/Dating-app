@@ -31,17 +31,9 @@ export class MatchController {
    * @param req Http Request
    * @returns response form with array of user
    */
-  @Get('/:index/:limit')
-  async getListUsers(
-    @Req() req: Request,
-    @Param('index') index: number,
-    @Param('limit') limit: number,
-  ) {
-    const users = await this.matchService.getUsers(
-      req.currentUser.id,
-      index,
-      limit,
-    );
+  @Get('/:limit')
+  async getListUsers(@Req() req: Request, @Param('limit') limit: number) {
+    const users = await this.matchService.getUsers(req.currentUser.id, limit);
     return apiResponse.send(users, null);
   }
 
