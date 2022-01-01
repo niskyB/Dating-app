@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import HeartIcon from "../../component/icon/heart";
 import XIcon from "../../component/icon/x";
 import TinderCard from "react-tinder-card";
@@ -12,6 +12,7 @@ import { UIAction } from "../../store/UI";
 import { timeDelay } from "../../constants/loading";
 import { DirectionString } from "./interface";
 import { openWarningNotification } from "../../utils/notificationHelper";
+import useInterval from "../../common/hook/useInterval";
 interface MatchPageProps {}
 
 const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
@@ -32,16 +33,18 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
   };
 
   useEffect(() => {
-    const autoCallingApi = setInterval(() => {
-      if (data.length === 0) {
-        callApiAndGetMatchList();
-      }
-    }, 3000);
     callApiAndGetMatchList(true);
-    return () => {
-      clearInterval(autoCallingApi);
-    };
+    return () => {};
   }, []);
+
+  //custom hook for use interval for calling api after each 3 seconds for finding new user
+  useInterval(() => {
+    if (data.length === 0 || currentIndex === -1) {
+      callApiAndGetMatchList();
+    }
+  }, 3000);
+
+  //view again card that user have skipped
   const onViewAgain = async () => {
     store.dispatch(UIAction.setIsLoading(true));
     const res = await viewAgain();
@@ -107,7 +110,7 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
           {data.map((data, index) => (
             <TinderCard
               ref={childRefs[index]}
-              className="absolute inset-0 swipe"
+              className="absolute inset-0 bg-black swipe"
               key={data.id}
               onSwipe={(dir) => swiped(dir, data.id, index)}
               onCardLeftScreen={() => outOfFrame(data.id, index)}
