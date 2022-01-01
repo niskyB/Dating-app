@@ -1,11 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeartIcon from "../../component/icon/heart";
 import XIcon from "../../component/icon/x";
 import TinderCard from "react-tinder-card";
 import Card from "../../component/card";
 import MatchWrapper from "../../component/matchWrapper";
 import { showOptionsDefault } from "../../store/defaultData/user";
-import { dislikeCard, getMatchList, likeCard, viewAgain } from "./action";
+import {
+  dislikeCard,
+  getMatchList,
+  likeCard,
+  resetDislikeList,
+} from "./action";
 import { MatchCard } from "../../component/card/interface.dto";
 import { store } from "../../store";
 import { UIAction } from "../../store/UI";
@@ -18,10 +23,11 @@ interface MatchPageProps {}
 const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
   const [data, setData] = useState<MatchCard[]>([]);
   const [currentIndex, setCurrentIndex] = React.useState(data.length - 1);
-
-  const callApiAndGetMatchList = async (loading?: boolean) => {
+  const numberOfCardOnceCall = 4;
+  //call api and get unmatch list
+  const callApiAndGetMatchList = async (limit: number, loading?: boolean) => {
     if (loading) store.dispatch(UIAction.setIsLoading(true));
-    const res = await getMatchList();
+    const res = await getMatchList(limit);
 
     const newData = res.data.data;
     setData(newData);
@@ -32,36 +38,40 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
       }, timeDelay);
   };
 
+  //view again card that user have skipped
+  const onViewAgain = async () => {
+    store.dispatch(UIAction.setIsLoading(true));
+    const responseOfReset = await resetDislikeList();
+    if (responseOfReset.status === 200) {
+      const responseOfNewData = await getMatchList(numberOfCardOnceCall);
+      const newData = responseOfNewData.data.data;
+      //check that have new data or not, if not send notification to user
+      if (newData.length > 0) {
+        setData(newData);
+        setCurrentIndex(newData.length - 1);
+      } else {
+        openWarningNotification(
+          "Opps, look like that there noone here that you can view again :( "
+        );
+      }
+    }
+
+    setTimeout(() => {
+      store.dispatch(UIAction.setIsLoading(false));
+    }, timeDelay);
+  };
+  //get match card for the first render
   useEffect(() => {
-    callApiAndGetMatchList(true);
+    callApiAndGetMatchList(numberOfCardOnceCall, true);
     return () => {};
   }, []);
 
   //custom hook for use interval for calling api after each 3 seconds for finding new user
   useInterval(() => {
     if (data.length === 0 || currentIndex === -1) {
-      callApiAndGetMatchList();
+      callApiAndGetMatchList(numberOfCardOnceCall);
     }
   }, 3000);
-
-  //view again card that user have skipped
-  const onViewAgain = async () => {
-    store.dispatch(UIAction.setIsLoading(true));
-    const res = await viewAgain();
-    const newData = res.data.data;
-    //check that have new data or not, if not send notification to user
-    if (newData.length > 0) {
-      setData(newData);
-      setCurrentIndex(newData.length - 1);
-    } else {
-      openWarningNotification(
-        "Opps, look like that there noone here that you can view again :( "
-      );
-    }
-    setTimeout(() => {
-      store.dispatch(UIAction.setIsLoading(false));
-    }, timeDelay);
-  };
 
   // used for outOfFrame closure
   const currentIndexRef = React.useRef(currentIndex);
@@ -88,9 +98,22 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     }
   };
   // set last direction and decrease current index
-  const swiped = (direction: DirectionString, id: string, index: number) => {
+  const swiped = async (
+    direction: DirectionString,
+    id: string,
+    index: number
+  ) => {
     swipeApiAction(direction, id);
     updateCurrentIndex(index - 1);
+
+    // if (index - 1 === 1) {
+    //   const res = await getMatchList(numberOfCardOnceCall);
+    //   if (res.status === 200) {
+    //     setData([...res.data.data, ...data]);
+    //     updateCurrentIndex(currentIndex + numberOfCardOnceCall);
+    //     console.log(data);
+    //   }
+    // }
   };
 
   const outOfFrame = (id: string, idx: number) => {

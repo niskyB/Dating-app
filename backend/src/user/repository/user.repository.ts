@@ -51,7 +51,6 @@ export class UserRepository extends RepositoryService<User> {
   public async findUserForMatching(
     field: keyof User,
     value: any,
-    index: number,
     limit: number,
   ): Promise<User[]> {
     const userMatchInfo = await this.findUserMatchInfoByField(field, value);
@@ -82,40 +81,7 @@ export class UserRepository extends RepositoryService<User> {
       .leftJoinAndSelect('user.highlightImgs', 'userId')
       .leftJoinAndSelect('user.showOptions', 'showOptionsId')
       .leftJoinAndSelect('user.hobbies', 'hobbies')
-      .skip(index)
       .take(limit)
-      .getMany();
-  }
-
-  //find view again list
-  async findAgainList(field: keyof User, value: any) {
-    const userMatchInfo = await this.findUserMatchInfoByField(field, value);
-    // this list contain which user will be except from find again list
-    const list = [];
-    //except current user id from list
-    list.push(userMatchInfo.id);
-    // except user who currentUser have liked
-    userMatchInfo.like.forEach((element) => {
-      list.push(element.id);
-    });
-
-    return await this.createQueryBuilder('user')
-      .where(`user.id NOT IN (:...ids)`, {
-        ids: list,
-      })
-      .andWhere(`user.sex = :sex`, {
-        sex: userMatchInfo.findOptions.sexOption,
-      })
-      .andWhere(
-        `year(now()) - year(user.dateOfBirth) between :minAge and :maxAge`,
-        {
-          minAge: userMatchInfo.findOptions.minAge,
-          maxAge: userMatchInfo.findOptions.maxAge,
-        },
-      )
-      .leftJoinAndSelect('user.highlightImgs', 'userId')
-      .leftJoinAndSelect('user.showOptions', 'showOptionsId')
-      .leftJoinAndSelect('user.hobbies', 'hobbies')
       .getMany();
   }
 

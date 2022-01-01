@@ -19,15 +19,10 @@ export class MatchService {
    * @param id of the current user
    * @returns Promise<MatchCardDto[]>
    */
-  async getUsers(
-    id: string,
-    index: number,
-    limit: number,
-  ): Promise<MatchCardDto[]> {
+  async getUsers(id: string, limit: number): Promise<MatchCardDto[]> {
     const results = await this.userRepository.findUserForMatching(
       'id',
       id,
-      index,
       limit,
     );
 
@@ -39,13 +34,14 @@ export class MatchService {
   }
 
   //get view again list
-  async getViewAgainList(currentUserId: string) {
-    const result = await this.userRepository.findAgainList('id', currentUserId);
-    return result.map((user) =>
-      plainToClass(MatchCardDto, user, {
-        excludeExtraneousValues: true,
-      }),
+  async resetDislikeList(currentUserId: string) {
+    const userMatchInfo = await this.userRepository.findUserMatchInfoByField(
+      'id',
+      currentUserId,
     );
+    userMatchInfo.disLike = [];
+    await this.userRepository.save(userMatchInfo);
+    return true;
   }
 
   /**
