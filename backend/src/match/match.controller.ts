@@ -20,6 +20,12 @@ export class MatchController {
     return apiResponse.send(users, null);
   }
 
+  @Get('/viewagain')
+  async getViewAgainList(@Req() req: Request) {
+    const users = await this.matchService.getViewAgainList(req.currentUser.id);
+    return apiResponse.send(users, null);
+  }
+
   /**
    * @description GET method to get users for matching
    * @param req Http Request

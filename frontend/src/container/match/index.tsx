@@ -1,38 +1,67 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import HeartIcon from "../../component/icon/heart";
 import XIcon from "../../component/icon/x";
 import TinderCard from "react-tinder-card";
 import Card from "../../component/card";
 import MatchWrapper from "../../component/matchWrapper";
 import { showOptionsDefault } from "../../store/defaultData/user";
-import { dislikeCard, getMatchList, likeCard } from "./action";
+import { dislikeCard, getMatchList, likeCard, viewAgain } from "./action";
 import { MatchCard } from "../../component/card/interface.dto";
 import { store } from "../../store";
 import { UIAction } from "../../store/UI";
 import { timeDelay } from "../../constants/loading";
 import { DirectionString } from "./interface";
+import { openWarningNotification } from "../../utils/notificationHelper";
+import useInterval from "../../common/hook/useInterval";
 interface MatchPageProps {}
 
 const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
   const [data, setData] = useState<MatchCard[]>([]);
+  const [currentIndex, setCurrentIndex] = React.useState(data.length - 1);
 
-  useEffect(() => {
-    store.dispatch(UIAction.setIsLoading(true));
-    async function getData() {
-      return await (
-        await getMatchList()
-      ).data.data;
-    }
-    getData().then((data) => {
-      setData(data);
-      setCurrentIndex(data.length - 1);
+  const callApiAndGetMatchList = async (loading?: boolean) => {
+    if (loading) store.dispatch(UIAction.setIsLoading(true));
+    const res = await getMatchList();
+
+    const newData = res.data.data;
+    setData(newData);
+    setCurrentIndex(newData.length - 1);
+    if (loading)
       setTimeout(() => {
         store.dispatch(UIAction.setIsLoading(false));
       }, timeDelay);
-    });
+  };
+
+  useEffect(() => {
+    callApiAndGetMatchList(true);
     return () => {};
   }, []);
-  const [currentIndex, setCurrentIndex] = React.useState(data.length - 1);
+
+  //custom hook for use interval for calling api after each 3 seconds for finding new user
+  useInterval(() => {
+    if (data.length === 0 || currentIndex === -1) {
+      callApiAndGetMatchList();
+    }
+  }, 3000);
+
+  //view again card that user have skipped
+  const onViewAgain = async () => {
+    store.dispatch(UIAction.setIsLoading(true));
+    const res = await viewAgain();
+    const newData = res.data.data;
+    //check that have new data or not, if not send notification to user
+    if (newData.length > 0) {
+      setData(newData);
+      setCurrentIndex(newData.length - 1);
+    } else {
+      openWarningNotification(
+        "Opps, look like that there noone here that you can view again :( "
+      );
+    }
+    setTimeout(() => {
+      store.dispatch(UIAction.setIsLoading(false));
+    }, timeDelay);
+  };
 
   // used for outOfFrame closure
   const currentIndexRef = React.useRef(currentIndex);
@@ -81,7 +110,7 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
           {data.map((data, index) => (
             <TinderCard
               ref={childRefs[index]}
-              className="absolute inset-0 swipe"
+              className="absolute inset-0 bg-black swipe"
               key={data.id}
               onSwipe={(dir) => swiped(dir, data.id, index)}
               onCardLeftScreen={() => outOfFrame(data.id, index)}
@@ -107,7 +136,7 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
           </div>
         </>
       ) : (
-        <div className="w-full h-full flex flex-col justify-center bg-white px-8">
+        <div className="flex flex-col justify-center w-full h-full px-8 bg-white">
           <img src="./images/corgi.gif" alt="corgi loading gif" />
           <div className="text-base font-semibold">
             We are looking for new people, please wait for a moment...
@@ -120,13 +149,14 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
               <div className="w-full border-t border-gray-300" />
             </div>
             <div className="relative flex justify-center">
-              <span className="px-2 bg-white text-sm text-gray-500">Or</span>
+              <span className="px-2 text-sm text-gray-500 bg-white">Or</span>
             </div>
           </div>
           <div className="flex flex-col">
             <button
               type="button"
               className="block items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={onViewAgain}
             >
               See again all people that you've skipped
             </button>
