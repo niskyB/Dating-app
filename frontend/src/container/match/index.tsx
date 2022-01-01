@@ -23,7 +23,7 @@ interface MatchPageProps {}
 const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
   const [data, setData] = useState<MatchCard[]>([]);
   const [currentIndex, setCurrentIndex] = React.useState(data.length - 1);
-  const numberOfCardOnceCall = 4;
+  const numberOfCardOnceCall = 6;
   //call api and get unmatch list
   const callApiAndGetMatchList = async (limit: number, loading?: boolean) => {
     if (loading) store.dispatch(UIAction.setIsLoading(true));
@@ -103,17 +103,16 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     id: string,
     index: number
   ) => {
+    console.log(data);
     swipeApiAction(direction, id);
     updateCurrentIndex(index - 1);
-
-    // if (index - 1 === 1) {
-    //   const res = await getMatchList(numberOfCardOnceCall);
-    //   if (res.status === 200) {
-    //     setData([...res.data.data, ...data]);
-    //     updateCurrentIndex(currentIndex + numberOfCardOnceCall);
-    //     console.log(data);
-    //   }
-    // }
+    if (index - 1 === 4) {
+      const res = await getMatchList(numberOfCardOnceCall);
+      if (res.status === 200 && res.data.data.length > 0) {
+        await setData([...res.data.data, ...data]);
+        await updateCurrentIndex(currentIndex + res.data.data.length);
+      }
+    }
   };
 
   const outOfFrame = (id: string, idx: number) => {
