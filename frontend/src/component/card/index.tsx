@@ -38,7 +38,11 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
         <div
           className="min-w-full min-h-full"
           style={{
-            backgroundImage: `url("${process.env.REACT_APP_SERVER_URL}/${data.avatar}") `,
+            backgroundImage: `url("${
+              data.avatar
+                ? `${process.env.REACT_APP_SERVER_URL}/${data.avatar}`
+                : "/images/dog.jpg"
+            }") `,
             backgroundSize: "cover",
             backgroundPosition: "50% 50%",
             backgroundRepeat: "no-repeat",
