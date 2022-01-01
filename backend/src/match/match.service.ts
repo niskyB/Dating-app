@@ -29,6 +29,16 @@ export class MatchService {
     );
   }
 
+  //get view again list
+  async getViewAgainList(currentUserId: string) {
+    const result = await this.userRepository.findAgainList('id', currentUserId);
+    return result.map((user) =>
+      plainToClass(MatchCardDto, user, {
+        excludeExtraneousValues: true,
+      }),
+    );
+  }
+
   /**
    * @description add matched user to like list and match list (if they match each orders)
    * @param currentUserId id of current user
