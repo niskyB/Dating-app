@@ -1,8 +1,8 @@
 import {
+  BadRequestException,
   Controller,
   Get,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   Req,
@@ -12,6 +12,7 @@ import { MatchService } from './match.service';
 import { Request } from 'express';
 import { UserGuard } from '../auth/guard/auth.guard';
 import { apiResponse } from '../common/response/apiResponse';
+import { ResponseMessage } from '../constants/message/responseMessage.enum';
 
 @Controller('match')
 @UseGuards(UserGuard)
@@ -60,6 +61,13 @@ export class MatchController {
    */
   @Get('/:limit')
   async getListUsers(@Req() req: Request, @Param('limit') limit: number) {
+    if (isNaN(limit)) {
+      throw new BadRequestException(
+        apiResponse.send(null, { common: ResponseMessage.INVALID_LIMIT }),
+      );
+    }
+    if (limit <= 0) limit = 1;
+    if (limit > 4) limit = 4;
     const users = await this.matchService.getUsers(req.currentUser.id, limit);
     return apiResponse.send(users, null);
   }
