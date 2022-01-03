@@ -90,33 +90,30 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
   };
 
   const canSwipe = currentIndex >= 0;
-  const swipeApiAction = (dir: DirectionString, id: string) => {
+  const swipeApiAction = async (
+    dir: DirectionString,
+    id: string,
+    index: number
+  ) => {
     if (dir === "left") {
       dislikeCard(id);
     } else if (dir === "right") {
       likeCard(id);
     }
-  };
-  // set last direction and decrease current index
-  const swiped = async (
-    direction: DirectionString,
-    id: string,
-    index: number
-  ) => {
-    console.log(data);
-    swipeApiAction(direction, id);
-    updateCurrentIndex(index - 1);
-    if (index - 1 === 4) {
+    if (currentIndex - 1 === 4) {
+      console.log("calling and get new data....");
       const res = await getMatchList(numberOfCardOnceCall);
       if (res.status === 200 && res.data.data.length > 0) {
-        await setData([...res.data.data, ...data]);
-        await updateCurrentIndex(currentIndex + res.data.data.length);
+        setData([...res.data.data, ...data]);
+        updateCurrentIndex(index + res.data.data.length - 1);
       }
     }
   };
 
-  const outOfFrame = (id: string, idx: number) => {
-    currentIndexRef.current >= idx && childRefs[idx].current.restoreCard();
+  // set last direction and decrease current index
+  const swiped = (direction: DirectionString, id: string, index: number) => {
+    swipeApiAction(direction, id, index);
+    updateCurrentIndex(index - 1);
   };
 
   const swipe = async (dir: string) => {
@@ -135,7 +132,6 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
               className="absolute inset-0 bg-black swipe"
               key={data.id}
               onSwipe={(dir) => swiped(dir, data.id, index)}
-              onCardLeftScreen={() => outOfFrame(data.id, index)}
               preventSwipe={["up", "down"]}
             >
               <Card data={data} options={showOptionsDefault} />
