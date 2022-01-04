@@ -10,6 +10,7 @@ export enum ResponseMessage {
   INVALID_SEX = 'Sex should be male or female',
   INVALID_PASSWORD = 'Password is not correct',
   INVALID_LIMIT = 'Invalid limit',
+  INVALID_SKIP = 'Invalid skip',
   //
   UNAUTHORIZED = 'Not signin yet',
   FORBIDDEN = "You don't have permission to access / on this page",

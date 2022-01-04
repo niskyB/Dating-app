@@ -52,6 +52,7 @@ export class UserRepository extends RepositoryService<User> {
     field: keyof User,
     value: any,
     limit: number,
+    skip: number,
   ): Promise<User[]> {
     const userMatchInfo = await this.findUserMatchInfoByField(field, value);
 
@@ -81,6 +82,7 @@ export class UserRepository extends RepositoryService<User> {
       .leftJoinAndSelect('user.highlightImgs', 'userId')
       .leftJoinAndSelect('user.showOptions', 'showOptionsId')
       .leftJoinAndSelect('user.hobbies', 'hobbies')
+      .skip(skip)
       .take(limit)
       .getMany();
   }

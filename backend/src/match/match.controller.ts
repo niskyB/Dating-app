@@ -59,15 +59,29 @@ export class MatchController {
    * @param req Http Request
    * @returns response form with array of user
    */
-  @Get('/:limit')
-  async getListUsers(@Req() req: Request, @Param('limit') limit: number) {
+  @Get('/:limit&:skip')
+  async getListUsers(
+    @Req() req: Request,
+    @Param('limit') limit: number,
+    @Param('skip') skip: number,
+  ) {
     if (isNaN(limit)) {
       throw new BadRequestException(
         apiResponse.send(null, { common: ResponseMessage.INVALID_LIMIT }),
       );
     }
     if (limit <= 0) limit = 1;
-    const users = await this.matchService.getUsers(req.currentUser.id, limit);
+
+    if (isNaN(skip) || skip < 0) {
+      throw new BadRequestException(
+        apiResponse.send(null, { common: ResponseMessage.INVALID_SKIP }),
+      );
+    }
+    const users = await this.matchService.getUsers(
+      req.currentUser.id,
+      limit,
+      skip,
+    );
     return apiResponse.send(users, null);
   }
 }
