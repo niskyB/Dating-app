@@ -23,11 +23,12 @@ interface MatchPageProps {}
 const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
   const [data, setData] = useState<MatchCard[]>([]);
   const [currentIndex, setCurrentIndex] = React.useState<number>(-1);
-  const numberOfCardOnceCall = 6;
+  const numberOfCardOnceCall = 10;
   //call api and get unmatch list
   const callApiAndGetMatchList = async (limit: number, loading?: boolean) => {
     if (loading) store.dispatch(UIAction.setIsLoading(true));
-    const res = await getMatchList(limit);
+
+    const res = await getMatchList(limit, currentIndex + 1);
     const newData = res.data.data;
     setData(newData);
     setCurrentIndex(newData.length - 1);
@@ -42,7 +43,10 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     store.dispatch(UIAction.setIsLoading(true));
     const responseOfReset = await resetDislikeList();
     if (responseOfReset.status === 200) {
-      const responseOfNewData = await getMatchList(numberOfCardOnceCall);
+      const responseOfNewData = await getMatchList(
+        numberOfCardOnceCall,
+        currentIndex + 1
+      );
       const newData = responseOfNewData.data.data;
       //check that have new data or not, if not send notification to user
       if (newData.length > 0) {
@@ -65,6 +69,11 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     return () => {};
   }, []);
 
+  useEffect(() => {
+    console.log(data);
+    console.log(currentIndex);
+    return () => {};
+  }, [data, currentIndex]);
   //custom hook for use interval for calling api after each 3 seconds for finding new user
   useInterval(() => {
     if (data.length === 0 || currentIndex === -1) {
@@ -91,14 +100,17 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     } else if (direction === "right") {
       likeCard(id);
     }
-    if (currentIndex - 1 <= 4) {
-      const res = await getMatchList(numberOfCardOnceCall);
-      if (res.status === 200 && res.data.data.length > 0) {
-        setData([...res.data.data, ...data]);
-        setCurrentIndex((pre) => pre + res.data.data.length - 1);
-        return;
-      }
-    }
+    // console.log("index " + index);
+    // console.log("swipped :", index - 1);
+    // if (index - 1 <= 3) {
+    //   console.log("calling for additional data ....", currentIndex + 1);
+    //   const res = await getMatchList(numberOfCardOnceCall, currentIndex + 1);
+    //   if (res.status === 200 && res.data.data.length > 0) {
+    //     setData([...res.data.data, ...data]);
+    //     setCurrentIndex((pre) => pre + res.data.data.length - 1);
+    //     return;
+    //   }
+    // }
     setCurrentIndex((pre) => pre - 1);
   };
 
@@ -116,7 +128,7 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
             return (
               <TinderCard
                 ref={childRefs[index]}
-                className="absolute inset-0 bg-black swipe"
+                className={`absolute inset-0 bg-black swipe ${index}`}
                 key={data.id}
                 onSwipe={(dir) => swiped(dir, data.id)}
                 preventSwipe={["up", "down"]}

@@ -3,9 +3,10 @@ import { MatchCard } from "./../../component/card/interface.dto";
 import { AxiosResponse } from "axios";
 import axiosClient from "../../axios/config";
 export const getMatchList = async (
-  limit: number
+  limit: number,
+  skip: number
 ): Promise<AxiosResponse<DataResponse<MatchCard[]>>> => {
-  const url = `/api/match/${limit}`;
+  const url = `/api/match/${limit}&${skip}`;
   return await axiosClient.get(url);
 };
 
