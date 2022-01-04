@@ -1,11 +1,15 @@
+import { join } from 'path';
+
 //---- module
 import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { MatchModule } from './match/match.module';
+import { ChatModule } from './chat/chat.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 //---- config
-import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 //---- service
@@ -17,9 +21,6 @@ import { UserHighLightImg } from './user/entities/userHighlightImg.entity';
 import { Hobby } from './user/entities/userHobbies.entity';
 import { UserShowOption } from './user/entities/userShowOption.entity';
 import { UserFindOption } from './user/entities/userFindOption.entity';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
-import { NotificationsModule } from './notifications/notifications.module';
 
 const DBConfig = TypeOrmModule.forRoot({
   type: 'mysql',
@@ -42,6 +43,7 @@ const DBConfig = TypeOrmModule.forRoot({
     AuthModule,
     MatchModule,
     NotificationsModule,
+    ChatModule,
 
     // -- serve static folder
     ServeStaticModule.forRoot({
