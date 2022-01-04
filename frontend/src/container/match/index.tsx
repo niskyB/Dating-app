@@ -22,13 +22,12 @@ interface MatchPageProps {}
 
 const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
   const [data, setData] = useState<MatchCard[]>([]);
-  const [currentIndex, setCurrentIndex] = React.useState(data.length - 1);
+  const [currentIndex, setCurrentIndex] = React.useState<number>(-1);
   const numberOfCardOnceCall = 6;
   //call api and get unmatch list
   const callApiAndGetMatchList = async (limit: number, loading?: boolean) => {
     if (loading) store.dispatch(UIAction.setIsLoading(true));
     const res = await getMatchList(limit);
-
     const newData = res.data.data;
     setData(newData);
     setCurrentIndex(newData.length - 1);
@@ -74,7 +73,6 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
   }, 3000);
 
   // used for outOfFrame closure
-  const currentIndexRef = React.useRef(currentIndex);
 
   const childRefs = React.useMemo(
     () =>
@@ -84,36 +82,24 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     [data.length]
   ) as any;
 
-  const updateCurrentIndex = (val: any) => {
-    setCurrentIndex(val);
-    currentIndexRef.current = val;
-  };
-
   const canSwipe = currentIndex >= 0;
-  const swipeApiAction = async (
-    dir: DirectionString,
-    id: string,
-    index: number
-  ) => {
-    if (dir === "left") {
+
+  // set last direction and decrease current index
+  const swiped = async (direction: DirectionString, id: string) => {
+    if (direction === "left") {
       dislikeCard(id);
-    } else if (dir === "right") {
+    } else if (direction === "right") {
       likeCard(id);
     }
-    if (currentIndex - 1 === 4) {
-      console.log("calling and get new data....");
+    if (currentIndex - 1 <= 4) {
       const res = await getMatchList(numberOfCardOnceCall);
       if (res.status === 200 && res.data.data.length > 0) {
         setData([...res.data.data, ...data]);
-        updateCurrentIndex(index + res.data.data.length - 1);
+        setCurrentIndex((pre) => pre + res.data.data.length - 1);
+        return;
       }
     }
-  };
-
-  // set last direction and decrease current index
-  const swiped = (direction: DirectionString, id: string, index: number) => {
-    swipeApiAction(direction, id, index);
-    updateCurrentIndex(index - 1);
+    setCurrentIndex((pre) => pre - 1);
   };
 
   const swipe = async (dir: string) => {
@@ -126,17 +112,19 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     <MatchWrapper>
       {data.length > 0 && currentIndex !== -1 ? (
         <>
-          {data.map((data, index) => (
-            <TinderCard
-              ref={childRefs[index]}
-              className="absolute inset-0 bg-black swipe"
-              key={data.id}
-              onSwipe={(dir) => swiped(dir, data.id, index)}
-              preventSwipe={["up", "down"]}
-            >
-              <Card data={data} options={showOptionsDefault} />
-            </TinderCard>
-          ))}
+          {data.map((data, index) => {
+            return (
+              <TinderCard
+                ref={childRefs[index]}
+                className="absolute inset-0 bg-black swipe"
+                key={data.id}
+                onSwipe={(dir) => swiped(dir, data.id)}
+                preventSwipe={["up", "down"]}
+              >
+                <Card data={data} options={showOptionsDefault} />
+              </TinderCard>
+            );
+          })}
 
           <div className="absolute bottom-0 left-0 right-0 flex flex-row items-center flex-1 pb-4 justify-evenly">
             <div
