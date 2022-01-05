@@ -32,7 +32,7 @@ export interface UIState {
   cropper: CropperData;
   isLoading: boolean;
   socket: SocketData;
-  isSideBarOpen: boolean;
+  isMatchAndChatOpen: boolean;
 }
 export enum NotificationStatus {
   SUCCESS = "SUCCESS",

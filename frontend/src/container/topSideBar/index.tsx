@@ -1,11 +1,11 @@
-import { HomeIcon } from "@heroicons/react/solid";
+import { ChatIcon, HomeIcon } from "@heroicons/react/solid";
 import { useSelector } from "react-redux";
 import { Link, Route, Routes } from "react-router-dom";
 import { UserState } from "../../common/interface/redux/user";
-import { RootState, store } from "../../store";
+import { RootState } from "../../store";
 import AvatarCircle from "../../component/avatarCircle";
 import SettingIcon from "../../component/icon/setting";
-import { UIAction } from "../../store/UI";
+import useMediaQuery from "../../common/hook/useMediaQuery";
 
 interface TopSideBarProps {
   isLogin: boolean;
@@ -13,9 +13,8 @@ interface TopSideBarProps {
 
 const TopSideBar: React.FunctionComponent<TopSideBarProps> = ({ isLogin }) => {
   const userState = useSelector<RootState, UserState>((state) => state.user);
-  const onToggleSideBar = () => {
-    store.dispatch(UIAction.toggleSideBar());
-  };
+  const isMobile = useMediaQuery("(max-width: 640px)");
+
   return (
     <div className="flex items-center justify-between h-16 px-5 py-3 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500">
       {isLogin && (
@@ -51,9 +50,15 @@ const TopSideBar: React.FunctionComponent<TopSideBarProps> = ({ isLogin }) => {
                 />
               ))}
             </Routes>
+
             <Link to={"/setting"} className="ml-2 text-white">
               <SettingIcon />
             </Link>
+            {isMobile && (
+              <Link to={"/matchandchat"} className="ml-2 text-white">
+                <ChatIcon className="w-8 h-8" />
+              </Link>
+            )}
           </div>
         </>
       )}

@@ -4,10 +4,16 @@ import { route } from "../constants/route";
 
 export const renderHelper = (
   routeList: route[],
-  showNotFoundPage: boolean
+  showNotFoundPage: boolean,
+  isMobile?: boolean
 ): React.ReactNode => {
   return routeList.map((route) => {
-    const { component: MyComponent, isLoginRequire } = route;
+    const {
+      component: MyComponent,
+      isLoginRequire,
+      isMobileRoute = false,
+    } = route;
+    if (isMobileRoute && isMobile) return null;
     return (
       <Route
         key={route.link}

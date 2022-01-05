@@ -21,7 +21,7 @@ const windowSize = window.innerWidth;
 const initialState: UIState = {
   isMatchOpen: true,
   isMessagesOpen: false,
-  isSideBarOpen: windowSize < 640 ? false : true,
+  isMatchAndChatOpen: false,
   isLoading: false,
   updatePopup: updateInfoPopupDefault,
   successModel: successModelDefault,
@@ -133,10 +133,10 @@ export const UI = createSlice({
         },
       };
     },
-    toggleSideBar: (state: UIState) => {
+    toggleMatchAndChat: (state: UIState) => {
       return {
         ...state,
-        isSideBarOpen: !state.isSideBarOpen,
+        isMatchAndChatOpen: !state.isMatchAndChatOpen,
       };
     },
   },
