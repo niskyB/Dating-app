@@ -1,5 +1,8 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
+import { useEffect } from "react";
 import AvatarCircle from "../../component/avatarCircle";
+import { CHAT_GET, CHAT_JOIN } from "../../constants/event";
+import { chatIo } from "../app/App";
 
 interface ChatBoxProps {}
 interface chatMessage {
@@ -15,8 +18,18 @@ const chatData: chatMessage[] = [
   { message: "ezzz", isYourSelf: false },
 ];
 const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
+  useEffect(() => {
+    const url = window.location.href;
+    const chatTargetId = url.split("/messages/")[1];
+    console.log(chatTargetId);
+    chatIo.emit(CHAT_JOIN, chatTargetId);
+    chatIo.on(CHAT_GET, (data: any) => {
+      console.log(data);
+    });
+    return () => {};
+  }, []);
   return (
-    <div className="flex flex-col flex-1 h-screen overflow-hidden ">
+    <div className="flex flex-col flex-1 h-contentHeight lg:h-screen overflow-hidden ">
       <div className="flex items-center justify-between h-16 px-4 py-2 bg-white sm:px-6">
         <div className="flex flex-row items-center">
           <AvatarCircle

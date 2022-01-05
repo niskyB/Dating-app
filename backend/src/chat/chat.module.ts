@@ -3,6 +3,7 @@ import { RedisModule } from '../utils/redis/redis.module';
 import { AuthModule } from '../auth/auth.module';
 import { ChatGateway } from './chat.gateway';
 import { ChatService } from './chat.service';
+import { RedisService } from 'src/utils/redis/redis.service';
 
 @Module({
   imports: [AuthModule, RedisModule],
