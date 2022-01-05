@@ -7,6 +7,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, SocketExtend } from 'socket.io';
+import { LIMIT } from '../constants/chat.constants';
 import { UserSocketGuard } from '../auth/guard/authSocket.guard';
 import { ChatAction } from './chat.actions';
 import { ChatService } from './chat.service';
@@ -26,20 +27,33 @@ export class ChatGateway {
   server: Server;
 
   @SubscribeMessage(ChatAction.CHAT_JOIN)
-  async handleJoiChat(
+  async handleJoinChat(
     @ConnectedSocket() client: SocketExtend,
-    @MessageBody() data: string,
+    @MessageBody() id: string,
   ) {
     const currentId = client.user.id;
     let room: string;
 
-    if (currentId.localeCompare(data) < 1) {
-      room = currentId + '@' + data;
+    if (currentId.localeCompare(id) < 1) {
+      room = currentId + '@' + id;
     } else {
-      room = data + '@' + currentId;
+      room = id + '@' + currentId;
     }
 
     client.join(room);
-    this.server.to(room).emit('test', { message: 'Test join room' });
+  }
+
+  @SubscribeMessage(ChatAction.CHAT_GET)
+  async handleGetChat(
+    @ConnectedSocket() client: SocketExtend,
+    @MessageBody() data: any,
+  ) {
+    const messages = await this.chatService.getChat(
+      data.room,
+      data.page,
+      LIMIT,
+    );
+
+    this.server.to(data.room).emit(ChatAction.CHAT_GET, messages);
   }
 }
