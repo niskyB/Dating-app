@@ -69,11 +69,11 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     return () => {};
   }, []);
 
-  useEffect(() => {
-    console.log(data);
-    console.log(currentIndex);
-    return () => {};
-  }, [data, currentIndex]);
+  // useEffect(() => {
+  //   console.log(data);
+  //   console.log(currentIndex);
+  //   return () => {};
+  // }, [data, currentIndex]);
   //custom hook for use interval for calling api after each 3 seconds for finding new user
   useInterval(() => {
     if (data.length === 0 || currentIndex === -1) {
@@ -100,17 +100,7 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     } else if (direction === "right") {
       likeCard(id);
     }
-    // console.log("index " + index);
-    // console.log("swipped :", index - 1);
-    // if (index - 1 <= 3) {
-    //   console.log("calling for additional data ....", currentIndex + 1);
-    //   const res = await getMatchList(numberOfCardOnceCall, currentIndex + 1);
-    //   if (res.status === 200 && res.data.data.length > 0) {
-    //     setData([...res.data.data, ...data]);
-    //     setCurrentIndex((pre) => pre + res.data.data.length - 1);
-    //     return;
-    //   }
-    // }
+
     setCurrentIndex((pre) => pre - 1);
   };
 
@@ -133,12 +123,16 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
                 onSwipe={(dir) => swiped(dir, data.id)}
                 preventSwipe={["up", "down"]}
               >
-                <Card data={data} options={showOptionsDefault} />
+                <Card
+                  data={data}
+                  options={showOptionsDefault}
+                  onShow={currentIndex === index}
+                />
               </TinderCard>
             );
           })}
 
-          <div className="absolute bottom-0 left-0 right-0 flex flex-row items-center flex-1 pb-4 justify-evenly">
+          <div className="absolute bottom-0 left-0 right-0 flex flex-row items-center flex-auto pb-4 justify-evenly">
             <div
               className="flex items-center justify-center w-20 h-20 p-3 rounded-full text-radical-red-500 border-radical-red-500 solid border-1"
               onClick={() => swipe("left")}

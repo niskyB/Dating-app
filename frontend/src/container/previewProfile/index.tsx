@@ -38,6 +38,7 @@ const PreviewProfile: React.FunctionComponent<PreviewProfileProps> = () => {
           showOptions,
           findOptions,
         }}
+        onShow={true}
         options={userState.data.showOptions}
       />
     </MatchWrapper>

@@ -15,9 +15,13 @@ import {
 import { createSlice } from "@reduxjs/toolkit";
 import { ReduxAction } from "../../common/interface/common/redux";
 import { SocketNotificationPayload } from "./interface";
+
+const windowSize = window.innerWidth;
+
 const initialState: UIState = {
   isMatchOpen: true,
   isMessagesOpen: false,
+  isSideBarOpen: windowSize < 640 ? false : true,
   isLoading: false,
   updatePopup: updateInfoPopupDefault,
   successModel: successModelDefault,

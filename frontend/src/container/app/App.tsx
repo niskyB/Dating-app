@@ -48,9 +48,9 @@ function App() {
 
   return (
     <>
-      <div className="flex text-4xl ">
+      <div className="flex text-4xl flex-col w-screen h-screen lg:flex-row">
         {userState.isLogin && <SideBar />}
-        <div className="justify-center flex-1 w-full h-screen bg-gray-50 align-center">
+        <div className="justify-center w-full flex-auto lg:h-screen bg-gray-50 align-center">
           <Suspense fallback={<LoadingAnimation isLoading={true} />}>
             <Routes>{renderHelper(contentRoutes, true)}</Routes>
           </Suspense>

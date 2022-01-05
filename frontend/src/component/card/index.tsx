@@ -7,9 +7,14 @@ import { MatchCard } from "./interface.dto";
 interface CardProps {
   data: MatchCard;
   options: ShowOptions;
+  onShow: boolean;
 }
 
-const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
+const Card: React.FunctionComponent<CardProps> = ({
+  data,
+  options,
+  onShow,
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const numberOfImage = data.highlightImgs.length + 1;
   const onPreviosImage = () => {
@@ -26,8 +31,9 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
       setCurrentIndex(currentIndex + 1);
     }
   };
+
   return (
-    <div className="relative flex flex-col overflow-hidden transition-all duration-300 ease-in-out bg-black-500 w-96 h-140 card">
+    <div className="relative flex flex-col overflow-hidden transition-all duration-300 ease-in-out bg-black-500 w-full h-5/6 lg:w-96 lg:h-140 card">
       {/* avatar + image */}
       <div
         className="absolute inset-0 z-0 flex flex-row w-auto transition-all duration-200 ease-in-out"
@@ -51,6 +57,7 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
         {data.highlightImgs.map((image) => {
           return (
             <div
+              key={image.id}
               className="min-w-full min-h-full "
               style={{
                 backgroundImage: `url("${process.env.REACT_APP_SERVER_URL}/${image.image}") `,
@@ -81,14 +88,18 @@ const Card: React.FunctionComponent<CardProps> = ({ data, options }) => {
       {numberOfImage > 1 && (
         <>
           <div
-            className="absolute z-30 invisible hidden w-10 h-10 cursor-pointer controlIcon top-1/2 left-2"
+            className={`absolute z-30 invisible hidden w-10 h-10 cursor-pointer ${
+              onShow && "controlIcon"
+            } top-1/2 left-2`}
             onClick={onPreviosImage}
           >
             <ChevronLeftIcon />
           </div>
           {/* next icon */}
           <div
-            className="absolute z-30 invisible hidden w-10 h-10 cursor-pointer controlIcon top-1/2 right-2"
+            className={`absolute z-30 invisible hidden w-10 h-10 cursor-pointer ${
+              onShow && "controlIcon"
+            } top-1/2 right-2`}
             onClick={onNextImage}
           >
             <ChevronRightIcon />
