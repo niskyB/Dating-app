@@ -11,6 +11,7 @@ module.exports = {
         120: "30rem",
         168: "42rem",
         "less1/3": "31%",
+        contentHeight: "calc(100vh - 64px )",
       },
       colors: {
         "radical-red": {

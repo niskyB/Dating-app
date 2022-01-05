@@ -2,9 +2,10 @@ import { HomeIcon } from "@heroicons/react/solid";
 import { useSelector } from "react-redux";
 import { Link, Route, Routes } from "react-router-dom";
 import { UserState } from "../../common/interface/redux/user";
-import { RootState } from "../../store";
+import { RootState, store } from "../../store";
 import AvatarCircle from "../../component/avatarCircle";
 import SettingIcon from "../../component/icon/setting";
+import { UIAction } from "../../store/UI";
 
 interface TopSideBarProps {
   isLogin: boolean;
@@ -12,14 +13,17 @@ interface TopSideBarProps {
 
 const TopSideBar: React.FunctionComponent<TopSideBarProps> = ({ isLogin }) => {
   const userState = useSelector<RootState, UserState>((state) => state.user);
+  const onToggleSideBar = () => {
+    store.dispatch(UIAction.toggleSideBar());
+  };
   return (
     <div className="flex items-center justify-between h-16 px-5 py-3 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500">
       {isLogin && (
         <>
           <div className="flex items-center">
             <AvatarCircle
+              // onClick={onToggleSideBar}
               to={"/me"}
-              alt="avatar"
               url={
                 userState.data.avatar
                   ? `${process.env.REACT_APP_SERVER_URL}/${userState.data.avatar}`

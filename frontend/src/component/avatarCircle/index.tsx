@@ -2,17 +2,17 @@ import { Link } from "react-router-dom";
 
 interface AvatarCircleProps {
   url: string;
-  alt: string;
   to: string;
+  onClick?: () => any;
 }
 
 const AvatarCircle: React.FunctionComponent<AvatarCircleProps> = ({
   url,
-  alt,
   to,
+  onClick,
 }) => {
   return (
-    <Link to={to}>
+    <Link to={to} onClick={onClick}>
       <div
         className="h-10 w-10 rounded-full cursor-pointer hover:outline outline-3 outline-white"
         style={{

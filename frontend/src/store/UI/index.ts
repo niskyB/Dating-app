@@ -133,6 +133,12 @@ export const UI = createSlice({
         },
       };
     },
+    toggleSideBar: (state: UIState) => {
+      return {
+        ...state,
+        isSideBarOpen: !state.isSideBarOpen,
+      };
+    },
   },
   extraReducers: (builder) => {},
 });

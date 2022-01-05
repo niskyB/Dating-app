@@ -21,7 +21,6 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
         <div className="flex flex-row items-center">
           <AvatarCircle
             to="/"
-            alt="avatar"
             url="https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-9/132442993_2798827007004557_137046347792697494_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=YFghZRynzXcAX-B4gS1&_nc_ht=scontent.fdad1-3.fna&oh=00_AT-a3jChm1QKjSoLGWlWor6Duej5o1aJoeCciPmr4woOSg&oe=61DE9FAA"
           />
           <div className="ml-3 text-lg font-bold text-black cursor-pointer">

@@ -21,17 +21,15 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
 
   return (
     <div
-      className={`flex flex-col lg:w-full lg:h-screen w-screen lg:max-w-sm bg-white`}
+      className={`flex flex-col flex-start lg:w-full lg:h-screen w-screen  lg:max-w-sm bg-white`}
     >
       <TopSideBar isLogin={userState.isLogin} />
       <div
         className={`flex flex-auto flex-col  ${
           userState.isLogin ? "justify-start" : "justify-center"
-        } flex-auto  py-3 text-center overflow-hidden lg:relative fixed inset-0  ${
-          UIState.isSideBarOpen ? "" : "-translate-x-full"
-        } duration-300 transition-all`}
+        }  text-center overflow-hidden lg:relative duration-300 transition-all `}
       >
-        {userState.isLogin ? (
+        {/* {userState.isLogin ? (
           <>
             <div className="flex w-full h-10 px-5 mt-2 text-base">
               <SideBarNav
@@ -44,7 +42,7 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
           </>
         ) : (
           <NotLoginMessage />
-        )}
+        )} */}
         <Suspense fallback={<LoadingAnimation isLoading={true} />}>
           <Routes>{renderHelper(sideBarRoute, false)}</Routes>
         </Suspense>
