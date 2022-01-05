@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { CHAT_JOIN } from "../../constants/event";
+import { chatIo } from "../app/App";
 
 interface MessageSectionProps {
   isOpenning: boolean;
@@ -84,6 +87,15 @@ const matchList: matched[] = [
 const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
   isOpenning,
 }) => {
+  useEffect(() => {
+    const url = window.location.href;
+    const chatTargetId = url.split("/messages/")[1];
+    chatIo.emit(CHAT_JOIN, chatTargetId);
+    chatIo.on("test", (data: any) => {
+      console.log(data);
+    });
+    return () => {};
+  }, []);
   if (isOpenning)
     return (
       <div className="flex flex-col flex-1 overflow-auto">

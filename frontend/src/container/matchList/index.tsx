@@ -27,7 +27,7 @@ const MatchList: React.FunctionComponent<MatchListProps> = ({ isOpenning }) => {
       {data.map((match) => {
         return (
           <Link
-            to="#"
+            to={`/messages/${match.id}`}
             key={match.id}
             className="w-[45%] h-52 duration-200 border-2 rounded-lg shadow-lg cursor-pointer hover:scale-110 block"
             style={{

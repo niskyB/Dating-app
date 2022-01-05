@@ -23,7 +23,10 @@ export const notificationIo = socketIo.connect(
   `${process.env.REACT_APP_SERVER_URL}/notifications`,
   { path: "/socket.io" }
 );
-
+export const chatIo = socketIo.connect(
+  `${process.env.REACT_APP_SERVER_URL}/chat`,
+  { path: "/socket.io" }
+);
 function App() {
   const onHandleGetData = async (data: SocketNotificationPayload) => {
     await store.dispatch(UIAction.setSocketNotification(data));
