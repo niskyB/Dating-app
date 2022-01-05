@@ -24,7 +24,9 @@ export class Message {
   @Expose()
   room: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, {
+    cascade: true,
+  })
   @Expose()
   user: User;
 }
