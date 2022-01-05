@@ -21,6 +21,7 @@ import { UserHighLightImg } from './user/entities/userHighlightImg.entity';
 import { Hobby } from './user/entities/userHobbies.entity';
 import { UserShowOption } from './user/entities/userShowOption.entity';
 import { UserFindOption } from './user/entities/userFindOption.entity';
+import { Message } from './chat/entities/message.entity';
 
 const DBConfig = TypeOrmModule.forRoot({
   type: 'mysql',
@@ -30,7 +31,14 @@ const DBConfig = TypeOrmModule.forRoot({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   synchronize: true,
-  entities: [User, UserHighLightImg, Hobby, UserShowOption, UserFindOption],
+  entities: [
+    User,
+    UserHighLightImg,
+    Hobby,
+    UserShowOption,
+    UserFindOption,
+    Message,
+  ],
 });
 
 @Module({
