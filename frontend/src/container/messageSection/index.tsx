@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { CHAT_JOIN } from "../../constants/event";
 
 interface MessageSectionProps {
   isOpenning: boolean;

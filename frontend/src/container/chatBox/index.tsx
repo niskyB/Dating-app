@@ -1,7 +1,12 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import useMediaQuery from "../../common/hook/useMediaQuery";
+import { UserState } from "../../common/interface/redux/user";
 import AvatarCircle from "../../component/avatarCircle";
 import { CHAT_GET, CHAT_JOIN } from "../../constants/event";
+import { RootState } from "../../store";
+import { getRoomId } from "../../utils/socketHelper";
 import { chatIo } from "../app/App";
 
 interface ChatBoxProps {}
@@ -12,17 +17,26 @@ interface chatMessage {
 const chatData: chatMessage[] = [
   { message: "hello", isYourSelf: true },
   { message: "hiiii", isYourSelf: false },
-  { message: "Duc dep trai phai khong", isYourSelf: true },
+  {
+    message: "Duc dep trai phai khongggg",
+    isYourSelf: true,
+  },
   { message: "dung roi", isYourSelf: false },
   { message: "game la de", isYourSelf: true },
   { message: "ezzz", isYourSelf: false },
 ];
 const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
+  const userState = useSelector<RootState, UserState>((state) => state.user);
+  const isMobile = useMediaQuery("(max-width: 640px)");
   useEffect(() => {
     const url = window.location.href;
     const chatTargetId = url.split("/messages/")[1];
-    console.log(chatTargetId);
+    const roomId = getRoomId(userState.data.id, chatTargetId);
     chatIo.emit(CHAT_JOIN, chatTargetId);
+    chatIo.emit(CHAT_GET, {
+      room: roomId,
+      page: 0,
+    });
     chatIo.on(CHAT_GET, (data: any) => {
       console.log(data);
     });
@@ -30,30 +44,32 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   }, []);
   return (
     <div className="flex flex-col flex-1 h-contentHeight lg:h-screen overflow-hidden ">
-      <div className="flex items-center justify-between h-16 px-4 py-2 bg-white sm:px-6">
-        <div className="flex flex-row items-center">
-          <AvatarCircle
-            to="/"
-            url="https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-9/132442993_2798827007004557_137046347792697494_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=YFghZRynzXcAX-B4gS1&_nc_ht=scontent.fdad1-3.fna&oh=00_AT-a3jChm1QKjSoLGWlWor6Duej5o1aJoeCciPmr4woOSg&oe=61DE9FAA"
-          />
-          <div className="ml-3 text-lg font-bold text-black cursor-pointer">
-            Hoang Loc
+      {!isMobile && (
+        <div className="flex items-center justify-between h-16 px-4 py-2 bg-white sm:px-6">
+          <div className="flex flex-row items-center">
+            <AvatarCircle
+              to="/"
+              url="https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-9/132442993_2798827007004557_137046347792697494_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=YFghZRynzXcAX-B4gS1&_nc_ht=scontent.fdad1-3.fna&oh=00_AT-a3jChm1QKjSoLGWlWor6Duej5o1aJoeCciPmr4woOSg&oe=61DE9FAA"
+            />
+            <div className="ml-3 text-lg font-bold text-black cursor-pointer">
+              Hoang Loc
+            </div>
+            <div className="w-2 h-2 ml-3 bg-green-500 rounded-full"></div>
           </div>
-          <div className="w-2 h-2 ml-3 bg-green-500 rounded-full"></div>
         </div>
-      </div>
+      )}
       <div className="flex flex-col flex-1 bg-gray-100">
         <div className="flex flex-col flex-1">
           {chatData.map((chat, index) => {
             if (chat.isYourSelf) {
               return (
-                <div className="self-end px-5 py-3 mt-5 mr-3 text-xl font-normal text-white bg-blue-500 rounded-full">
+                <div className="self-end max-w-[70%] px-5 py-3 mt-5 mr-3 text-xl font-normal text-white bg-blue-500 rounded-full">
                   {chat.message}
                 </div>
               );
             } else {
               return (
-                <div className="self-start px-5 py-3 mt-5 ml-3 text-xl font-normal text-black bg-gray-300 rounded-full">
+                <div className="self-start max-w-[70%] px-5 py-3 mt-5 ml-3 text-xl font-normal text-black bg-gray-300 rounded-full">
                   {chat.message}
                 </div>
               );
