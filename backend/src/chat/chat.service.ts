@@ -16,16 +16,16 @@ export class ChatService {
 
   async getChat(room: string, page: number, limit: number) {
     let result = await this.redisService.getObjectByKey<MessagesDto>(room);
-
-    if (!result || (result && result.messages.length < (page + 1) * limit)) {
+    const resMesLength = result.messages.length;
+    if (!resMesLength || (resMesLength && resMesLength < (page + 1) * limit)) {
       const messages = await this.messageRepository.findMessagesByRoom(
         room,
         page * limit,
         limit,
       );
-      if (!result && !messages) return null;
-      if (!result) result = { messages };
-      if (result && messages) result.messages.concat(messages);
+      if (!resMesLength && !messages.length) return [];
+      if (!resMesLength) result.messages = messages;
+      if (resMesLength && messages.length) result.messages.concat(messages);
       await this.setChat(room, result);
     }
 
