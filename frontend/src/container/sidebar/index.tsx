@@ -20,7 +20,6 @@ interface SideBarProps {}
 const SideBar: React.FunctionComponent<SideBarProps> = () => {
   const userState = useSelector<RootState, UserState>((state) => state.user);
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
-  const isMobile = useMediaQuery("(max-width: 640px)");
 
   return (
     <div
@@ -49,13 +48,6 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
         <Suspense fallback={<LoadingAnimation isLoading={true} />}>
           <Routes>{renderHelper(sideBarRoute, false)}</Routes>
         </Suspense>
-        {/* {userState.isLogin ? (
-          <div className="">
-            <MatchAndChat renderOnMobile={true} />
-          </div>
-        ) : (
-          <NotLoginMessage />
-        )} */}
       </div>
     </div>
   );
