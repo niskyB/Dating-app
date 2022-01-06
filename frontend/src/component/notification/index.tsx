@@ -26,7 +26,7 @@ const Notification: React.FunctionComponent<NotificationProps> = ({
     <>
       <div
         aria-live="assertive"
-        className="fixed inset-0 z-50 flex items-end px-4  pointer-events-none sm:p-6 sm:items-start"
+        className="fixed inset-0 z-50 flex items-end px-4  pointer-events-none sm:p-6 sm:items-start mb-8"
       >
         <div className="flex flex-col items-center w-full space-y-4 sm:items-end">
           <Transition

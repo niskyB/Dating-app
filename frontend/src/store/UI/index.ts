@@ -16,8 +16,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ReduxAction } from "../../common/interface/common/redux";
 import { SocketNotificationPayload } from "./interface";
 
-const windowSize = window.innerWidth;
-
 const initialState: UIState = {
   isMatchOpen: true,
   isMessagesOpen: false,
@@ -113,6 +111,12 @@ export const UI = createSlice({
           ...state.cropper,
           croppedImage: payload,
         },
+      };
+    },
+    resetCropper: (state: UIState) => {
+      return {
+        ...state,
+        cropper: cropperDefault,
       };
     },
     setIsLoading: (state: UIState, { payload }: ReduxAction<boolean>) => {

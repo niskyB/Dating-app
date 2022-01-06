@@ -48,13 +48,6 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
         <Suspense fallback={<LoadingAnimation isLoading={true} />}>
           <Routes>{renderHelper(sideBarRoute, false)}</Routes>
         </Suspense>
-        {/* {userState.isLogin ? (
-          <div className="">
-            <MatchAndChat renderOnMobile={true} />
-          </div>
-        ) : (
-          <NotLoginMessage />
-        )} */}
       </div>
     </div>
   );
