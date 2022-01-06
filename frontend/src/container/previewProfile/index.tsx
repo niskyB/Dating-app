@@ -23,7 +23,7 @@ const PreviewProfile: React.FunctionComponent<PreviewProfileProps> = () => {
   } = userState.data;
 
   return (
-    <MatchWrapper>
+    <MatchWrapper className="hidden lg:flex">
       <Card
         data={{
           dateOfBirth,
@@ -38,6 +38,7 @@ const PreviewProfile: React.FunctionComponent<PreviewProfileProps> = () => {
           showOptions,
           findOptions,
         }}
+        onShow={true}
         options={userState.data.showOptions}
       />
     </MatchWrapper>

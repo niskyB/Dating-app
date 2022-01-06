@@ -15,9 +15,13 @@ import {
 import { createSlice } from "@reduxjs/toolkit";
 import { ReduxAction } from "../../common/interface/common/redux";
 import { SocketNotificationPayload } from "./interface";
+
+const windowSize = window.innerWidth;
+
 const initialState: UIState = {
   isMatchOpen: true,
   isMessagesOpen: false,
+  isMatchAndChatOpen: false,
   isLoading: false,
   updatePopup: updateInfoPopupDefault,
   successModel: successModelDefault,
@@ -127,6 +131,12 @@ export const UI = createSlice({
           ...state.socket,
           ...payload,
         },
+      };
+    },
+    toggleMatchAndChat: (state: UIState) => {
+      return {
+        ...state,
+        isMatchAndChatOpen: !state.isMatchAndChatOpen,
       };
     },
   },

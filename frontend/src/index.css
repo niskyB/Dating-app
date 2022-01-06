@@ -146,3 +146,11 @@
   visibility: visible;
   display: block;
 }
+
+@media screen and (max-width: 640px) {
+  .controlIcon {
+    color: white;
+    visibility: visible;
+    display: block;
+  }
+}

@@ -1,5 +1,7 @@
 import { lazy } from "react";
-
+import EmptyComponent from "../component/emptyComponent";
+//lazy import
+const MatchAndChat = lazy(() => import("../container/matchAndChat"));
 const PreviewProfile = lazy(() => import("../container/previewProfile"));
 const ChatBox = lazy(() => import("../container/chatBox"));
 const LoginPage = lazy(() => import("../container/login"));
@@ -12,6 +14,7 @@ export interface route {
   component: any;
   exact?: boolean;
   isLoginRequire?: boolean;
+  isMobileRoute?: boolean;
 }
 export const contentRoutes: route[] = [
   {
@@ -29,6 +32,12 @@ export const contentRoutes: route[] = [
   },
   { link: "/me", component: PreviewProfile, isLoginRequire: true },
   { link: "/setting", component: PreviewProfile, isLoginRequire: true },
+  {
+    link: "/matchandchat",
+    component: EmptyComponent,
+    isLoginRequire: true,
+    isMobileRoute: true,
+  },
   {
     link: "/",
     component: MatchPage,
@@ -51,5 +60,11 @@ export const sideBarRoute: route[] = [
     link: "/setting",
     component: Setting,
     isLoginRequire: true,
+  },
+  {
+    link: "/matchandchat",
+    component: MatchAndChat,
+    isLoginRequire: true,
+    isMobileRoute: true,
   },
 ];

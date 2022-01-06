@@ -53,7 +53,7 @@ export class ChatGateway {
       data.page,
       LIMIT,
     );
-
+    console.log(messages);
     this.server.to(data.room).emit(ChatAction.CHAT_GET, messages);
   }
 }
