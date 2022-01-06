@@ -38,7 +38,7 @@ const TopSideBar: React.FunctionComponent<TopSideBarProps> = ({ isLogin }) => {
           </div>
           <div className="flex">
             <Routes>
-              {["/me", "setting"].map((link) => (
+              {["/me", "setting", "/matchandchat"].map((link) => (
                 <Route
                   key={link}
                   path={link}
