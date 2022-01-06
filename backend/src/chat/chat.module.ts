@@ -5,12 +5,13 @@ import { ChatGateway } from './chat.gateway';
 import { ChatService } from './chat.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MessageRepository } from './repository/message.repository';
+import { UserRepository } from '../user/repository/user.repository';
 
 @Module({
   imports: [
     AuthModule,
     RedisModule,
-    TypeOrmModule.forFeature([MessageRepository]),
+    TypeOrmModule.forFeature([MessageRepository, UserRepository]),
   ],
   providers: [ChatService, ChatGateway],
   exports: [ChatGateway, ChatService],
