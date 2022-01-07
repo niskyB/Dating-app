@@ -42,7 +42,7 @@ const UpdateInfoPopup: React.FunctionComponent = () => {
   if (isOpenning)
     return (
       <>
-        <div className="fixed z-40 -translate-x-1/2 -translate-y-1/2 bg-white shadow sm:rounded-lg top-1/2 left-1/2 ">
+        <div className="fixed w-[90%] lg:w-auto z-40 rounded-xl -translate-x-1/2 -translate-y-1/2 bg-white shadow lg:rounded-lg top-1/2 left-1/2 ">
           <div className="px-4 py-5 sm:p-6 ">
             <h3 className="text-lg font-medium leading-6 text-gray-900">
               Update your {label}

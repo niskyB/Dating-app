@@ -116,7 +116,7 @@ const CropperBox: React.FunctionComponent<CropperProps> = () => {
           <button
             onClick={onCropImage}
             type="button"
-            className="inline-flex lg:ml-5 items-center w-full lg:w-auto px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex justify-center lg:ml-5 items-center w-full lg:w-auto px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Crop and update
             <ScissorsIcon className="text-white w-5 h-5 ml-3" />

@@ -39,8 +39,6 @@ export class UserGuard implements CanActivate {
       );
     }
 
-    client.socketCookies = authToken;
-
     return true;
   }
 }
