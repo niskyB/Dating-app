@@ -11,6 +11,8 @@ import { LIMIT } from '../constants/chat.constants';
 import { UserSocketGuard } from '../auth/guard/authSocket.guard';
 import { ChatAction } from './chat.actions';
 import { ChatService } from './chat.service';
+import { GetChatDto } from './dto/get-chat.dto';
+import { SendChatDto } from './dto/send-chat.dto';
 
 @WebSocketGateway({
   namespace: 'chat',
@@ -44,10 +46,7 @@ export class ChatGateway {
   }
 
   @SubscribeMessage(ChatAction.CHAT_GET)
-  async handleGetChat(
-    @ConnectedSocket() client: SocketExtend,
-    @MessageBody() data: any,
-  ) {
+  async handleGetChat(@MessageBody() data: GetChatDto) {
     const messages = await this.chatService.getChat(
       data.room,
       data.page,
@@ -55,5 +54,20 @@ export class ChatGateway {
     );
 
     this.server.to(data.room).emit(ChatAction.CHAT_GET, messages);
+  }
+
+  @SubscribeMessage(ChatAction.CHAT_SEND)
+  async handleSendMessage(
+    @ConnectedSocket() client: SocketExtend,
+    @MessageBody() data: SendChatDto,
+  ) {
+    const message = await this.chatService.createMessage(
+      data.room,
+      data.content,
+      client.user.id,
+    );
+
+    this.server.to(data.room).emit(ChatAction.CHAT_RECEIVE, message);
+    await this.chatService.saveMessage(data.room, message);
   }
 }
