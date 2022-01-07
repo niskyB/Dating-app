@@ -6,6 +6,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, SocketExtend } from 'socket.io';
+import { UserRepository } from '../user/repository/user.repository';
 import { UserSocketGuard } from '../auth/guard/authSocket.guard';
 import { NotificationAction } from './notifications.actions';
 import { NotificationsService } from './notifications.service';
@@ -20,7 +21,10 @@ import { NotificationsService } from './notifications.service';
 })
 @UseGuards(UserSocketGuard)
 export class NotificationsGateway {
-  constructor(private readonly notificationsService: NotificationsService) {}
+  constructor(
+    private readonly notificationsService: NotificationsService,
+    private readonly userRepository: UserRepository,
+  ) {}
   @WebSocketServer()
   server: Server;
 
@@ -30,8 +34,10 @@ export class NotificationsGateway {
 
   @SubscribeMessage(NotificationAction.NOTIFICATIONS_CONNECTION)
   async handleInitNotification(@ConnectedSocket() client: SocketExtend) {
+    const user = await this.userRepository.findOneByField('id', client.user.id);
     const roomName = 'notifications-' + client.user.id;
     client.join(roomName);
+    console.log(user.name, 'join the room!');
 
     const noti = await this.notificationsService.getNoti(client.user.id);
     this.server
