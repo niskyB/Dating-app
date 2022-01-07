@@ -28,21 +28,15 @@ const AutoLogingWrapper: React.FunctionComponent<AutoLogingWrapperProps> = ({
   const onHandleGetData = async (data: SocketNotificationPayload) => {
     await store.dispatch(UIAction.setSocketNotification(data));
   };
-  useEffect(() => {
-    notificationIo.on(NOTIFICATIONS_GET, onHandleGetData);
-    notificationIo.emit(NOTIFICATIONS_CONNECTION);
 
-    return () => {
-      notificationIo.off(NOTIFICATIONS_GET);
-    };
-  }, []);
   useEffect(() => {
+    store.dispatch(userThunk.getCurrentUser());
+
     notificationIo.disconnect();
     notificationIo.connect();
     notificationIo.on(NOTIFICATIONS_GET, onHandleGetData);
     notificationIo.emit(NOTIFICATIONS_CONNECTION);
 
-    store.dispatch(userThunk.getCurrentUser());
     return () => {
       notificationIo.off(NOTIFICATIONS_GET);
     };
