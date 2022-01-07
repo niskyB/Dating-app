@@ -13,5 +13,6 @@ declare module 'socket.io' {
   export class SocketExtend extends Socket {
     user?: UserToken;
     cookies: Record<string, string>;
+    socketCookies: string;
   }
 }

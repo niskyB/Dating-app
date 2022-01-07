@@ -39,7 +39,8 @@ export class UserGuard implements CanActivate {
       );
     }
 
-    client.handshake.headers.cookie = `${TOKEN}=${authToken}; expires=${MAX_AGE}; path=/`;
+    client.socketCookies = authToken;
+
     return true;
   }
 }
