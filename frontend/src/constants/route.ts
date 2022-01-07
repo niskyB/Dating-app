@@ -1,7 +1,9 @@
 import { lazy } from "react";
 import EmptyComponent from "../component/emptyComponent";
 //lazy import
-const MatchAndChat = lazy(() => import("../container/matchAndChat"));
+const MatchAndChatMobile = lazy(
+  () => import("../container/matchAndChatMobile")
+);
 const PreviewProfile = lazy(() => import("../container/previewProfile"));
 const ChatBox = lazy(() => import("../container/chatBox"));
 const LoginPage = lazy(() => import("../container/login"));
@@ -63,7 +65,7 @@ export const sideBarRoute: route[] = [
   },
   {
     link: "/matchandchat",
-    component: MatchAndChat,
+    component: MatchAndChatMobile,
     isLoginRequire: true,
     isMobileRoute: true,
   },

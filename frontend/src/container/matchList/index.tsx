@@ -23,7 +23,7 @@ const MatchList: React.FunctionComponent<MatchListProps> = ({ isOpenning }) => {
   if (!isOpenning) return null;
 
   return (
-    <div className="flex flex-row flex-wrap w-full gap-6 px-5 pt-5 overflow-auto intro-y">
+    <div className="flex flex-row flex-wrap w-ful h-full gap-6 px-5 pt-5 overflow-auto intro-y">
       {data.map((match) => {
         return (
           <Link

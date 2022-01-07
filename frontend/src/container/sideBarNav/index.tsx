@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
+import { notificationIo } from "../../common/HOC/autoLogingWrapper";
 import { UIState } from "../../common/interface/redux/ui";
 import { NOTIFICATIONS_RESET } from "../../constants/event";
 import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
-import { notificationIo } from "../app/App";
 
 interface SideBarNavProps {
   isMatchOpen: boolean;

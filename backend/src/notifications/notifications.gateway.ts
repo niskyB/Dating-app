@@ -22,8 +22,8 @@ import { NotificationsService } from './notifications.service';
 @UseGuards(UserSocketGuard)
 export class NotificationsGateway {
   constructor(
-    private readonly notificationsService: NotificationsService,
     private readonly userRepository: UserRepository,
+    private readonly notificationsService: NotificationsService,
   ) {}
   @WebSocketServer()
   server: Server;
@@ -39,6 +39,7 @@ export class NotificationsGateway {
     client.join(roomName);
     console.log(user.name, 'join the room!');
 
+    console.log(user.name, 'join the room!');
     const noti = await this.notificationsService.getNoti(client.user.id);
     this.server
       .to(roomName)

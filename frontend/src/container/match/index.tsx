@@ -69,11 +69,6 @@ const MatchPage: React.FunctionComponent<MatchPageProps> = () => {
     return () => {};
   }, []);
 
-  // useEffect(() => {
-  //   console.log(data);
-  //   console.log(currentIndex);
-  //   return () => {};
-  // }, [data, currentIndex]);
   //custom hook for use interval for calling api after each 3 seconds for finding new user
   useInterval(() => {
     if (data.length === 0 || currentIndex === -1) {

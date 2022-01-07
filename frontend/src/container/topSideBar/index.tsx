@@ -21,7 +21,6 @@ const TopSideBar: React.FunctionComponent<TopSideBarProps> = ({ isLogin }) => {
         <>
           <div className="flex items-center">
             <AvatarCircle
-              // onClick={onToggleSideBar}
               to={"/me"}
               url={
                 userState.data.avatar
