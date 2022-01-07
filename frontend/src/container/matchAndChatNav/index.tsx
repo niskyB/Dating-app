@@ -1,17 +1,17 @@
 import { useSelector } from "react-redux";
 import { UIState } from "../../common/interface/redux/ui";
-import { RootState } from "../../store";
 import MatchList from "../matchList";
 import MessageSection from "../messageSection";
 import SideBarNav from "../sideBarNav";
+import { RootState } from "../../store";
 
-interface MatchAndChatProps {}
+interface MatchAndChatNavProps {}
 
-const MatchAndChat: React.FunctionComponent<MatchAndChatProps> = () => {
+const MatchAndChatNav: React.FunctionComponent<MatchAndChatNavProps> = () => {
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
   return (
-    <div className="w-full h-contentHeight z-30">
-      <div className={`flex w-full h-10 px-5 mt-2 text-base IntroY`}>
+    <>
+      <div className={`flex w-full h-10 px-5 mt-5 text-base IntroY`}>
         <SideBarNav
           isMatchOpen={UIState.isMatchOpen}
           isMessagesOpen={UIState.isMessagesOpen}
@@ -19,8 +19,8 @@ const MatchAndChat: React.FunctionComponent<MatchAndChatProps> = () => {
       </div>
       <MatchList isOpenning={UIState.isMatchOpen} />
       <MessageSection isOpenning={UIState.isMessagesOpen} />
-    </div>
+    </>
   );
 };
 
-export default MatchAndChat;
+export default MatchAndChatNav;
