@@ -2,6 +2,7 @@ import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { chatIo } from "../../common/HOC/autoLogingWrapper";
 import useMediaQuery from "../../common/hook/useMediaQuery";
 import { UserState } from "../../common/interface/redux/user";
 import AvatarCircle from "../../component/avatarCircle";
@@ -9,7 +10,6 @@ import GoBackIcon from "../../component/icon/goBack";
 import { CHAT_GET, CHAT_JOIN } from "../../constants/event";
 import { RootState } from "../../store";
 import { getRoomId } from "../../utils/socketHelper";
-import { chatIo } from "../app/App";
 
 interface ChatBoxProps {}
 interface chatMessage {

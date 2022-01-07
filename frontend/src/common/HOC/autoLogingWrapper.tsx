@@ -4,19 +4,23 @@ import {
   NOTIFICATIONS_CONNECTION,
   NOTIFICATIONS_GET,
 } from "../../constants/event";
-import { notificationIo } from "../../container/app/App";
-import { GetMatchedList } from "../../container/matchList/action";
 import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
 import { SocketNotificationPayload } from "../../store/UI/interface";
 import { userThunk } from "../../store/user/thunk";
 import { UserState } from "../interface/redux/user";
-// import * as socketIo from "socket.io-client";
+import * as socketIo from "socket.io-client";
 interface AutoLogingWrapperProps {}
-// export const notificationIo = socketIo.connect(
-//   `${process.env.REACT_APP_SERVER_URL}/notifications`,
-//   { path: "/socket.io" }
-// );
+
+export const notificationIo = socketIo.connect(
+  `${process.env.REACT_APP_SERVER_URL}/notifications`,
+  { path: "/socket.io" }
+);
+export const chatIo = socketIo.connect(
+  `${process.env.REACT_APP_SERVER_URL}/chat`,
+  { path: "/socket.io" }
+);
+
 const AutoLogingWrapper: React.FunctionComponent<AutoLogingWrapperProps> = ({
   children,
 }) => {
@@ -24,6 +28,14 @@ const AutoLogingWrapper: React.FunctionComponent<AutoLogingWrapperProps> = ({
   const onHandleGetData = async (data: SocketNotificationPayload) => {
     await store.dispatch(UIAction.setSocketNotification(data));
   };
+  useEffect(() => {
+    notificationIo.on(NOTIFICATIONS_GET, onHandleGetData);
+    notificationIo.emit(NOTIFICATIONS_CONNECTION);
+
+    return () => {
+      notificationIo.off(NOTIFICATIONS_GET);
+    };
+  }, []);
   useEffect(() => {
     notificationIo.disconnect();
     notificationIo.connect();

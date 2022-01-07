@@ -11,8 +11,6 @@ import { userAction } from "../../store/user";
 import { openSuccessNotification } from "../../utils/notificationHelper";
 import { UIAction } from "../../store/UI";
 import { timeDelay } from "../../constants/loading";
-import { NOTIFICATIONS_CONNECTION } from "../../constants/event";
-import { notificationIo } from "../app/App";
 interface LoginPageProps {}
 
 const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
