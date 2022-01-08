@@ -26,7 +26,7 @@ export class ChatService {
         limit,
       );
       if (!result && !messages.length) return [];
-      if (!result) result.messages = messages;
+      if (!result) result = { messages };
       if (result && messages.length) result.messages.concat(messages);
       await this.setChat(room, result);
     }
