@@ -8,12 +8,15 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import UpdateInfoPopup from "./container/UpdateInfoPopup";
 import AutoLogingWrapper from "./common/HOC/autoLogingWrapper";
+import SocketConnectWrapper from "./common/HOC/socketConnectWrapper";
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
         <AutoLogingWrapper>
-          <App />
+          <SocketConnectWrapper>
+            <App />
+          </SocketConnectWrapper>
         </AutoLogingWrapper>
         <UpdateInfoPopup />
       </Provider>

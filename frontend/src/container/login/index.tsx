@@ -22,8 +22,9 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
     const response = await login(data);
     if (response.status === 200) {
       navigate("/");
+      await window.location.reload();
       store.dispatch(userAction.setIsLogin(true));
-      console.log("logging success!");
+
       // notificationIo.emit(NOTIFICATIONS_CONNECTION, {});
       setTimeout(() => {
         store.dispatch(UIAction.setIsLoading(false));
