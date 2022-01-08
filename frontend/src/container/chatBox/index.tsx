@@ -1,5 +1,5 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { chatIo } from "../../common/HOC/socketConnectWrapper";
@@ -15,6 +15,8 @@ import {
 } from "../../constants/event";
 import { RootState } from "../../store";
 import { getRoomId } from "../../utils/socketHelper";
+import { getChatUserInfo } from "./action";
+import { ChatUserDTO } from "./interface.dto";
 
 interface ChatBoxProps {}
 interface chatMessage {
@@ -34,16 +36,25 @@ const chatData: chatMessage[] = [
 ];
 const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   const messageBox = useRef<HTMLInputElement>(null);
-
+  const [chatUserInfo, setChatUserInfo] = useState<ChatUserDTO>();
   const userState = useSelector<RootState, UserState>((state) => state.user);
   const isMobile = useMediaQuery("(max-width: 640px)");
   const url = window.location.href;
   const chatTargetId = url.split("/messages/")[1];
-  const roomId = getRoomId(userState.data.id, chatTargetId);
+  const room = getRoomId(userState.data.id, chatTargetId);
+  const getChatUserData = async () => {
+    const res = await getChatUserInfo(chatTargetId);
+    setChatUserInfo(res.data.data);
+  };
+  useEffect(() => {
+    getChatUserData();
+    return () => {};
+  }, []);
+
   useEffect(() => {
     chatIo.emit(CHAT_JOIN, chatTargetId);
     chatIo.emit(CHAT_GET, {
-      room: roomId,
+      room,
       page: 0,
     });
     chatIo.on(CHAT_GET, (data: any) => {
@@ -53,13 +64,13 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
       console.log(data);
     });
     return () => {};
-  }, [userState.data.id]);
+  }, [userState.data.id, chatTargetId, room]);
   const onSendMessage = () => {
     if (messageBox.current) {
       //send message
       chatIo.emit(CHAT_SEND, {
         content: messageBox.current.value,
-        roomId,
+        room,
       });
 
       ///reset message value
@@ -67,20 +78,20 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
     }
   };
   return (
-    <div className="flex flex-col flex-1 fixed inset-0 lg:static h-screen overflow-hidden ">
+    <div className="fixed inset-0 flex flex-col flex-1 h-screen overflow-hidden lg:static ">
       <div className="flex items-center justify-between h-16 px-4 py-2 bg-white sm:px-6">
         <div className="flex flex-row items-center">
           {isMobile && (
             <Link to="/matchandchat">
-              <GoBackIcon className="w-8 h-8 text-blue-500 mr-3" />
+              <GoBackIcon className="w-8 h-8 mr-3 text-blue-500" />
             </Link>
           )}
           <AvatarCircle
             to="/"
-            url="https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-9/132442993_2798827007004557_137046347792697494_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=YFghZRynzXcAX-B4gS1&_nc_ht=scontent.fdad1-3.fna&oh=00_AT-a3jChm1QKjSoLGWlWor6Duej5o1aJoeCciPmr4woOSg&oe=61DE9FAA"
+            url={`${process.env.REACT_APP_SERVER_URL}/${chatUserInfo?.avatar}`}
           />
           <div className="ml-3 text-lg font-bold text-black cursor-pointer">
-            Hoang Loc
+            {chatUserInfo?.name}
           </div>
           <div className="w-2 h-2 ml-3 bg-green-500 rounded-full"></div>
         </div>
