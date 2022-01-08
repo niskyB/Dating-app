@@ -47,6 +47,7 @@ export class ChatService {
 
   async saveMessage(room: string, message: Message) {
     await this.redisService.deleteByKey(room);
+    console.log('here 1');
     await this.messageRepository.save(message);
   }
 }
