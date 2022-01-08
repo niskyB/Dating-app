@@ -31,7 +31,6 @@ const Card: React.FunctionComponent<CardProps> = ({
       setCurrentIndex(currentIndex + 1);
     }
   };
-
   return (
     <div className="relative flex flex-col overflow-hidden transition-all duration-300 ease-in-out bg-black-500 w-full h-5/6 lg:w-96 lg:h-140 card">
       {/* avatar + image */}
@@ -75,6 +74,7 @@ const Card: React.FunctionComponent<CardProps> = ({
           {[...Array(numberOfImage)].map((value, index) => {
             return (
               <div
+                key={index}
                 style={{ width: `calc(100%/ ${numberOfImage})` }}
                 className={`h-1 ${
                   index === currentIndex ? "bg-white/90" : "bg-black/10"
@@ -134,7 +134,10 @@ const Card: React.FunctionComponent<CardProps> = ({
         {options.showHobbies && data.hobbies.length > 0 && (
           <div className="flex flex-row max-w- flex-wrap space-x-2 max-w-[80%]">
             {data.hobbies.map((hobby) => (
-              <span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-black/40 text-gray-200 capitalize mt-2">
+              <span
+                key={hobby.id}
+                className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-black/40 text-gray-200 capitalize mt-2"
+              >
                 {hobby.hobbies}
               </span>
             ))}

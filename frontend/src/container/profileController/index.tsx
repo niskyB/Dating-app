@@ -42,7 +42,10 @@ const ProfileController: React.FunctionComponent<ProfileControllerProps> = ({
     <div className="flex flex-col justify-start w-full text-base text-left">
       {showOptionsList.map((option) => {
         return (
-          <div className="flex items-center justify-between px-3 mt-5">
+          <div
+            className="flex items-center justify-between px-3 mt-5"
+            key={option.field}
+          >
             <div className="block font-medium text-black">{option.label}</div>
             <ToggleButton
               enabled={option.value}
