@@ -44,6 +44,7 @@ import { UserRepository } from './repository/user.repository';
 
 //---- api response
 import { apiResponse } from '../common/response/apiResponse';
+import { UserWithBasicInfo } from './dto/userWithBasicInfo.dto';
 
 @Injectable()
 export class UserService {
@@ -63,6 +64,20 @@ export class UserService {
    */
   async findOneByField(field: keyof User, value: any): Promise<User> {
     return await this.userRepository.findOneByField(field, value);
+  }
+
+  //find user with only basic infor
+  async findUserWithBasicInfo(
+    field: keyof User,
+    value: any,
+  ): Promise<UserWithBasicInfo> {
+    const user = await this.userRepository.findUserMatchInfoByField(
+      field,
+      value,
+    );
+    return plainToClass(UserWithBasicInfo, user, {
+      excludeExtraneousValues: true,
+    });
   }
 
   /**

@@ -96,6 +96,12 @@ export class UserController {
     return result;
   }
 
+  @Get('/getUserWithBasicInfo/:id')
+  async getUserWithBasicInfo(@Req() req: Request, @Param('id') id: string) {
+    const user = await this.userService.findUserWithBasicInfo('id', id);
+    return apiResponse.send(user, null);
+  }
+
   /**
    * @description PUT method for user to change password
    * @param changePasswordDto

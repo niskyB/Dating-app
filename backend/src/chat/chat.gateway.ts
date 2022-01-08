@@ -80,6 +80,7 @@ export class ChatGateway {
     );
 
     this.server.to(data.room).emit(ChatAction.CHAT_RECEIVE, message);
+
     await this.chatService.saveMessage(data.room, message);
   }
 }
