@@ -11,6 +11,7 @@ export enum ResponseMessage {
   INVALID_PASSWORD = 'Password is not correct',
   INVALID_LIMIT = 'Invalid limit',
   INVALID_SKIP = 'Invalid skip',
+  INVALID_ROOM = 'Invalid room',
   //
   UNAUTHORIZED = 'Not signin yet',
   FORBIDDEN = "You don't have permission to access / on this page",

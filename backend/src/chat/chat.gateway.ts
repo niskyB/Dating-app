@@ -1,10 +1,11 @@
-import { UseGuards } from '@nestjs/common';
+import { HttpStatus, UseGuards } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
+  WsException,
 } from '@nestjs/websockets';
 import { Server, SocketExtend } from 'socket.io';
 import { LIMIT } from '../constants/chat.constants';
@@ -13,6 +14,8 @@ import { ChatAction } from './chat.actions';
 import { ChatService } from './chat.service';
 import { GetChatDto } from './dto/get-chat.dto';
 import { SendChatDto } from './dto/send-chat.dto';
+import { apiResponse } from 'src/common/response/apiResponse';
+import { ResponseMessage } from 'src/constants/message/responseMessage.enum';
 
 @WebSocketGateway({
   namespace: 'chat',
@@ -61,6 +64,15 @@ export class ChatGateway {
     @ConnectedSocket() client: SocketExtend,
     @MessageBody() data: SendChatDto,
   ) {
+    if (!data.room || !data.content) {
+      throw new WsException(
+        apiResponse.send(null, {
+          common: ResponseMessage.INVALID_ROOM,
+          status: HttpStatus.BAD_REQUEST,
+        }),
+      );
+    }
+
     const message = await this.chatService.createMessage(
       data.room,
       data.content,

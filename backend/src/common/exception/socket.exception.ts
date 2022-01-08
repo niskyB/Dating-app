@@ -3,7 +3,7 @@ import { BaseWsExceptionFilter, WsException } from '@nestjs/websockets';
 
 @Catch(WsException)
 export class SocketExceptionFilter extends BaseWsExceptionFilter {
-  catch(exception: any, host: ArgumentsHost): void {
+  catch(exception: any, host: ArgumentsHost) {
     const client = host.switchToWs().getClient();
     console.log(exception);
     this.handleError(client, exception);
@@ -12,7 +12,7 @@ export class SocketExceptionFilter extends BaseWsExceptionFilter {
   handleError<TClient extends { emit: Function }>(
     client: TClient,
     exception: any,
-  ): void {
+  ) {
     client.emit('exception', exception.error);
   }
 }
