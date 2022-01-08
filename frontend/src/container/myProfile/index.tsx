@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { FormState } from "../../common/interface/redux/form";
 import { UserState } from "../../common/interface/redux/user";
 import DeviderWithText from "../../component/deviderWithText";
 import InputOutline, { InputOutlineProps } from "../../component/inputOutline";

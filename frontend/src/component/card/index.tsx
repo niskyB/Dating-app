@@ -92,6 +92,7 @@ const Card: React.FunctionComponent<CardProps> = ({
               onShow && "controlIcon"
             } top-1/2 left-2`}
             onClick={onPreviosImage}
+            onTouchStart={onPreviosImage}
           >
             <ChevronLeftIcon />
           </div>
@@ -101,6 +102,7 @@ const Card: React.FunctionComponent<CardProps> = ({
               onShow && "controlIcon"
             } top-1/2 right-2`}
             onClick={onNextImage}
+            onTouchStart={onNextImage}
           >
             <ChevronRightIcon />
           </div>

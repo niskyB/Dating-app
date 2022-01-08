@@ -30,13 +30,12 @@ const AutoLogingWrapper: React.FunctionComponent<AutoLogingWrapperProps> = ({
   };
 
   useEffect(() => {
-    store.dispatch(userThunk.getCurrentUser());
-
     notificationIo.disconnect();
     notificationIo.connect();
+
     notificationIo.on(NOTIFICATIONS_GET, onHandleGetData);
     notificationIo.emit(NOTIFICATIONS_CONNECTION);
-
+    store.dispatch(userThunk.getCurrentUser());
     return () => {
       notificationIo.off(NOTIFICATIONS_GET);
     };

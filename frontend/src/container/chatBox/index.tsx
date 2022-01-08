@@ -43,7 +43,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
       console.log(data);
     });
     return () => {};
-  }, []);
+  }, [userState.data.id]);
   return (
     <div className="flex flex-col flex-1 fixed inset-0 lg:static h-screen overflow-hidden ">
       <div className="flex items-center justify-between h-16 px-4 py-2 bg-white sm:px-6">
