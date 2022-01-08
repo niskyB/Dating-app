@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { notificationIo } from "../../common/HOC/autoLogingWrapper";
+import { notificationIo } from "../../common/HOC/socketConnectWrapper";
 import { UIState } from "../../common/interface/redux/ui";
 import { NOTIFICATIONS_RESET } from "../../constants/event";
 import { RootState, store } from "../../store";

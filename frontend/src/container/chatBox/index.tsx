@@ -2,7 +2,7 @@ import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { chatIo } from "../../common/HOC/autoLogingWrapper";
+import { chatIo } from "../../common/HOC/socketConnectWrapper";
 import useMediaQuery from "../../common/hook/useMediaQuery";
 import { UserState } from "../../common/interface/redux/user";
 import AvatarCircle from "../../component/avatarCircle";
