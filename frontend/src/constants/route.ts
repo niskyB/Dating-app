@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import EmptyComponent from "../component/emptyComponent";
+import MatchAndChatDesktop from "../container/matchAndChatDesktop";
 //lazy import
 const MatchAndChatMobile = lazy(
   () => import("../container/matchAndChatMobile")

@@ -1,7 +1,7 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { chatIo } from "../../common/HOC/socketConnectWrapper";
 import useMediaQuery from "../../common/hook/useMediaQuery";
 import { UserState } from "../../common/interface/redux/user";
@@ -22,48 +22,48 @@ import { ChatUserDTO } from "./interface.dto";
 interface ChatBoxProps {}
 
 const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
+  const { id: partnerId } = useParams<{ id: string }>();
   const messageBox = useRef<HTMLInputElement>(null);
   const chatBox = useRef<HTMLDivElement>(null);
   const [chatUserInfo, setChatUserInfo] = useState<ChatUserDTO>();
+  const [room, setRoom] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
   const userState = useSelector<RootState, UserState>((state) => state.user);
   const isMobile = useMediaQuery("(max-width: 640px)");
-  const url = window.location.href;
-  const chatTargetId = url.split("/messages/")[1];
-  const room = getRoomId(userState.data.id, chatTargetId);
+
   const getChatUserData = async () => {
-    const res = await getChatUserInfo(chatTargetId);
-    setChatUserInfo(res.data.data);
+    if (partnerId) {
+      const res = await getChatUserInfo(partnerId);
+      setChatUserInfo(res.data.data);
+    }
   };
   useEffect(() => {
+    if (partnerId) setRoom(getRoomId(userState.data.id, partnerId));
     getChatUserData();
-
     return () => {};
   }, []);
 
   useEffect(() => {
-    chatIo.emit(CHAT_JOIN, chatTargetId);
+    console.log(partnerId);
+    chatIo.emit(CHAT_JOIN, partnerId);
     chatIo.emit(CHAT_GET, {
       room,
       page: 0,
     });
     chatIo.on(CHAT_GET, (data: Message[]) => {
       setMessages(data.reverse());
-      if (chatBox.current) {
-        chatBox.current.scrollTop = chatBox.current?.offsetHeight;
-      }
+      console.log(data);
+      scrollToBottom();
     });
     chatIo.on(CHAT_RECEIVE, (data: any) => {
       setMessages((prev) => [...prev, data]);
-      if (chatBox.current) {
-        chatBox.current.scrollTop = chatBox.current?.offsetHeight;
-      }
+      scrollToBottom();
     });
     return () => {
       chatIo.off(CHAT_GET);
       chatIo.off(CHAT_RECEIVE);
     };
-  }, [userState.data.id, chatTargetId, room]);
+  }, [userState.data.id, partnerId, room]);
   const onSendMessage = () => {
     if (messageBox.current) {
       //send message
@@ -74,6 +74,12 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
 
       ///reset message value
       messageBox.current.value = "";
+    }
+  };
+
+  const scrollToBottom = () => {
+    if (chatBox.current) {
+      chatBox.current.scrollTop = chatBox.current?.offsetHeight;
     }
   };
   return (
@@ -106,14 +112,12 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
               return (
                 <div className="self-end max-w-[70%] px-5 py-3 mt-5 mr-3 text-xl font-normal text-white bg-blue-500 rounded-3xl">
                   {chat.content}
-                  {/* {new Date(chat.createDate).toLocaleString()} */}
                 </div>
               );
             } else {
               return (
                 <div className="self-start max-w-[70%] px-5 py-3 mt-5 ml-3 text-xl font-normal text-black bg-gray-300 rounded-3xl">
                   {chat.content}
-                  {/* {new Date(chat.createDate).toISOString()} */}
                 </div>
               );
             }

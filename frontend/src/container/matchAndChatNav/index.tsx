@@ -10,7 +10,7 @@ interface MatchAndChatNavProps {}
 const MatchAndChatNav: React.FunctionComponent<MatchAndChatNavProps> = () => {
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
   return (
-    <>
+    <div className="z-30 w-full h-contentHeight">
       <div className={`flex w-full h-10 px-5 mt-5 text-base IntroY`}>
         <SideBarNav
           isMatchOpen={UIState.isMatchOpen}
@@ -19,7 +19,7 @@ const MatchAndChatNav: React.FunctionComponent<MatchAndChatNavProps> = () => {
       </div>
       <MatchList isOpenning={UIState.isMatchOpen} />
       <MessageSection isOpenning={UIState.isMessagesOpen} />
-    </>
+    </div>
   );
 };
 

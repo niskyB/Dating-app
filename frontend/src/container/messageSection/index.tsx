@@ -7,21 +7,7 @@ import { ChatBox } from "./interface";
 interface MessageSectionProps {
   isOpenning: boolean;
 }
-interface matched {
-  id: string;
-  avatar: string;
-  name: string;
-  lastMessage: string;
-}
-const matchList: matched[] = [
-  {
-    id: "1",
-    name: "duc dauu",
-    lastMessage: "ehhe",
-    avatar:
-      "https://scontent.fdad2-1.fna.fbcdn.net/v/t1.6435-9/205956104_2751433955079159_2840020984542922686_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=8K0GTpEtUJ8AX-nChVX&_nc_ht=scontent.fdad2-1.fna&oh=00_AT_11vE4g5rFVtXfQRhoSU2nxOzwZCSMrwieTnFjLQ_1mA&oe=61E101E8",
-  },
-];
+
 const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
   isOpenning,
 }) => {
@@ -52,11 +38,6 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
                   : "flex px-5 py-4 cursor-pointer hover:bg-gray-200 intro-y"
               }
             >
-              {/* <img
-                src={`${process.env.REACT_APP_SERVER_URL}/${messageBox.sender.avatar}`}
-                alt={messageBox.id}
-                className="rounded-full w-14 h-14"
-              /> */}
               <AvatarCircle
                 to={`/messages/${messageBox.partner.id}`}
                 url={`${process.env.REACT_APP_SERVER_URL}/${messageBox.partner.avatar}`}
