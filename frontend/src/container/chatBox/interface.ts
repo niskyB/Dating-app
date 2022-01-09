@@ -1,4 +1,4 @@
-import { User } from "../../common/interface/entity/user";
+import { MatchCard } from "../../component/card/interface.dto";
 
 export interface Message {
   content: string;
@@ -6,5 +6,5 @@ export interface Message {
   id: string;
   room: string;
   seen: string;
-  user: User;
+  sender: MatchCard;
 }

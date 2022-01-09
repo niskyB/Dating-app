@@ -22,13 +22,20 @@ import { ChatUserDTO } from "./interface.dto";
 interface ChatBoxProps {}
 
 const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
-  const { id: partnerId } = useParams<{ id: string }>();
-  const messageBox = useRef<HTMLInputElement>(null);
-  const chatBox = useRef<HTMLDivElement>(null);
+  //state
   const [chatUserInfo, setChatUserInfo] = useState<ChatUserDTO>();
   const [room, setRoom] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
+
+  //ref
+  const messageBox = useRef<HTMLInputElement>(null);
+  const chatBox = useRef<HTMLDivElement>(null);
+
+  //state from redux
   const userState = useSelector<RootState, UserState>((state) => state.user);
+
+  //orther
+  const { id: partnerId } = useParams<{ id: string }>();
   const isMobile = useMediaQuery("(max-width: 640px)");
 
   const getChatUserData = async () => {
@@ -37,28 +44,31 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
       setChatUserInfo(res.data.data);
     }
   };
-  useEffect(() => {
-    if (partnerId) setRoom(getRoomId(userState.data.id, partnerId));
-    getChatUserData();
-    return () => {};
-  }, []);
 
   useEffect(() => {
-    console.log(partnerId);
+    if (partnerId) setRoom(getRoomId(userState.data.id, partnerId));
+
+    getChatUserData();
+    return () => {};
+  }, [partnerId, userState.data.id]);
+
+  useEffect(() => {
     chatIo.emit(CHAT_JOIN, partnerId);
+    console.log(room);
     chatIo.emit(CHAT_GET, {
       room,
       page: 0,
     });
     chatIo.on(CHAT_GET, (data: Message[]) => {
-      setMessages(data.reverse());
       console.log(data);
+      setMessages(data.reverse());
       scrollToBottom();
     });
-    chatIo.on(CHAT_RECEIVE, (data: any) => {
+    chatIo.on(CHAT_RECEIVE, (data: Message) => {
       setMessages((prev) => [...prev, data]);
       scrollToBottom();
     });
+
     return () => {
       chatIo.off(CHAT_GET);
       chatIo.off(CHAT_RECEIVE);
@@ -91,6 +101,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
               <GoBackIcon className="w-8 h-8 mr-3 text-blue-500" />
             </Link>
           )}
+
           <AvatarCircle
             to="/"
             url={`${process.env.REACT_APP_SERVER_URL}/${chatUserInfo?.avatar}`}
@@ -108,7 +119,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
           className="flex flex-col justify-start flex-auto overflow-x-hidden overflow-y-auto"
         >
           {messages.map((chat, index) => {
-            if (chat.user.id === userState.data.id) {
+            if (chat.sender.id === userState.data.id) {
               return (
                 <div className="self-end max-w-[70%] px-5 py-3 mt-5 mr-3 text-xl font-normal text-white bg-blue-500 rounded-3xl">
                   {chat.content}
