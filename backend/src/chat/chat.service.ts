@@ -34,7 +34,18 @@ export class ChatService {
       await this.setChat(room, result);
     }
 
-    return result.messages;
+    let messageList = [];
+    for (let i = 0; i < result.messages.length; i++) {
+      const sender = plainToClass(MatchCardDto, result.messages[i].user, {
+        excludeExtraneousValues: true,
+      });
+      const message = { ...result.messages[i], sender };
+      messageList.push(
+        plainToClass(MessageDto, message, { excludeExtraneousValues: true }),
+      );
+    }
+
+    return messageList;
   }
 
   async createMessage(room: string, content: string, userId: string) {
