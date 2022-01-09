@@ -20,23 +20,10 @@ import { Message } from "./interface";
 import { ChatUserDTO } from "./interface.dto";
 
 interface ChatBoxProps {}
-interface chatMessage {
-  message: string;
-  isYourSelf: boolean;
-}
-const chatData: chatMessage[] = [
-  { message: "hello", isYourSelf: true },
-  { message: "hiiii", isYourSelf: false },
-  {
-    message: "Duc dep trai phai khongggg",
-    isYourSelf: true,
-  },
-  { message: "dung roi", isYourSelf: false },
-  { message: "game la de", isYourSelf: true },
-  { message: "ezzz", isYourSelf: false },
-];
+
 const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   const messageBox = useRef<HTMLInputElement>(null);
+  const chatBox = useRef<HTMLDivElement>(null);
   const [chatUserInfo, setChatUserInfo] = useState<ChatUserDTO>();
   const [messages, setMessages] = useState<Message[]>([]);
   const userState = useSelector<RootState, UserState>((state) => state.user);
@@ -50,6 +37,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   };
   useEffect(() => {
     getChatUserData();
+
     return () => {};
   }, []);
 
@@ -61,11 +49,20 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
     });
     chatIo.on(CHAT_GET, (data: Message[]) => {
       setMessages(data.reverse());
+      if (chatBox.current) {
+        chatBox.current.scrollTop = chatBox.current?.offsetHeight;
+      }
     });
     chatIo.on(CHAT_RECEIVE, (data: any) => {
       setMessages((prev) => [...prev, data]);
+      if (chatBox.current) {
+        chatBox.current.scrollTop = chatBox.current?.offsetHeight;
+      }
     });
-    return () => {};
+    return () => {
+      chatIo.off(CHAT_GET);
+      chatIo.off(CHAT_RECEIVE);
+    };
   }, [userState.data.id, chatTargetId, room]);
   const onSendMessage = () => {
     if (messageBox.current) {
@@ -100,7 +97,10 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
       </div>
 
       <div className="flex flex-col flex-1 overflow-hidden bg-gray-100">
-        <div className="flex flex-col flex-auto overflow-auto ">
+        <div
+          ref={chatBox}
+          className="flex flex-col justify-start flex-auto overflow-x-hidden overflow-y-auto"
+        >
           {messages.map((chat, index) => {
             if (chat.user.id === userState.data.id) {
               return (

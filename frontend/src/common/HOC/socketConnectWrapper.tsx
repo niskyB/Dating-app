@@ -28,8 +28,8 @@ const SocketConnectWrapper: React.FunctionComponent<
   };
   useEffect(() => {
     if (user.isLogin) {
-      notificationIo.close();
-      notificationIo.open();
+      // notificationIo.close();
+      // notificationIo.open();
       notificationIo.on(NOTIFICATIONS_GET, onHandleGetData);
       notificationIo.emit(NOTIFICATIONS_CONNECTION);
     }
