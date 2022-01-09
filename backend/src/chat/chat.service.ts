@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { plainToClass } from 'class-transformer';
+import { MatchCardDto } from 'src/match/dto/match-card.dto';
 import { UserRepository } from '../user/repository/user.repository';
 import { RedisService } from '../utils/redis/redis.service';
-import { MessagesDto } from './dto/messages.dto';
+import { MessageDto } from './dto/message.dto';
+import { MessageListDto } from './dto/messageList.dto';
 import { Message } from './entities/message.entity';
 import { MessageRepository } from './repository/message.repository';
 
@@ -13,12 +16,12 @@ export class ChatService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async setChat(room: string, messages: MessagesDto) {
+  async setChat(room: string, messages: MessageListDto) {
     return await this.redisService.setObjectByKey(room, messages, 120);
   }
 
   async getChat(room: string, page: number, limit: number) {
-    let result = await this.redisService.getObjectByKey<MessagesDto>(room);
+    let result = await this.redisService.getObjectByKey<MessageListDto>(room);
     if (!result || (result && result.messages.length < (page + 1) * limit)) {
       const messages = await this.messageRepository.findMessagesByRoom(
         room,
@@ -49,5 +52,32 @@ export class ChatService {
     await this.redisService.deleteByKey(room);
     console.log('here 1');
     await this.messageRepository.save(message);
+  }
+
+  async getChatList(id: string) {
+    const roomList = await this.messageRepository.findRoomListById(id);
+    const chatList = [];
+
+    for (let i = 0; i < roomList.length; i++) {
+      const partnerId = roomList[i].room.replace(id, '').replace('@', '');
+
+      const result = await this.userRepository.findOneByField('id', partnerId);
+      const partner = plainToClass(MatchCardDto, result, {
+        excludeExtraneousValues: true,
+      });
+
+      const message = await this.messageRepository.findLastMessage(
+        roomList[i].room,
+      );
+      const sender = plainToClass(MatchCardDto, message.user, {
+        excludeExtraneousValues: true,
+      });
+
+      const messageDto = { ...message, partner, sender };
+      chatList.push(
+        plainToClass(MessageDto, messageDto, { excludeExtraneousValues: true }),
+      );
+    }
+    return chatList;
   }
 }

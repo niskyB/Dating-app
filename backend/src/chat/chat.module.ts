@@ -6,6 +6,7 @@ import { ChatService } from './chat.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MessageRepository } from './repository/message.repository';
 import { UserRepository } from '../user/repository/user.repository';
+import { ChatController } from './chat.controller';
 
 @Module({
   imports: [
@@ -15,5 +16,6 @@ import { UserRepository } from '../user/repository/user.repository';
   ],
   providers: [ChatService, ChatGateway],
   exports: [ChatGateway, ChatService],
+  controllers: [ChatController],
 })
 export class ChatModule {}

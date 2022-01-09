@@ -1,5 +1,5 @@
 import { Message } from '../entities/message.entity';
 
-export class MessagesDto {
+export class MessageListDto {
   messages: Message[];
 }
