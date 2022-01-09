@@ -14,8 +14,11 @@ import { ChatAction } from './chat.actions';
 import { ChatService } from './chat.service';
 import { GetChatDto } from './dto/get-chat.dto';
 import { SendChatDto } from './dto/send-chat.dto';
-import { apiResponse } from 'src/common/response/apiResponse';
-import { ResponseMessage } from 'src/constants/message/responseMessage.enum';
+import { apiResponse } from '../common/response/apiResponse';
+import { ResponseMessage } from '../constants/message/responseMessage.enum';
+import { plainToClass } from 'class-transformer';
+import { MatchCardDto } from '../match/dto/match-card.dto';
+import { MessageDto } from './dto/message.dto';
 
 @WebSocketGateway({
   namespace: 'chat',
@@ -79,7 +82,17 @@ export class ChatGateway {
       client.user.id,
     );
 
-    this.server.to(data.room).emit(ChatAction.CHAT_RECEIVE, message);
+    const sender = plainToClass(MatchCardDto, message.user, {
+      excludeExtraneousValues: true,
+    });
+
+    const messageDto: MessageDto = plainToClass(
+      MessageDto,
+      { ...message, sender },
+      { excludeExtraneousValues: true },
+    );
+
+    this.server.to(data.room).emit(ChatAction.CHAT_RECEIVE, messageDto);
 
     await this.chatService.saveMessage(data.room, message);
   }
