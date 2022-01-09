@@ -16,7 +16,10 @@ export class Message {
   @Expose()
   seen: boolean;
 
-  @Column({ default: new Date().toISOString().slice(0, 19).replace('T', ' ') })
+  @Column({
+    default: () => 'CURRENT_TIMESTAMP',
+    type: 'datetime',
+  })
   @Expose()
   createDate: Date;
 

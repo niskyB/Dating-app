@@ -16,27 +16,16 @@ import {
 import { RootState } from "../../store";
 import { getRoomId } from "../../utils/socketHelper";
 import { getChatUserInfo } from "./action";
+import { Message } from "./interface";
 import { ChatUserDTO } from "./interface.dto";
 
 interface ChatBoxProps {}
-interface chatMessage {
-  message: string;
-  isYourSelf: boolean;
-}
-const chatData: chatMessage[] = [
-  { message: "hello", isYourSelf: true },
-  { message: "hiiii", isYourSelf: false },
-  {
-    message: "Duc dep trai phai khongggg",
-    isYourSelf: true,
-  },
-  { message: "dung roi", isYourSelf: false },
-  { message: "game la de", isYourSelf: true },
-  { message: "ezzz", isYourSelf: false },
-];
+
 const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   const messageBox = useRef<HTMLInputElement>(null);
+  const chatBox = useRef<HTMLDivElement>(null);
   const [chatUserInfo, setChatUserInfo] = useState<ChatUserDTO>();
+  const [messages, setMessages] = useState<Message[]>([]);
   const userState = useSelector<RootState, UserState>((state) => state.user);
   const isMobile = useMediaQuery("(max-width: 640px)");
   const url = window.location.href;
@@ -48,6 +37,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   };
   useEffect(() => {
     getChatUserData();
+
     return () => {};
   }, []);
 
@@ -57,13 +47,22 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
       room,
       page: 0,
     });
-    chatIo.on(CHAT_GET, (data: any) => {
-      console.log(data);
+    chatIo.on(CHAT_GET, (data: Message[]) => {
+      setMessages(data.reverse());
+      if (chatBox.current) {
+        chatBox.current.scrollTop = chatBox.current?.offsetHeight;
+      }
     });
     chatIo.on(CHAT_RECEIVE, (data: any) => {
-      console.log(data);
+      setMessages((prev) => [...prev, data]);
+      if (chatBox.current) {
+        chatBox.current.scrollTop = chatBox.current?.offsetHeight;
+      }
     });
-    return () => {};
+    return () => {
+      chatIo.off(CHAT_GET);
+      chatIo.off(CHAT_RECEIVE);
+    };
   }, [userState.data.id, chatTargetId, room]);
   const onSendMessage = () => {
     if (messageBox.current) {
@@ -97,19 +96,24 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
         </div>
       </div>
 
-      <div className="flex flex-col flex-1 bg-gray-100">
-        <div className="flex flex-col flex-1">
-          {chatData.map((chat, index) => {
-            if (chat.isYourSelf) {
+      <div className="flex flex-col flex-1 overflow-hidden bg-gray-100">
+        <div
+          ref={chatBox}
+          className="flex flex-col justify-start flex-auto overflow-x-hidden overflow-y-auto"
+        >
+          {messages.map((chat, index) => {
+            if (chat.user.id === userState.data.id) {
               return (
                 <div className="self-end max-w-[70%] px-5 py-3 mt-5 mr-3 text-xl font-normal text-white bg-blue-500 rounded-3xl">
-                  {chat.message}
+                  {chat.content}
+                  {/* {new Date(chat.createDate).toLocaleString()} */}
                 </div>
               );
             } else {
               return (
                 <div className="self-start max-w-[70%] px-5 py-3 mt-5 ml-3 text-xl font-normal text-black bg-gray-300 rounded-3xl">
-                  {chat.message}
+                  {chat.content}
+                  {/* {new Date(chat.createDate).toISOString()} */}
                 </div>
               );
             }
