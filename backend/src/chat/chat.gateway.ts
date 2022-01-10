@@ -96,4 +96,12 @@ export class ChatGateway {
 
     await this.chatService.saveMessage(data.room, message);
   }
+
+  @SubscribeMessage(ChatAction.CHAT_LEAVE)
+  async handleLeaveChat(
+    @ConnectedSocket() client: SocketExtend,
+    @MessageBody() room: string,
+  ) {
+    client.leave(room);
+  }
 }

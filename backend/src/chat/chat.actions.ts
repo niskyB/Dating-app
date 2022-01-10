@@ -3,4 +3,5 @@ export enum ChatAction {
   CHAT_RECEIVE = 'receive-message',
   CHAT_JOIN = 'join-message',
   CHAT_GET = 'get-message',
+  CHAT_LEAVE = 'leave-chat',
 }
