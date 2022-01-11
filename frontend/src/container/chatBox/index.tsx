@@ -10,6 +10,7 @@ import GoBackIcon from "../../component/icon/goBack";
 import {
   CHAT_GET,
   CHAT_JOIN,
+  CHAT_LEAVE,
   CHAT_RECEIVE,
   CHAT_SEND,
 } from "../../constants/event";
@@ -37,7 +38,12 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   //orther
   const { id: partnerId } = useParams<{ id: string }>();
   const isMobile = useMediaQuery("(max-width: 640px)");
-
+  //send chat on enter
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Enter") {
+      onSendMessage();
+    }
+  };
   const getChatUserData = async () => {
     if (partnerId) {
       const res = await getChatUserInfo(partnerId);
@@ -54,24 +60,25 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
 
   useEffect(() => {
     chatIo.emit(CHAT_JOIN, partnerId);
-    console.log(room);
     chatIo.emit(CHAT_GET, {
       room,
       page: 0,
     });
     chatIo.on(CHAT_GET, (data: Message[]) => {
-      console.log(data);
       setMessages(data.reverse());
       scrollToBottom();
     });
     chatIo.on(CHAT_RECEIVE, (data: Message) => {
-      setMessages((prev) => [...prev, data]);
-      scrollToBottom();
+      if (data.room === room) {
+        setMessages((prev) => [...prev, data]);
+        scrollToBottom();
+      }
     });
 
     return () => {
       chatIo.off(CHAT_GET);
       chatIo.off(CHAT_RECEIVE);
+      chatIo.emit(CHAT_LEAVE, room);
     };
   }, [userState.data.id, partnerId, room]);
   const onSendMessage = () => {
@@ -140,6 +147,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
             type="text"
             placeholder="Type a message"
             className="flex-1 w-5/6 bg-gray-200 rounded-lg outline-none"
+            onKeyDown={handleKeyDown}
           />
           <button
             type="button"
