@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { chatIo } from "../../common/HOC/socketConnectWrapper";
 import { UserState } from "../../common/interface/redux/user";
 import AvatarCircle from "../../component/avatarCircle";
+import {
+  CHAT_SEEN_MESSAGE,
+  CHAT_UPDATE_CHAT_LIST,
+} from "../../constants/event";
 import { RootState } from "../../store";
 import { getChatList } from "./action";
 import { ChatBox } from "./interface";
@@ -24,10 +29,23 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
   useEffect(() => {
     callApiAndGetMessageList().then((data) => {
       setMessageList([...data]);
-      console.log([...data]);
     });
-
-    return () => {};
+    chatIo.on(CHAT_SEEN_MESSAGE, () => {
+      callApiAndGetMessageList().then((data) => {
+        setMessageList([...data]);
+      });
+    });
+    console.log("lisening to update UI...");
+    chatIo.on(CHAT_UPDATE_CHAT_LIST, () => {
+      console.log("updating...");
+      callApiAndGetMessageList().then((data) => {
+        setMessageList([...data]);
+      });
+    });
+    return () => {
+      chatIo.off(CHAT_SEEN_MESSAGE);
+      chatIo.off(CHAT_UPDATE_CHAT_LIST);
+    };
   }, []);
   if (isOpenning)
     return (

@@ -8,3 +8,5 @@ export const CHAT_RECEIVE = "receive-message";
 export const CHAT_JOIN = "join-message";
 export const CHAT_GET = "get-message";
 export const CHAT_LEAVE = "leave-chat";
+export const CHAT_SEEN_MESSAGE = "seen-message";
+export const CHAT_UPDATE_CHAT_LIST = "update-chatList";
