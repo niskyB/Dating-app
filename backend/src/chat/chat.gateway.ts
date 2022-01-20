@@ -96,7 +96,9 @@ export class ChatGateway {
 
     await this.chatService.saveMessage(data.room, message);
 
-    this.server.to(data.room).emit(ChatAction.CHAT_UPDATE_CHAT_LIST);
+    this.server
+      .to('notifications-' + client.user.id)
+      .emit(ChatAction.CHAT_UPDATE_CHAT_LIST);
   }
 
   @SubscribeMessage(ChatAction.CHAT_LEAVE)
