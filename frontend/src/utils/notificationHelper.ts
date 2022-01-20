@@ -1,17 +1,14 @@
+import { MatchCard } from "./../component/card/interface.dto";
 import { store } from "../store";
 import { UIAction } from "../store/UI";
 
-export const openSuccessModel = (title: string, message: string = "") => {
+export const openNewMatchPopup = (target: MatchCard) => {
   store.dispatch(
-    UIAction.setSuccessModel({
+    UIAction.setNewMatchPopup({
       isOpenning: true,
-      title,
-      message,
+      target,
     })
   );
-  setTimeout(() => {
-    store.dispatch(UIAction.onCloseSuccessModel());
-  }, 3000);
 };
 
 export const openSuccessNotification = (

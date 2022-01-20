@@ -1,8 +1,8 @@
 import {
   CropperData,
+  NewMatchModel,
   NotificationData,
   SocketData,
-  SuccessModel,
   UpdatePopupData,
 } from "../../common/interface/redux/ui";
 export const updateInfoPopupDefault: UpdatePopupData = {
@@ -12,10 +12,8 @@ export const updateInfoPopupDefault: UpdatePopupData = {
   isOpenning: false,
 };
 
-export const successModelDefault: SuccessModel = {
+export const newMatchModelDefault: NewMatchModel = {
   isOpenning: false,
-  message: "",
-  title: "",
 };
 
 export const notificationDefault: NotificationData = {
