@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { MatchCardDto } from 'src/match/dto/match-card.dto';
+import { MatchCardDto } from '../match/dto/match-card.dto';
 import { UserRepository } from '../user/repository/user.repository';
 import { RedisService } from '../utils/redis/redis.service';
 import { MessageDto } from './dto/message.dto';
