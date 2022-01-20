@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { UserState } from "../../common/interface/redux/user";
 import AvatarCircle from "../../component/avatarCircle";
+import { RootState } from "../../store";
 import { getChatList } from "./action";
 import { ChatBox } from "./interface";
 
@@ -12,7 +15,7 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
   isOpenning,
 }) => {
   const [messageList, setMessageList] = useState<ChatBox[]>([]);
-
+  const userState = useSelector<RootState, UserState>((state) => state.user);
   const callApiAndGetMessageList = async (): Promise<ChatBox[]> => {
     return await (
       await getChatList()
@@ -20,9 +23,10 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
   };
   useEffect(() => {
     callApiAndGetMessageList().then((data) => {
-      console.log(data);
       setMessageList([...data]);
+      console.log([...data]);
     });
+
     return () => {};
   }, []);
   if (isOpenning)
@@ -50,7 +54,9 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
                     {messageBox.partner.name}
                   </div>
                   <div className="text-base text-gray-500">
-                    {messageBox.content}
+                    {messageBox.sender.id === userState.data.id
+                      ? "you: " + messageBox.content
+                      : messageBox.content}
                   </div>
                 </div>
               </NavLink>
