@@ -20,7 +20,11 @@ export class ChatService {
     return await this.redisService.setObjectByKey(room, messages, 120);
   }
 
-  async getChat(room: string, page: number, limit: number) {
+  async getChat(
+    room: string,
+    page: number,
+    limit: number,
+  ): Promise<MessageDto[]> {
     let result = await this.redisService.getObjectByKey<MessageListDto>(room);
     if (!result || (result && result.messages.length < (page + 1) * limit)) {
       const messages = await this.messageRepository.findMessagesByRoom(
@@ -62,6 +66,16 @@ export class ChatService {
   async saveMessage(room: string, message: Message) {
     await this.redisService.deleteByKey(room);
     await this.messageRepository.save(message);
+  }
+
+  async getLastMessage(room: string): Promise<Message> {
+    const messages = await this.messageRepository.findMessagesByRoom(
+      room,
+      0,
+      1,
+    );
+
+    return messages[0];
   }
 
   async getChatList(id: string) {

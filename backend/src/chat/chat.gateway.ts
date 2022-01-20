@@ -104,4 +104,16 @@ export class ChatGateway {
   ) {
     client.leave(room);
   }
+
+  @SubscribeMessage(ChatAction.CHAT_SEEN_MESSAGE)
+  async handleSeenMessage(
+    @ConnectedSocket() client: SocketExtend,
+    @MessageBody() room: string,
+  ) {
+    const messages = await this.chatService.getLastMessage(room);
+    if (messages[0].partner.id === client.user.id) {
+      messages[0].seen = true;
+      this.chatService.saveMessage(room, messages);
+    }
+  }
 }
