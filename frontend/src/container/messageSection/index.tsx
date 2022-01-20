@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { chatIo } from "../../common/HOC/socketConnectWrapper";
+import { chatIo, notificationIo } from "../../common/HOC/socketConnectWrapper";
 import { UserState } from "../../common/interface/redux/user";
 import AvatarCircle from "../../component/avatarCircle";
 import {
@@ -35,16 +35,14 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
         setMessageList([...data]);
       });
     });
-    console.log("lisening to update UI...");
     chatIo.on(CHAT_UPDATE_CHAT_LIST, () => {
-      console.log("updating...");
       callApiAndGetMessageList().then((data) => {
         setMessageList([...data]);
       });
     });
     return () => {
       chatIo.off(CHAT_SEEN_MESSAGE);
-      chatIo.off(CHAT_UPDATE_CHAT_LIST);
+      notificationIo.off(CHAT_UPDATE_CHAT_LIST);
     };
   }, []);
   if (isOpenning)

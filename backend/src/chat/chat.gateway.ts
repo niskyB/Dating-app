@@ -97,12 +97,14 @@ export class ChatGateway {
     await this.chatService.saveMessage(data.room, message);
 
     const partnerId = data.room.replace(client.user.id, '').replace('@', '');
-
     this.server
-      .to('notifications-' + partnerId)
+      .to([partnerId, client.user.id])
       .emit(ChatAction.CHAT_UPDATE_CHAT_LIST);
   }
-
+  @SubscribeMessage(ChatAction.CHAT_JOIN_GLOBAL)
+  async joinChatGlobalRoom(@ConnectedSocket() client: SocketExtend) {
+    client.join(client.user.id);
+  }
   @SubscribeMessage(ChatAction.CHAT_LEAVE)
   async handleLeaveChat(
     @ConnectedSocket() client: SocketExtend,

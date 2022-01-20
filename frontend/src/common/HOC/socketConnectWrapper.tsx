@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import {
+  CHAT_JOIN_GLOBAL,
+  CHAT_UPDATE_CHAT_LIST,
   NOTIFICATIONS_CONNECTION,
   NOTIFICATIONS_GET,
   NOTIFICATIONS_NEW_MATCH,
 } from "../../constants/event";
-import { GetMatchedList } from "../../container/matchList/action";
 import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
 import { SocketNotificationPayload } from "../../store/UI/interface";
@@ -37,6 +38,7 @@ const SocketConnectWrapper: React.FunctionComponent<
       notificationIo.on(NOTIFICATIONS_GET, onHandleGetData);
       notificationIo.emit(NOTIFICATIONS_CONNECTION);
       notificationIo.on(NOTIFICATIONS_NEW_MATCH, onHandlePopupNewMatch);
+      chatIo.emit(CHAT_JOIN_GLOBAL);
     }
     return () => {
       notificationIo.off(NOTIFICATIONS_GET);
