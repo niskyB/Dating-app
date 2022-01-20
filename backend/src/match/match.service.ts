@@ -5,7 +5,6 @@ import { NotificationAction } from '../notifications/notifications.actions';
 import { NotificationsGateway } from '../notifications/notifications.gateway';
 import { UserRepository } from '../user/repository/user.repository';
 import { MatchCardDto } from './dto/match-card.dto';
-import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class MatchService {
@@ -90,6 +89,14 @@ export class MatchService {
       //emit to client
       const userNotiId = 'notifications-' + user.id;
       const matchUserNotiId = 'notifications-' + matchUser.id;
+
+      this.notificationsGateway.emitNotiToRoom(
+        NotificationAction.NOTIFICATIONS_NEW_MATCH,
+        userNotiId,
+        plainToClass(MatchCardDto, matchUser, {
+          excludeExtraneousValues: true,
+        }),
+      );
 
       this.notificationsGateway.emitNotiToRoom(
         NotificationAction.NOTIFICATIONS_GET,

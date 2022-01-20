@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { MatchCardDto } from 'src/match/dto/match-card.dto';
+import { MatchCardDto } from '../match/dto/match-card.dto';
 import { UserRepository } from '../user/repository/user.repository';
 import { RedisService } from '../utils/redis/redis.service';
 import { MessageDto } from './dto/message.dto';
@@ -20,7 +20,11 @@ export class ChatService {
     return await this.redisService.setObjectByKey(room, messages, 120);
   }
 
-  async getChat(room: string, page: number, limit: number) {
+  async getChat(
+    room: string,
+    page: number,
+    limit: number,
+  ): Promise<MessageDto[]> {
     let result = await this.redisService.getObjectByKey<MessageListDto>(room);
     if (!result || (result && result.messages.length < (page + 1) * limit)) {
       const messages = await this.messageRepository.findMessagesByRoom(
@@ -61,7 +65,24 @@ export class ChatService {
 
   async saveMessage(room: string, message: Message) {
     await this.redisService.deleteByKey(room);
+    await this.redisService.deleteByKey('lastMessage-' + room);
     await this.messageRepository.save(message);
+  }
+
+  async getLastMessage(room: string): Promise<Message> {
+    let result = await this.redisService.getObjectByKey<Message>(
+      'lastMessage-' + room,
+    );
+    if (!result) {
+      const messages = await this.messageRepository.findMessagesByRoom(
+        room,
+        0,
+        1,
+      );
+      result = messages[0];
+    }
+
+    return result;
   }
 
   async getChatList(id: string) {

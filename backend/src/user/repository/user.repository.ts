@@ -39,6 +39,10 @@ export class UserRepository extends RepositoryService<User> {
       .leftJoinAndSelect('user.disLike', 'disLike')
       .leftJoinAndSelect('user.matchList', 'matchList')
       .leftJoinAndSelect('user.findOptions', 'findOptions')
+      .leftJoinAndSelect('user.highlightImgs', 'userId')
+      .leftJoinAndSelect('user.showOptions', 'showOptionsId')
+      .leftJoinAndSelect('user.findOptions', 'findOptionsId')
+      .leftJoinAndSelect('user.hobbies', 'hobbies')
       .getOne();
   }
 

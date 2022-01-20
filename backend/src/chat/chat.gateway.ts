@@ -76,6 +76,8 @@ export class ChatGateway {
       );
     }
 
+    const lastMessage = await this.chatService.getLastMessage(data.room);
+
     const message = await this.chatService.createMessage(
       data.room,
       data.content,
@@ -95,6 +97,10 @@ export class ChatGateway {
     this.server.to(data.room).emit(ChatAction.CHAT_RECEIVE, messageDto);
 
     await this.chatService.saveMessage(data.room, message);
+
+    if (!lastMessage) {
+      this.server.to(data.room).emit(ChatAction.CHAT_UPDATE_CHAT_LIST);
+    }
   }
 
   @SubscribeMessage(ChatAction.CHAT_LEAVE)
@@ -103,5 +109,17 @@ export class ChatGateway {
     @MessageBody() room: string,
   ) {
     client.leave(room);
+  }
+
+  @SubscribeMessage(ChatAction.CHAT_SEEN_MESSAGE)
+  async handleSeenMessage(
+    @ConnectedSocket() client: SocketExtend,
+    @MessageBody() room: string,
+  ) {
+    const messages = await this.chatService.getLastMessage(room);
+    if (messages[0].partner.id === client.user.id) {
+      messages[0].seen = true;
+      this.chatService.saveMessage(room, messages);
+    }
   }
 }
