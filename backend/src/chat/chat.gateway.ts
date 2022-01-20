@@ -96,8 +96,10 @@ export class ChatGateway {
 
     await this.chatService.saveMessage(data.room, message);
 
+    const partnerId = data.room.replace(client.user.id, '').replace('@', '');
+
     this.server
-      .to('notifications-' + client.user.id)
+      .to('notifications-' + partnerId)
       .emit(ChatAction.CHAT_UPDATE_CHAT_LIST);
   }
 
