@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/outline";
+import { HeartIcon } from "@heroicons/react/solid";
 interface SuccessModelProps {
   isOpenning: boolean;
   title: string;
@@ -15,7 +15,7 @@ const SuccessModel: React.FunctionComponent<SuccessModelProps> = ({
   onCloseSuccessModel,
 }) => {
   return (
-    <Transition.Root show={isOpenning} as={Fragment}>
+    <Transition.Root show={true} as={Fragment}>
       <Dialog
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
@@ -31,7 +31,7 @@ const SuccessModel: React.FunctionComponent<SuccessModelProps> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" />
+            <Dialog.Overlay className="fixed inset-0 transition-opacity bg-opacity-75 bg-black/80" />
           </Transition.Child>
 
           <span
@@ -49,34 +49,49 @@ const SuccessModel: React.FunctionComponent<SuccessModelProps> = ({
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
-              <div>
-                <div className="flex items-center justify-center w-12 h-12 mx-auto bg-green-100 rounded-full">
-                  <CheckIcon
-                    className="w-6 h-6 text-green-600"
-                    aria-hidden="true"
-                  />
+            <div className="inline-block w-auto px-10 py-10 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:align-middle ">
+              <div className="flex flex-col items-center justify-between ">
+                <h2 className="font-serif text-2xl italic font-bold">
+                  It's a match !
+                </h2>
+                <p className="mt-2 text-base font-semibold text-gray-500">
+                  You and Duc have liked each other!
+                </p>
+                <div className="flex items-center gap-5 mt-5">
+                  <div
+                    className="w-32 h-32 rounded-full"
+                    style={{
+                      backgroundImage: `url("https://scontent.fdad2-1.fna.fbcdn.net/v/t1.6435-9/205956104_2751433955079159_2840020984542922686_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=ZU5tJJPbd40AX8CUE3j&_nc_ht=scontent.fdad2-1.fna&oh=00_AT-_5NkBfZC9vA-qtVPYBtioiuvWgmF1dfzPWzftrMM1og&oe=621077E8") `,
+                      backgroundSize: "cover",
+                      backgroundPosition: "50% 50%",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  ></div>
+                  <HeartIcon className="w-16 h-16 text-red-500" />
+                  <div
+                    className="w-32 h-32 rounded-full"
+                    style={{
+                      backgroundImage: `url("https://scontent.fdad2-1.fna.fbcdn.net/v/t1.6435-9/205956104_2751433955079159_2840020984542922686_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=ZU5tJJPbd40AX8CUE3j&_nc_ht=scontent.fdad2-1.fna&oh=00_AT-_5NkBfZC9vA-qtVPYBtioiuvWgmF1dfzPWzftrMM1og&oe=621077E8") `,
+                      backgroundSize: "cover",
+                      backgroundPosition: "50% 50%",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  ></div>
                 </div>
-                <div className="mt-3 text-center sm:mt-5">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
+                <div className="flex w-full gap-5 mt-5">
+                  <button
+                    type="button"
+                    className="w-1/2 px-3 py-2 text-sm font-medium leading-4 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
-                    {title}
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">{message}</p>
-                  </div>
+                    I'm not ready yet
+                  </button>
+                  <button
+                    type="button"
+                    className="w-1/2 px-3 py-2 text-sm font-medium leading-4 text-white bg-red-400 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Chat now!
+                  </button>
                 </div>
-              </div>
-              <div className="mt-5 sm:mt-6">
-                <button
-                  type="button"
-                  className="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                  onClick={() => onCloseSuccessModel()}
-                >
-                  Go back to dashboard
-                </button>
               </div>
             </div>
           </Transition.Child>
