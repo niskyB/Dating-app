@@ -21,24 +21,23 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
 }) => {
   const [messageList, setMessageList] = useState<ChatBox[]>([]);
   const userState = useSelector<RootState, UserState>((state) => state.user);
-  const callApiAndGetMessageList = async (): Promise<ChatBox[]> => {
-    return await (
-      await getChatList()
-    ).data.data;
+  const callApiAndGetMessageList = async () => {
+    const result = await (await getChatList()).data.data;
+    console.log(new Date().getTime());
+    setMessageList(
+      [...result].sort(
+        (a, b) =>
+          new Date(b.createDate).getTime() - new Date(a.createDate).getTime()
+      )
+    );
   };
   useEffect(() => {
-    callApiAndGetMessageList().then((data) => {
-      setMessageList([...data]);
-    });
+    callApiAndGetMessageList();
     chatIo.on(CHAT_SEEN_MESSAGE, () => {
-      callApiAndGetMessageList().then((data) => {
-        setMessageList([...data]);
-      });
+      callApiAndGetMessageList();
     });
     chatIo.on(CHAT_UPDATE_CHAT_LIST, () => {
-      callApiAndGetMessageList().then((data) => {
-        setMessageList([...data]);
-      });
+      callApiAndGetMessageList();
     });
     return () => {
       chatIo.off(CHAT_SEEN_MESSAGE);
