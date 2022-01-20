@@ -5,4 +5,5 @@ export enum ChatAction {
   CHAT_GET = 'get-message',
   CHAT_LEAVE = 'leave-chat',
   CHAT_SEEN_MESSAGE = 'seen-message',
+  CHAT_UPDATE_CHAT_LIST = 'update-chatList',
 }

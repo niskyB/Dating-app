@@ -65,17 +65,24 @@ export class ChatService {
 
   async saveMessage(room: string, message: Message) {
     await this.redisService.deleteByKey(room);
+    await this.redisService.deleteByKey('lastMessage-' + room);
     await this.messageRepository.save(message);
   }
 
   async getLastMessage(room: string): Promise<Message> {
-    const messages = await this.messageRepository.findMessagesByRoom(
-      room,
-      0,
-      1,
+    let result = await this.redisService.getObjectByKey<Message>(
+      'lastMessage-' + room,
     );
+    if (!result) {
+      const messages = await this.messageRepository.findMessagesByRoom(
+        room,
+        0,
+        1,
+      );
+      result = messages[0];
+    }
 
-    return messages[0];
+    return result;
   }
 
   async getChatList(id: string) {
