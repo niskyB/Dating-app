@@ -53,7 +53,14 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
                   <div className="text-lg font-bold tracking-wider ">
                     {messageBox.partner.name}
                   </div>
-                  <div className="text-base text-gray-500">
+                  <div
+                    className={`text-base text-gray-500 ${
+                      messageBox.sender.id !== userState.data.id &&
+                      messageBox.seen === false
+                        ? "font-extrabold text-black"
+                        : " "
+                    }`}
+                  >
                     {messageBox.sender.id === userState.data.id
                       ? "you: " + messageBox.content
                       : messageBox.content}
