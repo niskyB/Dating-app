@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { chatIo } from "../../common/HOC/socketConnectWrapper";
+import useInterval from "../../common/hook/useInterval";
 import useMediaQuery from "../../common/hook/useMediaQuery";
 import { UserState } from "../../common/interface/redux/user";
 import AvatarCircle from "../../component/avatarCircle";
@@ -12,6 +13,7 @@ import {
   CHAT_JOIN,
   CHAT_LEAVE,
   CHAT_RECEIVE,
+  CHAT_SEEN_MESSAGE,
   CHAT_SEND,
 } from "../../constants/event";
 import { RootState } from "../../store";
@@ -51,23 +53,31 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
     }
   };
 
+  useInterval(() => {
+    chatIo.emit(CHAT_SEEN_MESSAGE, room);
+  }, 1000);
+
+  //get chat user and set seen message
   useEffect(() => {
     if (partnerId) setRoom(getRoomId(userState.data.id, partnerId));
-
     getChatUserData();
+
     return () => {};
   }, [partnerId, userState.data.id]);
 
   useEffect(() => {
     chatIo.emit(CHAT_JOIN, partnerId);
+    chatIo.emit(CHAT_SEEN_MESSAGE, room);
     chatIo.emit(CHAT_GET, {
       room,
       page: 0,
     });
+
     chatIo.on(CHAT_GET, (data: Message[]) => {
       setMessages(data.reverse());
       scrollToBottom();
     });
+
     chatIo.on(CHAT_RECEIVE, (data: Message) => {
       if (data.room === room) {
         setMessages((prev) => [...prev, data]);

@@ -37,7 +37,6 @@ export class NotificationsGateway {
     const user = await this.userRepository.findOneByField('id', client.user.id);
     const roomName = 'notifications-' + client.user.id;
     client.join(roomName);
-
     console.log(user.name, 'join the room!');
     const noti = await this.notificationsService.getNoti(client.user.id);
     this.server
