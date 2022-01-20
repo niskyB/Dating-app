@@ -6,19 +6,19 @@ import { UserState } from "../../common/interface/redux/user";
 import CropperBox from "../cropper";
 import LoadingAnimation from "../../component/loading";
 import Notification from "../../component/notification";
-import SuccessModel from "../../component/successModel";
 import { contentRoutes } from "../../constants/route";
 import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
 import { renderHelper } from "../../utils/renderHelper";
 import SideBar from "../sidebar";
+import NewMatchModel from "../newMatchModel";
 
 function App() {
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
   const userState = useSelector<RootState, UserState>((state) => state.user);
 
-  const onCloseSuccessModel = () => {
-    store.dispatch(UIAction.onCloseSuccessModel());
+  const onCloseNewMatchPopup = () => {
+    store.dispatch(UIAction.onCloseNewMatchPopup());
   };
   const onCloseNotification = () => {
     store.dispatch(UIAction.onCloseNotification());
@@ -26,9 +26,9 @@ function App() {
 
   return (
     <>
-      <div className="flex text-4xl flex-col w-screen h-screen lg:flex-row">
+      <div className="flex flex-col w-screen h-screen text-4xl lg:flex-row">
         {userState.isLogin && <SideBar />}
-        <div className="justify-center w-full flex-auto lg:h-screen bg-gray-50 align-center">
+        <div className="justify-center flex-auto w-full lg:h-screen bg-gray-50 align-center">
           <Suspense fallback={<LoadingAnimation isLoading={true} />}>
             <Routes>{renderHelper(contentRoutes, true)}</Routes>
           </Suspense>
@@ -41,11 +41,10 @@ function App() {
         message={UIState.notification.message}
         onCloseNotification={onCloseNotification}
       />
-      <SuccessModel
-        isOpenning={UIState.successModel.isOpenning}
-        message={UIState.successModel.message}
-        title={UIState.successModel.title}
-        onCloseSuccessModel={onCloseSuccessModel}
+      <NewMatchModel
+        isOpenning={UIState.newMatchModel.isOpenning}
+        target={UIState.newMatchModel.target}
+        onCloseNewMatchPopup={onCloseNewMatchPopup}
       />
       <CropperBox />
       <LoadingAnimation isLoading={UIState.isLoading} />

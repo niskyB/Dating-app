@@ -1,3 +1,6 @@
+import { MatchCard } from "../../../component/card/interface.dto";
+import { UserDataDTO } from "../dto/user";
+
 export interface UpdatePopupData {
   isOpenning: boolean;
   name: string;
@@ -10,10 +13,9 @@ export interface UpdatePopupData {
   onConfirm?: () => any;
   errorMessage?: string;
 }
-export interface SuccessModel {
+export interface NewMatchModel {
   isOpenning: boolean;
-  message: string;
-  title: string;
+  target?: MatchCard;
 }
 export interface CropperData {
   imageUrl: string;
@@ -27,7 +29,7 @@ export interface UIState {
   isMatchOpen: boolean;
   isMessagesOpen: boolean;
   updatePopup: UpdatePopupData;
-  successModel: SuccessModel;
+  newMatchModel: NewMatchModel;
   notification: NotificationData;
   cropper: CropperData;
   isLoading: boolean;
@@ -40,12 +42,6 @@ export enum NotificationStatus {
   ERROR = "ERROR",
 }
 export type NotificationStatusString = keyof typeof NotificationStatus;
-
-export interface SuccessModelData {
-  isOpenning: boolean;
-  title: string;
-  message: string;
-}
 
 export interface NotificationData {
   isOpenning: boolean;

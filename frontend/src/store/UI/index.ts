@@ -1,14 +1,14 @@
 import {
   cropperDefault,
+  newMatchModelDefault,
   notificationDefault,
   socketDefault,
-  successModelDefault,
   updateInfoPopupDefault,
 } from "../defaultData/UI";
 import {
+  NewMatchModel,
   NotificationData,
   SetCropData,
-  SuccessModelData,
   UIState,
   UpdatePopupData,
 } from "../../common/interface/redux/ui";
@@ -22,7 +22,7 @@ const initialState: UIState = {
   isMatchAndChatOpen: false,
   isLoading: false,
   updatePopup: updateInfoPopupDefault,
-  successModel: successModelDefault,
+  newMatchModel: newMatchModelDefault,
   notification: notificationDefault,
   socket: socketDefault,
   cropper: cropperDefault,
@@ -64,19 +64,19 @@ export const UI = createSlice({
         updatePopup: { ...payload },
       };
     },
-    onCloseSuccessModel: (state: UIState) => {
+    onCloseNewMatchPopup: (state: UIState) => {
       return {
         ...state,
-        successModel: successModelDefault,
+        newMatchModel: newMatchModelDefault,
       };
     },
-    setSuccessModel: (
+    setNewMatchPopup: (
       state: UIState,
-      { payload }: ReduxAction<SuccessModelData>
+      { payload }: ReduxAction<NewMatchModel>
     ) => {
       return {
         ...state,
-        successModel: { ...payload },
+        newMatchModel: { ...payload },
       };
     },
     setNotification: (
