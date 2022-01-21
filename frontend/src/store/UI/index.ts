@@ -143,6 +143,15 @@ export const UI = createSlice({
         isMatchAndChatOpen: !state.isMatchAndChatOpen,
       };
     },
+    setNewMessageNoti: (state: UIState, { payload }: ReduxAction<number>) => {
+      return {
+        ...state,
+        socket: {
+          ...state.socket,
+          newMessages: payload,
+        },
+      };
+    },
   },
   extraReducers: (builder) => {},
 });

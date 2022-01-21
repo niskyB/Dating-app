@@ -29,7 +29,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   const [chatUserInfo, setChatUserInfo] = useState<ChatUserDTO>();
   const [room, setRoom] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
-
+  const [chatPage, setChatPage] = useState<number>(0);
   //ref
   const messageBox = useRef<HTMLInputElement>(null);
   const chatBox = useRef<HTMLDivElement>(null);
@@ -61,11 +61,11 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   useEffect(() => {
     if (partnerId) setRoom(getRoomId(userState.data.id, partnerId));
     getChatUserData();
-
     return () => {};
   }, [partnerId, userState.data.id]);
 
   useEffect(() => {
+    setMessages([]);
     chatIo.emit(CHAT_JOIN, partnerId);
     chatIo.emit(CHAT_SEEN_MESSAGE, room);
     chatIo.emit(CHAT_GET, {
@@ -75,7 +75,6 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
 
     chatIo.on(CHAT_GET, (data: Message[]) => {
       setMessages(data.reverse());
-      scrollToBottom();
     });
 
     chatIo.on(CHAT_RECEIVE, (data: Message) => {
@@ -84,7 +83,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
         scrollToBottom();
       }
     });
-
+    scrollToBottom();
     return () => {
       chatIo.off(CHAT_GET);
       chatIo.off(CHAT_RECEIVE);
@@ -106,7 +105,10 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
 
   const scrollToBottom = () => {
     if (chatBox.current) {
-      chatBox.current.scrollTop = chatBox.current?.offsetHeight;
+      const scrollHeight = chatBox.current.scrollHeight;
+      const height = chatBox.current.clientHeight;
+      const maxScrollTop = scrollHeight - height;
+      chatBox.current.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
     }
   };
   return (
@@ -133,18 +135,33 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
       <div className="flex flex-col flex-1 overflow-hidden bg-gray-100">
         <div
           ref={chatBox}
+          onScroll={(e: any) => {
+            if (e.target.scrollTop < 50) {
+              chatIo.emit(CHAT_GET, {
+                room,
+                page: chatPage + 1,
+              });
+              setChatPage(chatPage + 1);
+            }
+          }}
           className="flex flex-col justify-start flex-auto overflow-x-hidden overflow-y-auto"
         >
           {messages.map((chat, index) => {
             if (chat.sender.id === userState.data.id) {
               return (
-                <div className="self-end max-w-[70%] px-5 py-3 mt-5 mr-3 text-xl font-normal text-white bg-blue-500 rounded-3xl">
+                <div
+                  key={chat.id}
+                  className="self-end max-w-[70%] px-5 py-3 mt-5 mr-3 text-xl font-normal text-white bg-blue-500 rounded-3xl"
+                >
                   {chat.content}
                 </div>
               );
             } else {
               return (
-                <div className="self-start max-w-[70%] px-5 py-3 mt-5 ml-3 text-xl font-normal text-black bg-gray-300 rounded-3xl">
+                <div
+                  key={chat.id}
+                  className="self-start max-w-[70%] px-5 py-3 mt-5 ml-3 text-xl font-normal text-black bg-gray-300 rounded-3xl"
+                >
                   {chat.content}
                 </div>
               );

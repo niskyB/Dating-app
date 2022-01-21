@@ -41,6 +41,11 @@ const SideBarNav: React.FunctionComponent<SideBarNavProps> = ({
         onClick={() => store.dispatch(UIAction.openMessagesUI())}
       >
         Messages
+        {UIState.socket.newMessages > 0 && (
+          <div className="absolute -right-4 -top-2 w-5 h-5 bg-[#FA383E] text-[10px] flex items-center justify-center rounded-full text-white">
+            {UIState.socket.newMessages}
+          </div>
+        )}
       </div>
     </>
   );

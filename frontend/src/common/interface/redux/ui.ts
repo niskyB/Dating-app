@@ -24,6 +24,7 @@ export interface CropperData {
 }
 export interface SocketData {
   newMatch: string;
+  newMessages: number;
 }
 export interface UIState {
   isMatchOpen: boolean;
