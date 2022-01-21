@@ -26,25 +26,28 @@ export class ChatService {
     limit: number,
   ): Promise<MessageDto[]> {
     let result = await this.redisService.getObjectByKey<MessageListDto>(room);
+    let currentPage = 0;
 
-    if (!result || (result && result.messages.length < (page + 1) * limit)) {
+    if (result) {
+      currentPage = result.messages.length / limit - 1;
+    }
+
+    // if no data in redis or current page less than required page
+    if (!result || (result && currentPage < page)) {
       const messages = await this.messageRepository.findMessagesByRoom(
         room,
         page * limit,
         limit,
       );
 
-      //happen when there no chat before
-      //if result don't exist and no data on database, then return []
+      // if no data in redis and no data in database
       if (!result && !messages.length) return [];
 
-      //if redis don't have anything, then get data from database
-      if (!result) {
-        result = { messages };
-      } else if (result && messages.length) {
+      // if no data in redis but exist data in database
+      if (!result) result = { messages };
+      // if exist data both in redis and database
+      else if (result && messages.length)
         result.messages = result.messages.concat(messages);
-      }
-
       await this.setChat(room, result);
     }
 
