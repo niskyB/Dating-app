@@ -142,7 +142,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
     }
   };
   return (
-    <div className="fixed inset-0 flex flex-col w-contentWidth break-all h-screen overflow-hidden lg:static ">
+    <div className="fixed inset-0 flex flex-col lg:w-contentWidth h-screen overflow-hidden lg:static ">
       <div className="flex items-center justify-between h-16 px-4 py-2 bg-white sm:px-6">
         <div className="flex flex-row items-center">
           {isMobile && (
@@ -181,7 +181,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
               return (
                 <div
                   key={chat.id}
-                  className="self-end max-w-[70%] px-5 py-3 mt-5 mr-3 text-xl font-normal text-white bg-blue-500 rounded-3xl"
+                  className="self-end max-w-[70%] px-5 py-3 mt-5 mr-3 text-xl font-normal text-white bg-blue-500 rounded-3xl break-all"
                 >
                   {chat.content}
                 </div>
@@ -190,7 +190,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
               return (
                 <div
                   key={chat.id}
-                  className="self-start max-w-[70%] px-5 py-3 mt-5 ml-3 text-xl font-normal text-black bg-gray-300 rounded-3xl"
+                  className="self-start max-w-[70%] px-5 py-3 mt-5 ml-3 text-xl font-normal text-black bg-gray-300 rounded-3xl break-all"
                 >
                   {chat.content}
                 </div>
