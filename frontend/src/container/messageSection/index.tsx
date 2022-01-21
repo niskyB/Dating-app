@@ -52,7 +52,7 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
   }, []);
   if (isOpenning)
     return (
-      <div className="flex flex-col flex-1 overflow-auto">
+      <div className="flex flex-col mt-8 overflow-auto h-matchAndChatHeight">
         {messageList.length > 0 &&
           messageList.map((messageBox) => {
             return (
