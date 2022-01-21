@@ -75,7 +75,7 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
                     {messageBox.partner.name}
                   </div>
                   <div
-                    className={`text-base text-gray-500 ${
+                    className={`text-base text-gray-500  ${
                       messageBox.sender.id !== userState.data.id &&
                       messageBox.seen === false
                         ? "font-extrabold text-black"
@@ -83,8 +83,13 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
                     }`}
                   >
                     {messageBox.sender.id === userState.data.id
-                      ? "you: " + messageBox.content
-                      : messageBox.content}
+                      ? ("you: " + messageBox.content).length < 25
+                        ? "you: " + messageBox.content
+                        : ("you: " + messageBox.content).substring(0, 25) +
+                          "..."
+                      : messageBox.content.length < 25
+                      ? messageBox.content
+                      : messageBox.content.substring(0, 25) + "..."}
                   </div>
                 </div>
               </NavLink>
