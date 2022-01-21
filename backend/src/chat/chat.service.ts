@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
+import { isBuffer } from 'util';
 import { MatchCardDto } from '../match/dto/match-card.dto';
 import { UserRepository } from '../user/repository/user.repository';
 import { RedisService } from '../utils/redis/redis.service';
@@ -27,29 +28,33 @@ export class ChatService {
   ): Promise<MessageDto[]> {
     let result = await this.redisService.getObjectByKey<MessageListDto>(room);
 
-    if (!result || (result && result.messages.length < (page + 1) * limit)) {
+    //if there no data on redis, let it be a default object
+    if (result === null) {
+      result = { messages: [] };
+    }
+    //handle data on redis
+    let currentMaxPage = result.messages.length / limit - 1;
+    const remain = result.messages.length % limit;
+    if (remain > 0) {
+      currentMaxPage += 1;
+    }
+
+    // if current message is not enough for user need, get more message
+    if (currentMaxPage < page) {
       const messages = await this.messageRepository.findMessagesByRoom(
         room,
-        page * limit,
+        result.messages.length,
         limit,
       );
-
-      //happen when there no chat before
-      //if result don't exist and no data on database, then return []
-      if (!result && !messages.length) return [];
-
-      //if redis don't have anything, then get data from database
-      if (!result) {
-        result = { messages };
-      } else if (result && messages.length) {
-        result.messages = result.messages.concat(messages);
-      }
-
+      result.messages = result.messages.concat(messages);
       await this.setChat(room, result);
     }
 
     let messageList = [];
-    for (let i = 0; i < result.messages.length; i++) {
+    for (let i = 0; i < (page + 1) * limit; i++) {
+      if (!result.messages[i]) {
+        break;
+      }
       const sender = plainToClass(MatchCardDto, result.messages[i].user, {
         excludeExtraneousValues: true,
       });

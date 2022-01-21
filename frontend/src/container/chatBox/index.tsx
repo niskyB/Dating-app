@@ -1,5 +1,6 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
-import { useEffect, useRef, useState } from "react";
+import { off } from "process";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { chatIo } from "../../common/HOC/socketConnectWrapper";
@@ -10,6 +11,7 @@ import AvatarCircle from "../../component/avatarCircle";
 import GoBackIcon from "../../component/icon/goBack";
 import {
   CHAT_GET,
+  CHAT_GET_INIT_MESSAGE,
   CHAT_JOIN,
   CHAT_LEAVE,
   CHAT_RECEIVE,
@@ -23,6 +25,7 @@ import { Message } from "./interface";
 import { ChatUserDTO } from "./interface.dto";
 
 interface ChatBoxProps {}
+let maxLength = 0;
 
 const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   //state
@@ -30,6 +33,8 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   const [room, setRoom] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [chatPage, setChatPage] = useState<number>(0);
+  const [isHaveMoreMessage, setisHaveMoreMessage] = useState<boolean>(true);
+
   //ref
   const messageBox = useRef<HTMLInputElement>(null);
   const chatBox = useRef<HTMLDivElement>(null);
@@ -65,31 +70,56 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   }, [partnerId, userState.data.id]);
 
   useEffect(() => {
+    //reset chat option
+    setChatPage(0);
     setMessages([]);
+    setisHaveMoreMessage(true);
+    //join room
     chatIo.emit(CHAT_JOIN, partnerId);
+    //check that seen message when component is render
     chatIo.emit(CHAT_SEEN_MESSAGE, room);
+    //get the first page
     chatIo.emit(CHAT_GET, {
       room,
       page: 0,
     });
-
+    //listen to get message
     chatIo.on(CHAT_GET, (data: Message[]) => {
-      setMessages(data.reverse());
-    });
+      if (data.length === maxLength) {
+        return;
+      }
+      if (data.length > maxLength) {
+        maxLength = data.length;
+      }
 
+      setMessages(data.reverse());
+      if (chatBox.current) {
+        chatBox.current.scrollTop = 700;
+      }
+    });
+    chatIo.on(CHAT_GET_INIT_MESSAGE, (data: Message[]) => {
+      if (data.length > maxLength) {
+        maxLength = data.length;
+      }
+      setMessages(data.reverse());
+      scrollToBottom();
+    });
+    //listen to get new message
     chatIo.on(CHAT_RECEIVE, (data: Message) => {
       if (data.room === room) {
         setMessages((prev) => [...prev, data]);
         scrollToBottom();
       }
     });
-    scrollToBottom();
+    //unscribe
     return () => {
       chatIo.off(CHAT_GET);
       chatIo.off(CHAT_RECEIVE);
       chatIo.emit(CHAT_LEAVE, room);
+      chatIo.off(CHAT_GET_INIT_MESSAGE);
     };
   }, [userState.data.id, partnerId, room]);
+
   const onSendMessage = () => {
     if (messageBox.current) {
       //send message
@@ -136,7 +166,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
         <div
           ref={chatBox}
           onScroll={(e: any) => {
-            if (e.target.scrollTop < 50) {
+            if (isHaveMoreMessage && e.target.scrollTop === 0) {
               chatIo.emit(CHAT_GET, {
                 room,
                 page: chatPage + 1,
