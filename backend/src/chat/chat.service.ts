@@ -22,21 +22,16 @@ export class ChatService {
 
   async getChat(
     room: string,
-    page: number,
+    skip: number,
     limit: number,
   ): Promise<MessageDto[]> {
     let result = await this.redisService.getObjectByKey<MessageListDto>(room);
-    let currentPage = 0;
-
-    if (result) {
-      currentPage = result.messages.length / limit - 1;
-    }
 
     // if no data in redis or current page less than required page
-    if (!result || (result && currentPage < page)) {
+    if (!result || (result && result.messages.length === skip)) {
       const messages = await this.messageRepository.findMessagesByRoom(
         room,
-        page * limit,
+        skip,
         limit,
       );
 
