@@ -97,14 +97,17 @@ export class ChatGateway {
     await this.chatService.saveMessage(data.room, message);
 
     const partnerId = data.room.replace(client.user.id, '').replace('@', '');
+
     this.server
       .to([partnerId, client.user.id])
       .emit(ChatAction.CHAT_UPDATE_CHAT_LIST);
   }
+
   @SubscribeMessage(ChatAction.CHAT_JOIN_GLOBAL)
   async joinChatGlobalRoom(@ConnectedSocket() client: SocketExtend) {
     client.join(client.user.id);
   }
+
   @SubscribeMessage(ChatAction.CHAT_LEAVE)
   async handleLeaveChat(
     @ConnectedSocket() client: SocketExtend,
@@ -121,7 +124,7 @@ export class ChatGateway {
     const messages = await this.chatService.getLastMessage(room);
     if (messages && !messages.seen && messages.user.id !== client.user.id) {
       messages.seen = true;
-      this.chatService.saveMessage(room, messages);
+      await this.chatService.saveMessage(room, messages);
       this.server.to(room).emit(ChatAction.CHAT_SEEN_MESSAGE);
     }
   }
