@@ -13,6 +13,7 @@ module.exports = {
         "less1/3": "31%",
         contentHeight: "calc(100vh - 64px )",
         matchAndChatHeight: "calc(100vh - 64px - 56px - 32px)",
+        contentWidth: "calc(100vw - 384px)",
       },
       colors: {
         "radical-red": {
