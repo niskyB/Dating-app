@@ -29,7 +29,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   const [chatUserInfo, setChatUserInfo] = useState<ChatUserDTO>();
   const [room, setRoom] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
-
+  const [chatPage, setChatPage] = useState<number>(0);
   //ref
   const messageBox = useRef<HTMLInputElement>(null);
   const chatBox = useRef<HTMLDivElement>(null);
@@ -65,6 +65,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   }, [partnerId, userState.data.id]);
 
   useEffect(() => {
+    setMessages([]);
     chatIo.emit(CHAT_JOIN, partnerId);
     chatIo.emit(CHAT_SEEN_MESSAGE, room);
     chatIo.emit(CHAT_GET, {
@@ -74,17 +75,15 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
 
     chatIo.on(CHAT_GET, (data: Message[]) => {
       setMessages(data.reverse());
-      scrollToBottom();
     });
 
     chatIo.on(CHAT_RECEIVE, (data: Message) => {
       if (data.room === room) {
         setMessages((prev) => [...prev, data]);
-
         scrollToBottom();
       }
     });
-
+    scrollToBottom();
     return () => {
       chatIo.off(CHAT_GET);
       chatIo.off(CHAT_RECEIVE);
@@ -136,6 +135,15 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
       <div className="flex flex-col flex-1 overflow-hidden bg-gray-100">
         <div
           ref={chatBox}
+          onScroll={(e: any) => {
+            if (e.target.scrollTop < 50) {
+              chatIo.emit(CHAT_GET, {
+                room,
+                page: chatPage + 1,
+              });
+              setChatPage(chatPage + 1);
+            }
+          }}
           className="flex flex-col justify-start flex-auto overflow-x-hidden overflow-y-auto"
         >
           {messages.map((chat, index) => {

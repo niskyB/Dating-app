@@ -101,10 +101,12 @@ export class ChatGateway {
       .to([partnerId, client.user.id])
       .emit(ChatAction.CHAT_UPDATE_CHAT_LIST);
   }
+
   @SubscribeMessage(ChatAction.CHAT_JOIN_GLOBAL)
   async joinChatGlobalRoom(@ConnectedSocket() client: SocketExtend) {
     client.join(client.user.id);
   }
+
   @SubscribeMessage(ChatAction.CHAT_LEAVE)
   async handleLeaveChat(
     @ConnectedSocket() client: SocketExtend,
