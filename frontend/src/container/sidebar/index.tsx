@@ -17,7 +17,7 @@ const SideBar: React.FunctionComponent<SideBarProps> = () => {
 
   return (
     <div
-      className={`flex flex-col flex-start lg:w-full lg:h-screen w-screen  lg:max-w-sm bg-white`}
+      className={`flex flex-col flex-start lg:w-full lg:h-screen w-screen lg:max-w-sm bg-white`}
     >
       <TopSideBar isLogin={userState.isLogin} />
       <div

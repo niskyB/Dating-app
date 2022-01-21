@@ -142,7 +142,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
     }
   };
   return (
-    <div className="fixed inset-0 flex flex-col flex-1 h-screen overflow-hidden lg:static ">
+    <div className="fixed inset-0 flex flex-col w-contentWidth break-all h-screen overflow-hidden lg:static ">
       <div className="flex items-center justify-between h-16 px-4 py-2 bg-white sm:px-6">
         <div className="flex flex-row items-center">
           {isMobile && (
