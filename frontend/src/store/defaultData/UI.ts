@@ -31,4 +31,5 @@ export const cropperDefault: CropperData = {
 
 export const socketDefault: SocketData = {
   newMatch: "0",
+  newMessages: 0,
 };

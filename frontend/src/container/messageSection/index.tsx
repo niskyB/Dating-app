@@ -8,7 +8,8 @@ import {
   CHAT_SEEN_MESSAGE,
   CHAT_UPDATE_CHAT_LIST,
 } from "../../constants/event";
-import { RootState } from "../../store";
+import { RootState, store } from "../../store";
+import { UIAction } from "../../store/UI";
 import { getChatList } from "./action";
 import { ChatBox } from "./interface";
 
@@ -21,24 +22,28 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
 }) => {
   const [messageList, setMessageList] = useState<ChatBox[]>([]);
   const userState = useSelector<RootState, UserState>((state) => state.user);
-  const callApiAndGetMessageList = async (): Promise<ChatBox[]> => {
-    return await (
-      await getChatList()
-    ).data.data;
+  const callApiAndGetMessageList = async () => {
+    const result = await (await getChatList()).data.data;
+    let newMessage = 0;
+    result.forEach((item) => {
+      if (item.sender.id !== userState.data.id && item.seen === false)
+        newMessage += 1;
+    });
+    store.dispatch(UIAction.setNewMessageNoti(newMessage));
+    setMessageList(
+      [...result].sort(
+        (a, b) =>
+          new Date(b.createDate).getTime() - new Date(a.createDate).getTime()
+      )
+    );
   };
   useEffect(() => {
-    callApiAndGetMessageList().then((data) => {
-      setMessageList([...data]);
-    });
+    callApiAndGetMessageList();
     chatIo.on(CHAT_SEEN_MESSAGE, () => {
-      callApiAndGetMessageList().then((data) => {
-        setMessageList([...data]);
-      });
+      callApiAndGetMessageList();
     });
     chatIo.on(CHAT_UPDATE_CHAT_LIST, () => {
-      callApiAndGetMessageList().then((data) => {
-        setMessageList([...data]);
-      });
+      callApiAndGetMessageList();
     });
     return () => {
       chatIo.off(CHAT_SEEN_MESSAGE);
@@ -47,7 +52,7 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
   }, []);
   if (isOpenning)
     return (
-      <div className="flex flex-col flex-1 overflow-auto">
+      <div className="flex flex-col mt-8 overflow-auto h-matchAndChatHeight">
         {messageList.length > 0 &&
           messageList.map((messageBox) => {
             return (

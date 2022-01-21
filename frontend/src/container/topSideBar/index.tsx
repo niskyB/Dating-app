@@ -37,17 +37,19 @@ const TopSideBar: React.FunctionComponent<TopSideBarProps> = ({ isLogin }) => {
           </div>
           <div className="flex">
             <Routes>
-              {["/me", "setting", "/matchandchat"].map((link) => (
-                <Route
-                  key={link}
-                  path={link}
-                  element={
-                    <Link to="/">
-                      <HomeIcon className="w-8 h-8 text-white duration-200 cursor-pointer hover:scale-125" />
-                    </Link>
-                  }
-                />
-              ))}
+              {["/me", "setting", "/matchandchat", "/messages/*"].map(
+                (link) => (
+                  <Route
+                    key={link}
+                    path={link}
+                    element={
+                      <Link to="/">
+                        <HomeIcon className="w-8 h-8 text-white duration-200 cursor-pointer hover:scale-125" />
+                      </Link>
+                    }
+                  />
+                )
+              )}
             </Routes>
 
             <Link to={"/setting"} className="ml-2 text-white">

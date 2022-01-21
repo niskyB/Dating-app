@@ -51,7 +51,7 @@ const ProfileHobbies: React.FunctionComponent<ProfileHobbiesProps> = ({
           Hobbies
         </label>
         <div
-          className="text-base text-blue-500 font-semibold cursor-pointer"
+          className="text-base font-semibold text-blue-500 cursor-pointer"
           onClick={onAddHobby}
         >
           Add
@@ -62,6 +62,7 @@ const ProfileHobbies: React.FunctionComponent<ProfileHobbiesProps> = ({
           if (index <= 6) {
             return (
               <Badge
+                key={hobby.id}
                 value={hobby.hobbies}
                 onRemove={() => onRemoveHobby(hobby.id)}
               />
