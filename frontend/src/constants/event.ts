@@ -11,3 +11,4 @@ export const CHAT_LEAVE = "leave-chat";
 export const CHAT_SEEN_MESSAGE = "seen-message";
 export const CHAT_UPDATE_CHAT_LIST = "update-chatList";
 export const CHAT_JOIN_GLOBAL = "CHAT_JOIN_GLOBAL";
+export const CHAT_GET_INIT_MESSAGE = "get-init-message";

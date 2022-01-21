@@ -58,8 +58,13 @@ export class ChatGateway {
       data.page,
       LIMIT,
     );
-
-    this.server.to(data.room).emit(ChatAction.CHAT_GET, messages);
+    if (data.page === 0) {
+      this.server
+        .to(data.room)
+        .emit(ChatAction.CHAT_GET_INIT_MESSAGE, messages);
+    } else {
+      this.server.to(data.room).emit(ChatAction.CHAT_GET, messages);
+    }
   }
 
   @SubscribeMessage(ChatAction.CHAT_SEND)
@@ -97,7 +102,6 @@ export class ChatGateway {
     await this.chatService.saveMessage(data.room, message);
 
     const partnerId = data.room.replace(client.user.id, '').replace('@', '');
-
     this.server
       .to([partnerId, client.user.id])
       .emit(ChatAction.CHAT_UPDATE_CHAT_LIST);
