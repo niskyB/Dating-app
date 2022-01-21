@@ -141,13 +141,19 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
           {messages.map((chat, index) => {
             if (chat.sender.id === userState.data.id) {
               return (
-                <div className="self-end max-w-[70%] px-5 py-3 mt-5 mr-3 text-xl font-normal text-white bg-blue-500 rounded-3xl">
+                <div
+                  key={chat.id}
+                  className="self-end max-w-[70%] px-5 py-3 mt-5 mr-3 text-xl font-normal text-white bg-blue-500 rounded-3xl"
+                >
                   {chat.content}
                 </div>
               );
             } else {
               return (
-                <div className="self-start max-w-[70%] px-5 py-3 mt-5 ml-3 text-xl font-normal text-black bg-gray-300 rounded-3xl">
+                <div
+                  key={chat.id}
+                  className="self-start max-w-[70%] px-5 py-3 mt-5 ml-3 text-xl font-normal text-black bg-gray-300 rounded-3xl"
+                >
                   {chat.content}
                 </div>
               );
