@@ -8,7 +8,8 @@ import {
   CHAT_SEEN_MESSAGE,
   CHAT_UPDATE_CHAT_LIST,
 } from "../../constants/event";
-import { RootState } from "../../store";
+import { RootState, store } from "../../store";
+import { UIAction } from "../../store/UI";
 import { getChatList } from "./action";
 import { ChatBox } from "./interface";
 
@@ -23,7 +24,12 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
   const userState = useSelector<RootState, UserState>((state) => state.user);
   const callApiAndGetMessageList = async () => {
     const result = await (await getChatList()).data.data;
-    console.log(new Date().getTime());
+    let newMessage = 0;
+    result.forEach((item) => {
+      if (item.sender.id !== userState.data.id && item.seen === false)
+        newMessage += 1;
+    });
+    store.dispatch(UIAction.setNewMessageNoti(newMessage));
     setMessageList(
       [...result].sort(
         (a, b) =>

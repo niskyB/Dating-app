@@ -61,7 +61,6 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   useEffect(() => {
     if (partnerId) setRoom(getRoomId(userState.data.id, partnerId));
     getChatUserData();
-
     return () => {};
   }, [partnerId, userState.data.id]);
 
@@ -81,6 +80,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
     chatIo.on(CHAT_RECEIVE, (data: Message) => {
       if (data.room === room) {
         setMessages((prev) => [...prev, data]);
+
         scrollToBottom();
       }
     });
@@ -106,7 +106,10 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
 
   const scrollToBottom = () => {
     if (chatBox.current) {
-      chatBox.current.scrollTop = chatBox.current?.offsetHeight;
+      const scrollHeight = chatBox.current.scrollHeight;
+      const height = chatBox.current.clientHeight;
+      const maxScrollTop = scrollHeight - height;
+      chatBox.current.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
     }
   };
   return (

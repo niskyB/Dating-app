@@ -121,7 +121,7 @@ export class ChatGateway {
     const messages = await this.chatService.getLastMessage(room);
     if (messages && !messages.seen && messages.user.id !== client.user.id) {
       messages.seen = true;
-      this.chatService.saveMessage(room, messages);
+      await this.chatService.saveMessage(room, messages);
       this.server.to(room).emit(ChatAction.CHAT_SEEN_MESSAGE);
     }
   }
