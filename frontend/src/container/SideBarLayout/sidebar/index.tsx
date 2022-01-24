@@ -1,13 +1,13 @@
 import { useSelector } from "react-redux";
-import NotLoginMessage from "../../component/notLogin";
+import NotLoginMessage from "../../../component/notLogin";
 import TopSideBar from "../topSideBar";
-import { UserState } from "../../common/interface/redux/user";
-import { RootState } from "../../store";
+import { UserState } from "../../../common/interface/redux/user";
+import { RootState } from "../../../store";
 import { Routes } from "react-router-dom";
-import { renderHelper } from "../../utils/renderHelper";
-import { sideBarRoute } from "../../constants/route";
+import { renderHelper } from "../../../utils/renderHelper";
+import { sideBarRoute } from "../../../constants/route";
 import { Suspense } from "react";
-import LoadingAnimation from "../../component/loading";
+import LoadingAnimation from "../../../component/loading";
 import MatchAndChatDesktop from "../matchAndChatDesktop";
 
 interface SideBarProps {}

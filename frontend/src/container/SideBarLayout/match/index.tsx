@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from "react";
-import HeartIcon from "../../component/icon/heart";
-import XIcon from "../../component/icon/x";
+import HeartIcon from "../../../component/icon/heart";
+import XIcon from "../../../component/icon/x";
 import TinderCard from "react-tinder-card";
-import Card from "../../component/card";
-import MatchWrapper from "../../component/matchWrapper";
-import { showOptionsDefault } from "../../store/defaultData/user";
+import Card from "../../../component/card";
+import MatchWrapper from "../../../component/matchWrapper";
+import { showOptionsDefault } from "../../../store/defaultData/user";
 import {
   dislikeCard,
   getMatchList,
   likeCard,
   resetDislikeList,
 } from "./action";
-import { MatchCard } from "../../component/card/interface.dto";
-import { store } from "../../store";
-import { UIAction } from "../../store/UI";
-import { timeDelay } from "../../constants/loading";
+import { MatchCard } from "../../../component/card/interface.dto";
+import { store } from "../../../store";
+import { UIAction } from "../../../store/UI";
+import { timeDelay } from "../../../constants/loading";
 import { DirectionString } from "./interface";
-import { openWarningNotification } from "../../utils/notificationHelper";
-import useInterval from "../../common/hook/useInterval";
+import { openWarningNotification } from "../../../utils/notificationHelper";
+import useInterval from "../../../common/hook/useInterval";
 interface MatchPageProps {}
 
 const MatchPage: React.FunctionComponent<MatchPageProps> = () => {

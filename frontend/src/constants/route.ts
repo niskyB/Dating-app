@@ -1,15 +1,14 @@
 import { lazy } from "react";
 import EmptyComponent from "../component/emptyComponent";
-import MatchAndChatDesktop from "../container/matchAndChatDesktop";
 //lazy import
 const MatchAndChatMobile = lazy(
-  () => import("../container/matchAndChatMobile")
+  () => import("../container/SideBarLayout/matchAndChatMobile")
 );
 const PreviewProfile = lazy(() => import("../container/previewProfile"));
 const ChatBox = lazy(() => import("../container/chatBox"));
 const LoginPage = lazy(() => import("../container/login"));
 const RegisterPage = lazy(() => import("../container/register"));
-const MatchPage = lazy(() => import("../container/match"));
+const MatchPage = lazy(() => import("../container/SideBarLayout/match"));
 const Setting = lazy(() => import("../container/setting"));
 const MyProfile = lazy(() => import("../container/myProfile"));
 export interface route {
@@ -42,11 +41,6 @@ export const contentRoutes: route[] = [
     isMobileRoute: true,
   },
   {
-    link: "/",
-    component: MatchPage,
-    isLoginRequire: true,
-  },
-  {
     link: "/*",
     component: MatchPage,
     isLoginRequire: true,
@@ -66,6 +60,12 @@ export const sideBarRoute: route[] = [
   },
   {
     link: "/matchandchat",
+    component: MatchAndChatMobile,
+    isLoginRequire: true,
+    isMobileRoute: true,
+  },
+  {
+    link: "/",
     component: MatchAndChatMobile,
     isLoginRequire: true,
     isMobileRoute: true,

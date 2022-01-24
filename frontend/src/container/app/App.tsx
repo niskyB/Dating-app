@@ -10,8 +10,8 @@ import { contentRoutes } from "../../constants/route";
 import { RootState, store } from "../../store";
 import { UIAction } from "../../store/UI";
 import { renderHelper } from "../../utils/renderHelper";
-import SideBar from "../sidebar";
 import NewMatchModel from "../newMatchModel";
+import SideBar from "../SideBarLayout/sidebar";
 
 function App() {
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
