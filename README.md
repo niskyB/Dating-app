@@ -10,9 +10,10 @@ This website is an online book store which provides an online shopping cart for 
 
 - ### Action
 
-  - Login, register new account and logout
-  - Change password
+  - Login, register and logout
   - Update user information
+  - Like, dislike user profile
+  - Chat (after matching)
 
 ## Technology
 
