@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
-import { UIState } from "../../common/interface/redux/ui";
-import MatchList from "../matchList";
-import MessageSection from "../messageSection";
+import { UIState } from "../../../common/interface/redux/ui";
+import MatchList from "../../matchList";
+import MessageSection from "../../messageSection";
 import SideBarNav from "../sideBarNav";
-import { RootState } from "../../store";
+import { RootState } from "../../../store";
 
 interface MatchAndChatNavProps {}
 

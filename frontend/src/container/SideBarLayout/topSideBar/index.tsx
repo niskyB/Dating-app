@@ -1,11 +1,11 @@
 import { ChatIcon, HomeIcon } from "@heroicons/react/solid";
 import { useSelector } from "react-redux";
 import { Link, Route, Routes } from "react-router-dom";
-import { UserState } from "../../common/interface/redux/user";
-import { RootState } from "../../store";
-import AvatarCircle from "../../component/avatarCircle";
-import SettingIcon from "../../component/icon/setting";
-import useMediaQuery from "../../common/hook/useMediaQuery";
+import { UserState } from "../../../common/interface/redux/user";
+import { RootState } from "../../../store";
+import AvatarCircle from "../../../component/avatarCircle";
+import SettingIcon from "../../../component/icon/setting";
+import useMediaQuery from "../../../common/hook/useMediaQuery";
 
 interface TopSideBarProps {
   isLogin: boolean;
