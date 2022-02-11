@@ -22,6 +22,11 @@ import { Hobby } from './user/entities/userHobbies.entity';
 import { UserShowOption } from './user/entities/userShowOption.entity';
 import { UserFindOption } from './user/entities/userFindOption.entity';
 import { Message } from './chat/entities/message.entity';
+import * as dotenv from 'dotenv';
+
+dotenv.config({
+  path: `${__dirname}/../config/.env.${process.env.NODE_ENV}`,
+});
 
 const DBConfig = TypeOrmModule.forRoot({
   type: 'mysql',
@@ -45,7 +50,7 @@ const DBConfig = TypeOrmModule.forRoot({
   imports: [
     // -- Configs
     DBConfig,
-
+    // EnvConfig,
     // -- Modules
     UserModule,
     AuthModule,

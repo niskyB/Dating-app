@@ -1,8 +1,3 @@
-import * as dotenv from 'dotenv';
-dotenv.config({
-  path: `./config/.env.` + process.env.NODE_ENV,
-});
-
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
