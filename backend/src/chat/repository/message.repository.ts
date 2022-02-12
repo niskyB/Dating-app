@@ -17,10 +17,7 @@ export class MessageRepository extends RepositoryService<Message> {
   public async findRoomListById(id: string) {
     const pattern = '%' + id + '%';
     return await this.createQueryBuilder('message')
-      .select('message.room')
-      .distinctOn(['message.room'])
       .where(`message.room LIKE :pattern`, { pattern })
-      .groupBy('message.room')
       .getMany();
   }
 
