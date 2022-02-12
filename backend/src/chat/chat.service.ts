@@ -122,7 +122,6 @@ export class ChatService {
         plainToClass(MessageDto, messageDto, { excludeExtraneousValues: true }),
       );
     }
-    console.log('end loop');
     return chatList;
   }
 

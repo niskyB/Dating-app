@@ -11,9 +11,7 @@ export class ChatController {
 
   @Get('/chatList')
   async getChatList(@Req() req: Request) {
-    console.log('go in route');
     const result = await this.chatService.getChatList(req.currentUser.id);
-    console.log('done route');
     return apiResponse.send(result, null);
   }
 }

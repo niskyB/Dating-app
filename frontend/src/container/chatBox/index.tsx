@@ -1,6 +1,5 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
-import { off } from "process";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { chatIo } from "../../common/HOC/socketConnectWrapper";
@@ -59,6 +58,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   };
 
   useInterval(() => {
+    console.log("set seen message...");
     chatIo.emit(CHAT_SEEN_MESSAGE, room);
   }, 1000);
 
@@ -77,6 +77,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
     //join room
     chatIo.emit(CHAT_JOIN, partnerId);
     //check that seen message when component is render
+    console.log("set seen message");
     chatIo.emit(CHAT_SEEN_MESSAGE, room);
     //get the first page
     chatIo.emit(CHAT_GET, {
@@ -142,7 +143,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
     }
   };
   return (
-    <div className="fixed inset-0 flex flex-col lg:w-contentWidth h-screen overflow-hidden lg:static ">
+    <div className="fixed inset-0 flex flex-col h-screen overflow-hidden lg:w-contentWidth lg:static ">
       <div className="flex items-center justify-between h-16 px-4 py-2 bg-white sm:px-6">
         <div className="flex flex-row items-center">
           {isMobile && (
