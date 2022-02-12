@@ -103,7 +103,7 @@ export class ChatService {
   async getChatList(id: string) {
     const roomList = await this.messageRepository.findRoomListById(id);
     const chatList = [];
-
+    console.log('found room list');
     for (let i = 0; i < roomList.length; i++) {
       const partnerId = roomList[i].room.replace(id, '').replace('@', '');
 
@@ -111,10 +111,11 @@ export class ChatService {
       const partner = plainToClass(MatchCardDto, result, {
         excludeExtraneousValues: true,
       });
-
+      console.log('before find last message');
       const message = await this.messageRepository.findLastMessage(
         roomList[i].room,
       );
+      console.log('after find last message');
       const sender = plainToClass(MatchCardDto, message.user, {
         excludeExtraneousValues: true,
       });
@@ -124,6 +125,7 @@ export class ChatService {
         plainToClass(MessageDto, messageDto, { excludeExtraneousValues: true }),
       );
     }
+    console.log('end loop');
     return chatList;
   }
 }

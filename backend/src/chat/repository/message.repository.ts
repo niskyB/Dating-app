@@ -20,7 +20,6 @@ export class MessageRepository extends RepositoryService<Message> {
       .select('message.room')
       .distinctOn(['message.room'])
       .where(`message.room LIKE :pattern`, { pattern })
-      .groupBy('message.room')
       .getMany();
   }
 
