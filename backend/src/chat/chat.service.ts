@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import { isBuffer } from 'util';
 import { MatchCardDto } from '../match/dto/match-card.dto';
 import { UserRepository } from '../user/repository/user.repository';
 import { RedisService } from '../utils/redis/redis.service';
@@ -101,21 +100,19 @@ export class ChatService {
   }
 
   async getChatList(id: string) {
-    const roomList = await this.messageRepository.findRoomListById(id);
+    const result = await this.messageRepository.findRoomListById(id);
+    const roomList = this.handleRoomList(result);
     const chatList = [];
-    console.log('found room list');
-    for (let i = 0; i < roomList.length; i++) {
-      const partnerId = roomList[i].room.replace(id, '').replace('@', '');
+
+    for (let item of roomList) {
+      const partnerId = item.replace(id, '').replace('@', '');
 
       const result = await this.userRepository.findOneByField('id', partnerId);
       const partner = plainToClass(MatchCardDto, result, {
         excludeExtraneousValues: true,
       });
-      console.log('before find last message');
-      const message = await this.messageRepository.findLastMessage(
-        roomList[i].room,
-      );
-      console.log('after find last message');
+
+      const message = await this.messageRepository.findLastMessage(item);
       const sender = plainToClass(MatchCardDto, message.user, {
         excludeExtraneousValues: true,
       });
@@ -127,5 +124,13 @@ export class ChatService {
     }
     console.log('end loop');
     return chatList;
+  }
+
+  handleRoomList(messages: Message[]) {
+    const roomList = new Set<string>();
+    for (let i = 0; i < messages.length; i++) {
+      roomList.add(messages[i].room);
+    }
+    return roomList;
   }
 }
