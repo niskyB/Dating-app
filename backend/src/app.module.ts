@@ -45,7 +45,7 @@ const DBConfig = TypeOrmModule.forRoot({
   imports: [
     // -- Configs
     DBConfig,
-
+    // EnvConfig,
     // -- Modules
     UserModule,
     AuthModule,
