@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Routes } from "react-router";
 import { UIState } from "../../common/interface/redux/ui";
@@ -12,7 +12,7 @@ import { UIAction } from "../../store/UI";
 import { renderHelper } from "../../utils/renderHelper";
 import NewMatchModel from "../newMatchModel";
 import SideBar from "../SideBarLayout/sidebar";
-
+import Div100vh from "react-div-100vh";
 function App() {
   const UIState = useSelector<RootState, UIState>((state) => state.UI);
   const userState = useSelector<RootState, UserState>((state) => state.user);
@@ -23,12 +23,19 @@ function App() {
   const onCloseNotification = () => {
     store.dispatch(UIAction.onCloseNotification());
   };
+  useEffect(() => {
+    setTimeout(function () {
+      window.scrollTo(0, 1);
+    }, 0);
+
+    return () => {};
+  }, []);
 
   return (
-    <>
-      <div className="flex flex-col w-screen h-screen text-4xl lg:flex-row">
+    <Div100vh>
+      <div className="flex flex-col w-screen h-full text-4xl lg:flex-row">
         {userState.isLogin && <SideBar />}
-        <div className="justify-center flex-auto w-full lg:h-screen bg-gray-50 align-center">
+        <div className="justify-center flex-auto w-full h-full lg:h-screen bg-gray-50 align-center">
           <Suspense fallback={<LoadingAnimation isLoading={true} />}>
             <Routes>{renderHelper(contentRoutes, true)}</Routes>
           </Suspense>
@@ -48,7 +55,7 @@ function App() {
       />
       <CropperBox />
       <LoadingAnimation isLoading={UIState.isLoading} />
-    </>
+    </Div100vh>
   );
 }
 

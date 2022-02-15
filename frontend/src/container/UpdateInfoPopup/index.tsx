@@ -95,7 +95,7 @@ const UpdateInfoPopup: React.FunctionComponent = () => {
             <XIcon className="w-8 h-8 text-gray-500 cursor-pointer " />
           </div>
         </div>
-        <div className="fixed inset-0 z-30 w-screen h-screen bg-gray-300 opacity-80"></div>
+        <div className="fixed inset-0 z-30 w-screen h-full bg-gray-300 opacity-80"></div>
       </>
     );
   return <></>;

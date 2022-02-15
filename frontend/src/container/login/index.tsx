@@ -34,7 +34,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
     }
   };
   return (
-    <div className="flex flex-col justify-center w-full h-screen sm:px-6 lg:px-8 ">
+    <div className="flex flex-col justify-center w-full h-full sm:px-6 lg:px-8 ">
       <div className="sm:mx-auto sm:w-full sm:max-w-md intro-y">
         <div className="w-20 h-20 mx-auto text-purple-700">
           <LogoIcon />

@@ -71,7 +71,7 @@ const MyProfile: React.FunctionComponent<MyProfileProps> = () => {
     },
   ];
   return (
-    <div className="h-contentHeight absolute bottom-0 z-10 flex flex-col flex-1 w-full pb-5 overflow-y-scroll bg-white duration-300 ease-in-out transition-all moveInFromLeft">
+    <div className="z-10 flex flex-col flex-1 w-full pb-5 overflow-y-scroll transition-all duration-300 ease-in-out bg-white  moveInFromLeft">
       <div className="flex flex-col justify-start w-full ">
         <HighlightImage highlightImgs={highlightImgs} avatar={avatar} />
         {inputOutlineField.map((input) => {
