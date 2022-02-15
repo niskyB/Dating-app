@@ -45,7 +45,7 @@ const Setting: React.FunctionComponent<SettingProps> = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="absolute h-contentHeight bottom-0 z-10 flex flex-col items-start flex-1 w-full pt-5 bg-white moveInFromRight"
+      className="z-10 flex flex-col items-start flex-1 w-full pt-5 bg-white lg:absolute lg:h-contentHeight lg:bottom-0 moveInFromRight"
     >
       <label className="block px-3 mb-3 text-base font-semibold text-black">
         Finding setting

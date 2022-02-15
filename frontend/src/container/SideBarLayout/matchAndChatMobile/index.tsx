@@ -4,7 +4,7 @@ interface MatchAndChatProps {}
 
 const MatchAndChatMobile: React.FunctionComponent<MatchAndChatProps> = () => {
   return (
-    <div className="z-30 w-full h-contentHeight mobile">
+    <div className="z-30 w-full">
       <MatchAndChatNav />
     </div>
   );

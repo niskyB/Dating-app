@@ -116,7 +116,9 @@
     hsla(0, 0%, 100%, 0)
   );
 }
-
+.custom-shadow-for-bottom {
+  box-shadow: -1px -11px 3px -1px rgba(0, 0, 0, 0.966);
+}
 .line::after {
   content: "";
   position: absolute;
@@ -158,9 +160,11 @@
 body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
+  background-color: black;
 }
 html {
   height: -webkit-fill-available;
+  background-color: black;
 }
 
 @media only screen and (max-width: 895px) {
