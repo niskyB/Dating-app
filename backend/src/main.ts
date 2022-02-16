@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
+
 dotenv.config({
-  path: `./config/.env.` + process.env.NODE_ENV,
+  path: `${__dirname}/../config/.env.${process.env.NODE_ENV}`,
 });
 
 import { Logger } from '@nestjs/common';

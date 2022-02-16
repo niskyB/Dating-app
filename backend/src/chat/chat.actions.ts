@@ -8,4 +8,5 @@ export enum ChatAction {
   CHAT_SEEN_MESSAGE = 'seen-message',
   CHAT_UPDATE_CHAT_LIST = 'update-chatList',
   CHAT_JOIN_GLOBAL = 'CHAT_JOIN_GLOBAL',
+  CHAT_LEAVE_GLOBAL = 'CHAT_LEAVE_GLOBAL',
 }

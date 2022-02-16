@@ -39,17 +39,21 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
   };
   useEffect(() => {
     callApiAndGetMessageList();
+    console.log("listening on chat seen message...");
     chatIo.on(CHAT_SEEN_MESSAGE, () => {
       callApiAndGetMessageList();
     });
+    console.log("listening on chat update message...");
     chatIo.on(CHAT_UPDATE_CHAT_LIST, () => {
       callApiAndGetMessageList();
     });
     return () => {
-      chatIo.off(CHAT_SEEN_MESSAGE);
-      notificationIo.off(CHAT_UPDATE_CHAT_LIST);
+      // console.log("unsubcribe...");
+      // chatIo.off(CHAT_SEEN_MESSAGE);
+      // notificationIo.off(CHAT_UPDATE_CHAT_LIST);
     };
   }, []);
+
   if (isOpenning)
     return (
       <div className="flex flex-col mt-8 overflow-auto h-matchAndChatHeight">

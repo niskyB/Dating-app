@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import {
   CHAT_JOIN_GLOBAL,
-  CHAT_UPDATE_CHAT_LIST,
+  CHAT_LEAVE_GLOBAL,
   NOTIFICATIONS_CONNECTION,
   NOTIFICATIONS_GET,
   NOTIFICATIONS_NEW_MATCH,
@@ -38,10 +38,13 @@ const SocketConnectWrapper: React.FunctionComponent<
       notificationIo.on(NOTIFICATIONS_GET, onHandleGetData);
       notificationIo.emit(NOTIFICATIONS_CONNECTION);
       notificationIo.on(NOTIFICATIONS_NEW_MATCH, onHandlePopupNewMatch);
+      console.log("join global");
       chatIo.emit(CHAT_JOIN_GLOBAL);
     }
     return () => {
       notificationIo.off(NOTIFICATIONS_GET);
+      console.log("leave global");
+      chatIo.emit(CHAT_LEAVE_GLOBAL);
     };
   }, [user.isLogin]);
   return <>{children}</>;

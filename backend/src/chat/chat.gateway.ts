@@ -112,6 +112,11 @@ export class ChatGateway {
     client.join(client.user.id);
   }
 
+  @SubscribeMessage(ChatAction.CHAT_LEAVE_GLOBAL)
+  async leaveChatGlobalRoom(@ConnectedSocket() client: SocketExtend) {
+    client.leave(client.user.id);
+  }
+
   @SubscribeMessage(ChatAction.CHAT_LEAVE)
   async handleLeaveChat(
     @ConnectedSocket() client: SocketExtend,

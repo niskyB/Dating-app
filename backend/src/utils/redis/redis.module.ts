@@ -8,6 +8,8 @@ import { RedisService } from './redis.service';
     {
       provide: 'RedisClient',
       useFactory: () => {
+        console.log('redis port from env : ', process.env.REDIS_PORT);
+        console.log('DB_HOST from env : ', process.env.DB_HOST);
         const redisPort = Number(process.env.REDIS_PORT) || 7000;
         const redis = createClient({
           port: redisPort,
