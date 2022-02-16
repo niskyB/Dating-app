@@ -160,11 +160,9 @@
 body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
-  background-color: black;
 }
 html {
   height: -webkit-fill-available;
-  background-color: black;
 }
 
 @media only screen and (max-width: 895px) {
