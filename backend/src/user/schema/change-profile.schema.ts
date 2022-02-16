@@ -67,6 +67,7 @@ export const changeStudyAtSchema = Joi.object({
     .required()
     .max(255)
     .allow('')
+    .trim()
     .messages(JoiMessage.createStringMessages({ field: 'Study at' })),
 });
 
