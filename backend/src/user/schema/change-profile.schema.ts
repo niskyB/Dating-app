@@ -8,6 +8,7 @@ export const changeUserNameSchema = Joi.object({
     .min(2)
     .max(50)
     .required()
+    .trim()
     .messages(
       JoiMessage.createStringMessages({ field: 'Name', min: 2, max: 50 }),
     ),
@@ -41,6 +42,7 @@ export const changeUserAddressSchema = Joi.object({
   address: Joi.string()
     .max(255)
     .required()
+    .trim()
     .messages(JoiMessage.createStringMessages({ field: 'Address', max: 255 })),
 });
 

@@ -17,7 +17,6 @@ import { Hobby } from './entities/userHobbies.entity';
 
 //---- dto
 import { CreateUserDto } from '../auth/dto/create-user.dto';
-import { ChangePasswordDto } from './dto/change-password.dto';
 import {
   ChangeFindOptionDto,
   ChangeHobbiesDto,
@@ -105,38 +104,6 @@ export class UserService {
       user.findOptions.sexOption = Sex.MALE;
     }
     return await this.userRepository.manager.save(user);
-  }
-
-  /**
-   * @description validate password and save to database if valid
-   * @param changePasswordDto
-   * @returns Promise<User>
-   */
-  async changePassword(
-    changePasswordDto: ChangePasswordDto,
-    id: string,
-  ): Promise<User> {
-    const user = await this.findOneByField('id', id);
-
-    if (!(await bcrypt.compare(changePasswordDto.password, user.password))) {
-      throw new BadRequestException(
-        apiResponse.send(null, {
-          password: ResponseMessage.INVALID_PASSWORD,
-        }),
-      );
-    }
-
-    if (changePasswordDto.password === changePasswordDto.newPassword) {
-      throw new BadRequestException(
-        apiResponse.send(null, {
-          password: ResponseMessage.DUPLICATED_PASSWORD,
-        }),
-      );
-    }
-
-    user.password = await bcrypt.hash(changePasswordDto.newPassword, SALT);
-
-    return await this.userRepository.save(user);
   }
 
   /**

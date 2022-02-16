@@ -21,7 +21,6 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 
 //---- dto
-import { ChangePasswordDto } from './dto/change-password.dto';
 import {
   ChangeFindOptionDto,
   ChangeHobbiesDto,
@@ -54,7 +53,6 @@ import {
   changeUserPhoneSchema,
   changeUserSexSchema,
 } from './schema/change-profile.schema';
-import { changePasswordSchema } from './schema/change-password.schema';
 
 //---- guard
 import { UserGuard } from '../auth/guard/auth.guard';
@@ -100,25 +98,6 @@ export class UserController {
   async getUserWithBasicInfo(@Req() req: Request, @Param('id') id: string) {
     const user = await this.userService.findUserWithBasicInfo('id', id);
     return apiResponse.send(user, null);
-  }
-
-  /**
-   * @description PUT method for user to change password
-   * @param changePasswordDto
-   * @returns response form with no data and error
-   */
-  @Put('/password')
-  @UsePipes(new JoiValidationPipe(changePasswordSchema))
-  async changePassword(
-    @Body() changePasswordDto: ChangePasswordDto,
-    @Req() req: Request,
-  ) {
-    await this.userService.changePassword(
-      changePasswordDto,
-      req.currentUser.id,
-    );
-
-    return apiResponse.send(null, null);
   }
 
   /**
