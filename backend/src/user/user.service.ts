@@ -298,6 +298,14 @@ export class UserService {
       id,
     );
 
+    if (user.hobbies.length >= 5) {
+      throw new BadRequestException(
+        apiResponse.send(null, {
+          hobbies: ResponseMessage.REACH_LIMIT_HOBBIES,
+        }),
+      );
+    }
+
     const newHobby = changeHobbiesDto.hobbies.toLowerCase();
     user.hobbies.forEach((hobby) => {
       if (hobby.hobbies === newHobby) {
