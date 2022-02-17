@@ -16,6 +16,7 @@ export enum ResponseMessage {
   UNAUTHORIZED = 'Not signin yet',
   FORBIDDEN = "You don't have permission to access / on this page",
   NOTFOUND = 'Sorry, the page not found',
+  REACH_LIMIT_HOBBIES = 'The maximum of hobbies is 5. Please remove any hobby to continue',
   // duplicated
   DUPLICATED_PASSWORD = 'New password is same with your current password',
   DUPLICATED_NAME = 'New name is same with your current name',
