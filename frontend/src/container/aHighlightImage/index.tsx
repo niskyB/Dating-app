@@ -5,7 +5,10 @@ import XIcon from "../../component/icon/x";
 import { deleteHighLighImage } from "./action";
 import { userThunk } from "../../store/user/thunk";
 import { timeDelay } from "../../constants/loading";
-import { openSuccessNotification } from "../../utils/notificationHelper";
+import {
+  openSuccessNotification,
+  openWarningNotification,
+} from "../../utils/notificationHelper";
 
 interface AHightLightImageProps {
   imgUrl?: string;
@@ -20,12 +23,21 @@ const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
 }) => {
   const onCropImage = (e: any) => {
     if (e.currentTarget.files) {
-      store.dispatch(
-        UIAction.setCropImage({
-          imageUrl: URL.createObjectURL(e.currentTarget.files[0]),
-          isAvatar,
-        })
-      );
+      const fileName = e.currentTarget.files[0].name as string;
+      const matchResult = fileName.match(/\.(jpg|jpeg|png)$/);
+      if (matchResult && matchResult?.length > 0) {
+        store.dispatch(
+          UIAction.setCropImage({
+            imageUrl: URL.createObjectURL(e.currentTarget.files[0]),
+            isAvatar,
+          })
+        );
+      } else {
+        openWarningNotification(
+          "Invalid image",
+          "The image should be a jpg, jpeg, png file"
+        );
+      }
     }
   };
   const onRemoveHighlightImage = async () => {
