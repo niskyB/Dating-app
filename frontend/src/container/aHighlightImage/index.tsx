@@ -15,7 +15,7 @@ interface AHightLightImageProps {
   id: string;
   isAvatar?: boolean;
 }
-
+const limitSize = 2 * 1048576; //2MB
 const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
   imgUrl,
   id,
@@ -26,12 +26,19 @@ const AHightLightImage: React.FunctionComponent<AHightLightImageProps> = ({
       const fileName = e.currentTarget.files[0].name as string;
       const matchResult = fileName.match(/\.(jpg|jpeg|png)$/);
       if (matchResult && matchResult?.length > 0) {
-        store.dispatch(
-          UIAction.setCropImage({
-            imageUrl: URL.createObjectURL(e.currentTarget.files[0]),
-            isAvatar,
-          })
-        );
+        if (e.currentTarget.files[0].size < limitSize) {
+          store.dispatch(
+            UIAction.setCropImage({
+              imageUrl: URL.createObjectURL(e.currentTarget.files[0]),
+              isAvatar,
+            })
+          );
+        } else {
+          openWarningNotification(
+            "File too large",
+            "The image should be less than 5MB"
+          );
+        }
       } else {
         openWarningNotification(
           "Invalid image",

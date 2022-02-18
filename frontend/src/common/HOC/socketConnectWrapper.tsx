@@ -38,12 +38,10 @@ const SocketConnectWrapper: React.FunctionComponent<
       notificationIo.on(NOTIFICATIONS_GET, onHandleGetData);
       notificationIo.emit(NOTIFICATIONS_CONNECTION);
       notificationIo.on(NOTIFICATIONS_NEW_MATCH, onHandlePopupNewMatch);
-      console.log("join global");
       chatIo.emit(CHAT_JOIN_GLOBAL);
     }
     return () => {
       notificationIo.off(NOTIFICATIONS_GET);
-      console.log("leave global");
       chatIo.emit(CHAT_LEAVE_GLOBAL);
     };
   }, [user.isLogin]);
