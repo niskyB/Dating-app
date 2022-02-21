@@ -1,0 +1,33 @@
+version: "3"
+services:
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    expose:
+      - 6379
+  client:
+    image: dauleduc2/datingappweb
+    ports:
+      - 3000:3000
+  server:
+    image: dauleduc2/datingappserver
+    expose:
+      - 3001
+    env_file:
+      - ./.env.production
+    volumes:
+      - ./backend/uploads:/app/uploads
+  db:
+    hostname: mysql           
+    restart: always
+    image: mysql:8.0.26
+    command: --default-authentication-plugin=mysql_native_password
+    expose:
+      - 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_DATABASE: "dating_app"
+      MYSQL_USER: "user"
+      MYSQL_PASS: "123456"
+volumes:
+    uploads:

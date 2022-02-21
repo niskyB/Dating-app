@@ -116,7 +116,9 @@
     hsla(0, 0%, 100%, 0)
   );
 }
-
+.custom-shadow-for-bottom {
+  box-shadow: -1px -11px 3px -1px rgba(0, 0, 0, 0.966);
+}
 .line::after {
   content: "";
   position: absolute;
@@ -152,5 +154,22 @@
     color: white;
     visibility: visible;
     display: block;
+  }
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+html {
+  height: -webkit-fill-available;
+}
+
+@media only screen and (max-width: 895px) {
+  body {
+    -webkit-user-drag: none;
+    text-size-adjust: none;
+    min-height: -webkit-fill-available;
+    touch-action: manipulation;
   }
 }

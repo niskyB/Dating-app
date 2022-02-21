@@ -58,7 +58,6 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
   };
 
   useInterval(() => {
-    console.log("set seen message...");
     chatIo.emit(CHAT_SEEN_MESSAGE, room);
   }, 1000);
 
@@ -77,7 +76,6 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
     //join room
     chatIo.emit(CHAT_JOIN, partnerId);
     //check that seen message when component is render
-    console.log("set seen message");
     chatIo.emit(CHAT_SEEN_MESSAGE, room);
     //get the first page
     chatIo.emit(CHAT_GET, {
@@ -123,11 +121,13 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
 
   const onSendMessage = () => {
     if (messageBox.current) {
-      //send message
-      chatIo.emit(CHAT_SEND, {
-        content: messageBox.current.value,
-        room,
-      });
+      if (messageBox.current.value.trim() !== "") {
+        //send message
+        chatIo.emit(CHAT_SEND, {
+          content: messageBox.current.value,
+          room,
+        });
+      }
 
       ///reset message value
       messageBox.current.value = "";
@@ -143,7 +143,7 @@ const ChatBox: React.FunctionComponent<ChatBoxProps> = () => {
     }
   };
   return (
-    <div className="fixed inset-0 flex flex-col h-screen overflow-hidden lg:w-contentWidth lg:static ">
+    <div className="fixed inset-0 flex flex-col h-full overflow-hidden lg:w-contentWidth lg:static ">
       <div className="flex items-center justify-between h-16 px-4 py-2 bg-white sm:px-6">
         <div className="flex flex-row items-center">
           {isMobile && (

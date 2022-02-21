@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { chatIo, notificationIo } from "../../common/HOC/socketConnectWrapper";
 import { UserState } from "../../common/interface/redux/user";
 import AvatarCircle from "../../component/avatarCircle";
+import EmptyPage from "../../component/EmptyPage";
 import {
   CHAT_SEEN_MESSAGE,
   CHAT_UPDATE_CHAT_LIST,
@@ -39,11 +40,9 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
   };
   useEffect(() => {
     callApiAndGetMessageList();
-    console.log("listening on chat seen message...");
     chatIo.on(CHAT_SEEN_MESSAGE, () => {
       callApiAndGetMessageList();
     });
-    console.log("listening on chat update message...");
     chatIo.on(CHAT_UPDATE_CHAT_LIST, () => {
       callApiAndGetMessageList();
     });
@@ -56,8 +55,9 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
 
   if (isOpenning)
     return (
-      <div className="flex flex-col mt-8 overflow-auto h-matchAndChatHeight">
-        {messageList.length > 0 &&
+      <div className="flex flex-col mt-8 overflow-auto h-matchAndChatHeight intro-y">
+        {messageList.length > 0 ? (
+          messageList.length > 0 &&
           messageList.map((messageBox) => {
             return (
               <NavLink
@@ -98,7 +98,10 @@ const MessageSection: React.FunctionComponent<MessageSectionProps> = ({
                 </div>
               </NavLink>
             );
-          })}
+          })
+        ) : (
+          <EmptyPage title="You got no message yet" />
+        )}
       </div>
     );
 

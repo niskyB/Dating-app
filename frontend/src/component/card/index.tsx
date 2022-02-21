@@ -32,7 +32,7 @@ const Card: React.FunctionComponent<CardProps> = ({
     }
   };
   return (
-    <div className="relative flex flex-col overflow-hidden transition-all duration-300 ease-in-out bg-black-500 w-full h-5/6 lg:w-96 lg:h-140 card">
+    <div className="relative flex flex-col w-full overflow-hidden transition-all duration-300 ease-in-out bg-black-500 h-5/6 lg:w-96 lg:h-140 card">
       {/* avatar + image */}
       <div
         className="absolute inset-0 z-0 flex flex-row w-auto transition-all duration-200 ease-in-out"
@@ -144,7 +144,7 @@ const Card: React.FunctionComponent<CardProps> = ({
           </div>
         )}
       </div>
-      {/* <div className="flex flex-row items-center flex-1 bg-black justify-evenly "></div> */}
+      <div className="flex flex-row items-center flex-1 bg-black justify-evenly custom-shadow-for-bottom"></div>
     </div>
   );
 };
