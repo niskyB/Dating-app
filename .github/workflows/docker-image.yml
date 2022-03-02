@@ -31,6 +31,7 @@ jobs:
     steps:
       - name: create env file on frontend
         run: |
+              ls
               echo "DB_HOST=${{ secrets.DB_HOST }}
                     DB_PORT=${{ secrets.DB_PORT }}
                     DB_USERNAME=${{ secrets.DB_USERNAME }}
@@ -42,7 +43,7 @@ jobs:
                     REDIS_PORT=${{ secrets.REDIS_PORT }}
                     REDIS_DB_NUMBER=${{ secrets.REDIS_DB_NUMBER }}
                     REDIS_HOST=${{ secrets.REDIS_HOST }}" > .env.production
-              ls
+             
   # deploy:
   #   runs-on: ubuntu-latest
   #   needs: buildAndPush
