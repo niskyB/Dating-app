@@ -30,6 +30,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: create env file on frontend
+        uses: actions/setup-node@v2
+          with:
+            node-version: 16
+            cache: 'yarn'
         run: |
               ls
               echo "DB_HOST=${{ secrets.DB_HOST }}
