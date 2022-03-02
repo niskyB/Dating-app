@@ -38,6 +38,6 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /app/DatingApp
+            cd /app/Dating-app
             docker-compose pull
             docker-compose up -d
