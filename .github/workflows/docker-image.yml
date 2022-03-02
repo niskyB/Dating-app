@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [12.x]
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -34,7 +34,6 @@ jobs:
                  REDIS_DB_NUMBER=${{ secrets.REDIS_DB_NUMBER }}
                  REDIS_HOST=${{ secrets.REDIS_HOST }}" > .env.production
           ls -a
-          echo hello
           cat .env.production
            
             
