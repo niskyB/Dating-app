@@ -6,10 +6,27 @@ on:
   pull_request:
     branches: [master]
 jobs:
-  test:
+   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js 16
+      uses: actions/setup-node@v1
+      with:
+        node-version: '16'
+    - name : test
       run: ls
+    # - name: Install dependencies
+    #   run: npm install
+    # - name: Run the tests
+    #   run: npm test
+    # - name: Build
+    #   run: npm run build
         
 
   # buildAndPush:
