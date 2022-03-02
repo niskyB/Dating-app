@@ -31,17 +31,17 @@ jobs:
     steps:
       - name: create env file on frontend
         run: |
-              echo "DB_HOST=159.223.44.60
-                    DB_PORT=3306
-                    DB_USERNAME=root
-                    DB_PASSWORD=1234567890
-                    DB_NAME=dating_app
-                    JWT_SECRET=secretKey
-                    PORT=3001
-                    CLIENT_URL=http://159.223.61.189:3000
-                    REDIS_PORT=6379
-                    REDIS_DB_NUMBER=1
-                    REDIS_HOST=redis" > .env.production
+              echo "DB_HOST=${{ secrets.DB_HOST }}
+                    DB_PORT=${{ secrets.DB_PORT }}
+                    DB_USERNAME=${{ secrets.DB_USERNAME }}
+                    DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+                    DB_NAME=${{ secrets.DB_NAME }}
+                    JWT_SECRET=${{ secrets.JWT_SECRET }}
+                    PORT=${{ secrets.SERVER_PORT }}
+                    CLIENT_URL=${{ secrets.CLIENT_URL }}
+                    REDIS_PORT=${{ secrets.REDIS_PORT }}
+                    REDIS_DB_NUMBER=${{ secrets.REDIS_DB_NUMBER }}
+                    REDIS_HOST=${{ secrets.REDIS_HOST }}" > .env.production
               echo "$(cat .env.production)"
   # deploy:
   #   runs-on: ubuntu-latest
