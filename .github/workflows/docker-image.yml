@@ -21,7 +21,6 @@ jobs:
         node-version: '16'
     - name : test
       run: |
-           cd frontend
            echo "DB_HOST=${{ secrets.DB_HOST }}
                  DB_PORT=${{ secrets.DB_PORT }}
                  DB_USERNAME=${{ secrets.DB_USERNAME }}
@@ -33,9 +32,8 @@ jobs:
                  REDIS_PORT=${{ secrets.REDIS_PORT }}
                  REDIS_DB_NUMBER=${{ secrets.REDIS_DB_NUMBER }}
                  REDIS_HOST=${{ secrets.REDIS_HOST }}" > .env.production
-          ls -a
-          cat .env.production
-           
+           ls -a
+           cat .env.production
             
     # - name: Install dependencies
     #   run: npm install
