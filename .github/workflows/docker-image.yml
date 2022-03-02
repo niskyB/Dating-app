@@ -31,7 +31,7 @@ jobs:
     steps:
       - name: create env file on frontend
         run: |
-              echo ${{ secrets.USERNAME }}
+              echo hello
               echo "DB_HOST=${{ secrets.DB_HOST }}
                     DB_PORT=${{ secrets.DB_PORT }}
                     DB_USERNAME=${{ secrets.DB_USERNAME }}
