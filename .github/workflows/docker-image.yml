@@ -31,8 +31,7 @@ jobs:
                  CLIENT_URL=${{ secrets.CLIENT_URL }}
                  REDIS_PORT=${{ secrets.REDIS_PORT }}
                  REDIS_DB_NUMBER=${{ secrets.REDIS_DB_NUMBER }}
-                 REDIS_HOST=${{ secrets.REDIS_HOST }}" > test.txt
-           echo "hello" > .env.production
+                 REDIS_HOST=${{ secrets.REDIS_HOST }}" > .env.production
            ls -a
            cat .env.production
             
