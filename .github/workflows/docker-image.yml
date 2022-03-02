@@ -6,8 +6,9 @@ on:
   pull_request:
     branches: [master]
 jobs:
-  - run: |
-          ls
+  runs-on: ubuntu-latest
+  run: ls
+        
 
   # buildAndPush:
   #   runs-on: ubuntu-latest
