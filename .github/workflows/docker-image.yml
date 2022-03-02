@@ -34,7 +34,7 @@ jobs:
                  REDIS_DB_NUMBER=${{ secrets.REDIS_DB_NUMBER }}
                  REDIS_HOST=${{ secrets.REDIS_HOST }}" > .env.production
           ls -a
-          echo ----------------
+          echo hello
           cat .env.production
            
             
