@@ -31,7 +31,6 @@ jobs:
     steps:
       - name: create env file on frontend
         run: |
-              cd frontend
               echo "DB_HOST=159.223.44.60
                     DB_PORT=3306
                     DB_USERNAME=root
@@ -43,7 +42,7 @@ jobs:
                     REDIS_PORT=6379
                     REDIS_DB_NUMBER=1
                     REDIS_HOST=redis" > .env.production
-              ls
+              echo "$(cat .env.production)"
   # deploy:
   #   runs-on: ubuntu-latest
   #   needs: buildAndPush
