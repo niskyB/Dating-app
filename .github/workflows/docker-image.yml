@@ -46,7 +46,7 @@ jobs:
            docker-compose -f docker-compose.github.yml build
            docker push dauleduc2/datingappweb:latest
            docker push dauleduc2/datingappserver:latest
-  deploy:
+   deploy:
     runs-on: ubuntu-latest
     needs: buildAndPush
     steps:
