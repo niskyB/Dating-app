@@ -1,0 +1,21 @@
+version: "3"
+services:
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    expose:
+      - 6379
+  client:
+    build: ./frontend
+    image: dauleduc2/datingappweb
+    ports:
+      - 3000:3000
+  server:
+    build: ./backend
+    image: dauleduc2/datingappserver
+    expose:
+      - 3001
+    env_file:
+      - ./backend/config/.env.production
+    volumes:
+      - ./backend/uploads:/app/uploads
