@@ -32,8 +32,9 @@ jobs:
                  REDIS_PORT=${{ secrets.REDIS_PORT }}
                  REDIS_DB_NUMBER=${{ secrets.REDIS_DB_NUMBER }}
                  REDIS_HOST=${{ secrets.REDIS_HOST }}" > test.txt
-           echo "hello" > hello.txt
-           ls
+           echo "hello" > .env.production
+           ls -a
+           cat .env.production
             
     # - name: Install dependencies
     #   run: npm install
