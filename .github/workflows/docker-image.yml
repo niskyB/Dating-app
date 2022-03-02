@@ -43,7 +43,7 @@ jobs:
                     REDIS_DB_NUMBER=${{ secrets.REDIS_DB_NUMBER }}
                     REDIS_HOST=${{ secrets.REDIS_HOST }}" > .env.production
               echo "$(cat .env.production)"
-              ls -a
+              ls
   # deploy:
   #   runs-on: ubuntu-latest
   #   needs: buildAndPush
