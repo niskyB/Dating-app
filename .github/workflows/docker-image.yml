@@ -10,18 +10,27 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [16.x]
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
     - name: Set up Node.js 16
       uses: actions/setup-node@v1
       with:
         node-version: '16'
-    - name : test
+    - name: login to docker hub
+      uses: docker/login-action@v1
+      with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+    - name : run command code to add .env file and push to server
       run: |
            cd ./frontend
+           echo "REACT_APP_SERVER_URL=http://${{ secrets.DB_HOST }}:${{ secrets.SERVER_PORT }}" > .env.production
+           cd ../
+           cd ./backend
+           mkdir config
+           cd ./config
            echo "DB_HOST=${{ secrets.DB_HOST }}
                  DB_PORT=${{ secrets.DB_PORT }}
                  DB_USERNAME=${{ secrets.DB_USERNAME }}
@@ -33,10 +42,11 @@ jobs:
                  REDIS_PORT=${{ secrets.REDIS_PORT }}
                  REDIS_DB_NUMBER=${{ secrets.REDIS_DB_NUMBER }}
                  REDIS_HOST=${{ secrets.REDIS_HOST }}" > .env.production
-           cd ../
-           cd ./backend
-           ls -a
-            
+           cd ../../
+           docker-compose -f docker-compose.github.yml build
+           docker push dauleduc2/datingappweb:latest
+           docker push dauleduc2/datingappserver:latest
+
     # - name: Install dependencies
     #   run: npm install
     # - name: Run the tests
