@@ -32,7 +32,7 @@ jobs:
                  REDIS_PORT=${{ secrets.REDIS_PORT }}
                  REDIS_DB_NUMBER=${{ secrets.REDIS_DB_NUMBER }}
                  REDIS_HOST=${{ secrets.REDIS_HOST }}" > .env.production
-           touch hello.txt
+           echo "hello" > hello.txt
            ls
             
     # - name: Install dependencies
