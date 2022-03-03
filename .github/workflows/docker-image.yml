@@ -33,8 +33,8 @@ jobs:
                  REDIS_DB_NUMBER=${{ secrets.REDIS_DB_NUMBER }}
                  REDIS_HOST=${{ secrets.REDIS_HOST }}" > .env.production
    Build:
-    runs-on: ubuntu-latest
     needs: AddEnvFile
+    runs-on: AddEnvFile
     steps:
     - name: Build on docker-compose file
       run: |
