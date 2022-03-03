@@ -6,8 +6,8 @@ on:
   pull_request:
     branches: [master]
 jobs:
-   buildAndPush:
-    runs-on: ubuntu-latest
+   setup:
+    runs-on: ubuntu-latest 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -15,11 +15,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '16'
-    - name: login to docker hub
-      uses: docker/login-action@v1
-      with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+   AddEnvFile:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
     - name : run command code to add .env file and push to server
       run: |
            cd ./frontend
@@ -39,13 +38,39 @@ jobs:
                  REDIS_PORT=${{ secrets.REDIS_PORT }}
                  REDIS_DB_NUMBER=${{ secrets.REDIS_DB_NUMBER }}
                  REDIS_HOST=${{ secrets.REDIS_HOST }}" > .env.production
-           cd ../../
-           docker-compose -f docker-compose.github.yml build
+   Build:
+    runs-on: ubuntu-latest
+    needs: AddEnvFile
+    steps:
+    - name: Build on docker-compose file
+      run: |
+          docker-compose -f docker-compose.github.yml build
+   PushFrontend:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+    - name: push frontend to dockerhub
+      run: |
            docker push dauleduc2/datingappweb:latest
+   PushBackend:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+    - name: push server to dockerhub
+      run: |
            docker push dauleduc2/datingappserver:latest
+   LoginIntoDockerhub:
+    runs-on: ubuntu-latest
+    needs: [PushFrontend, PushBackend]
+    steps:
+    - name: login to docker hub
+      uses: docker/login-action@v1
+      with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
    deploy:
     runs-on: ubuntu-latest
-    needs: buildAndPush
+    needs: [PushFrontend, PushBackend, LoginIntoDockerhub]
     steps:
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
