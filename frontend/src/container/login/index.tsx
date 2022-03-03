@@ -40,7 +40,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = () => {
           <LogoIcon />
         </div>
         <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900 uppercase">
-          Sign inn
+          Sign in
         </h2>
       </div>
 
