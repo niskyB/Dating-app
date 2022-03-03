@@ -35,21 +35,17 @@ jobs:
     - name: Build on docker-compose file
       run: |
            docker-compose -f docker-compose.github.yml build
+    - name: login to docker hub
+      uses: docker/login-action@v1
+      with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
     - name: push frontend to dockerhub
       run: |
            docker push dauleduc2/datingappweb:latest
     - name: push server to dockerhub
       run: |
            docker push dauleduc2/datingappserver:latest
-   LoginIntoDockerhub:
-    runs-on: ubuntu-latest
-    needs: [AddEnvFile]
-    steps:
-    - name: login to docker hub
-      uses: docker/login-action@v1
-      with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
    deploy:
     runs-on: ubuntu-latest
     needs: [LoginIntoDockerhub]
