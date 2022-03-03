@@ -61,6 +61,7 @@ jobs:
                   cd /app/Dating-app
                   docker-compose pull
                   docker-compose up -d
+                  echo done
 
 
                 
