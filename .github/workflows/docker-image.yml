@@ -32,24 +32,12 @@ jobs:
                  REDIS_PORT=${{ secrets.REDIS_PORT }}
                  REDIS_DB_NUMBER=${{ secrets.REDIS_DB_NUMBER }}
                  REDIS_HOST=${{ secrets.REDIS_HOST }}" > .env.production
-   Build:
-    needs: AddEnvFile
-    runs-on: AddEnvFile
-    steps:
     - name: Build on docker-compose file
       run: |
-          docker-compose -f docker-compose.github.yml build
-   PushFrontend:
-    runs-on: ubuntu-latest
-    needs: Build
-    steps:
+           docker-compose -f docker-compose.github.yml build
     - name: push frontend to dockerhub
       run: |
            docker push dauleduc2/datingappweb:latest
-   PushBackend:
-    runs-on: ubuntu-latest
-    needs: Build
-    steps:
     - name: push server to dockerhub
       run: |
            docker push dauleduc2/datingappserver:latest
