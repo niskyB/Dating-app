@@ -16,7 +16,7 @@ jobs:
     - name : run command code to add .env file and push to server
       run: |
            cd ./frontend
-           echo "REACT_APP_SERVER_URL=https://${{ secrets.DB_HOST }}:${{ secrets.SERVER_PORT }}" > .env.production
+           echo "REACT_APP_SERVER_URL=http://${{ secrets.DB_HOST }}:${{ secrets.SERVER_PORT }}" > .env.production
            cd ../
            cd ./backend
            mkdir config
