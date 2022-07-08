@@ -62,12 +62,26 @@ An online dating app for teenager to finding new relationship by matching and ch
 
 ![Register Page](./doc/register.png)
 
-### Login Page
+### User Profile Page
 
-![Add New Room Page]()
+![User Profile Page 1](./doc/profile1.png)
+![User Profile Page 2](./doc/profile2.png)
 
-### Product In Detail
+### Option Page
 
-![Login Page]()
+![Option Page](./doc/option.png)
+
+### Matching Page
+
+![Matching Page 1](./doc/matching1.png)
+![Matching Page 2](./doc/matching2.png)
+
+### Chatting Page
+
+![Chatting Page 1](./doc/Chatting.png)
+
+## Bug Report
+
+Feel free to create an issue request anytime we will check it out and fix it as soon as possible. Thank You So Much.
 
 ### Tetcha © 2021
