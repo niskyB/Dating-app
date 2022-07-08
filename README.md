@@ -80,6 +80,10 @@ An online dating app for teenager to finding new relationship by matching and ch
 
 ![Chatting Page 1](./doc/Chatting.png)
 
+### Messages Page
+
+![Messages Page](./doc/message.png)
+
 ## Bug Report
 
 Feel free to create an issue request anytime we will check it out and fix it as soon as possible. Thank You So Much.
