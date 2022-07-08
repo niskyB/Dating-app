@@ -1,10 +1,14 @@
-![Database Page]()
+<p align="center">
+     <a href="http://206.189.155.166:3001/">
+          <img width='220px' src="./doc/logo.png"/>
+     </a>  
+</p>
 
-# Dating App - NestJs + ReactJs + Tailwind
+# Dating App - NestJs + ReactJs + Tailwind + Socket.IO + Redis
 
-## Case Study
+## Summary
 
-This website is an online book store which provides an online shopping cart for customer to add and purchase their order. Moreover, this system also provides services for administrator to manage product, view the order history.
+An online dating app for teenager to finding new relationship by matching and chatting.
 
 ## Feature by role
 
@@ -20,11 +24,16 @@ This website is an online book store which provides an online shopping cart for 
 - Frontend
   - ReactJs
   - Tailwind - Styling
+  - Socket.IO
 - Backend
   - NestJs
-  - MySQL - Database
+  - Socket.IO
+- Database
+  - MYSQL
+  - Redis
 - Deployment
   - Docker - Container Management.
+  - GitHub Action
 
 ## Team Member
 
@@ -43,15 +52,15 @@ This website is an online book store which provides an online shopping cart for 
 
 #### Relation Diagram
 
-![Database Page]()
+![Database Page](./doc/relational.png)
 
-### Home Page
+### Login Page
 
-![Home Page]()
+![Login Page](./doc/login.png)
 
-### Management Page
+### Register Page
 
-![Management Page]()
+![Register Page](./doc/register.png)
 
 ### Login Page
 
