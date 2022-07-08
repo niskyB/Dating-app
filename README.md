@@ -4,7 +4,7 @@
      </a>  
 </p>
 
-# Dating App - NestJs + ReactJs + Tailwind + Socket.IO + Redis
+# Dating App - NestJS + ReactJS + Tailwind UI + Socket.IO + Redis
 
 ## Summary
 
@@ -22,11 +22,11 @@ An online dating app for teenager to finding new relationship by matching and ch
 ## Technology
 
 - Frontend
-  - ReactJs
-  - Tailwind - Styling
+  - ReactJS
+  - Tailwind UI - Styling
   - Socket.IO
 - Backend
-  - NestJs
+  - NestJS
   - Socket.IO
 - Database
   - MYSQL
